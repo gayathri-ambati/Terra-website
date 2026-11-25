@@ -57,6 +57,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MaskedLines, Reveal } from '@/components/Reveal';
 import { SceneCanvas } from '@/components/SceneCanvas';
+import video from "../../assets/From Klickpin.com- Save Fresh simple wedding cake ideas for a polished look people will notice with simple details that elevate the final look-pin.mp4"
 
 type Slide = {
   image: { src: string; alt: string };
@@ -76,7 +77,7 @@ const SLIDES: Slide[] = [
       alt: 'Regenerative farmland at sunrise',
     },
     video: {
-      src: 'https://cdn.coverr.co/videos/coverr-wheat-field-in-the-wind-1574/1080p.mp4',
+        src: video,
       poster:
         'https://i.pinimg.com/1200x/27/80/1b/27801b4262592ea66565b178b0fd6ef0.jpg',
     },
@@ -90,7 +91,7 @@ const SLIDES: Slide[] = [
   },
   {
     image: {
-      src: 'https://i.pinimg.com/1200x/27/80/1b/27801b4262592ea66565b178b0fd6ef0.jpg',
+      src: 'https://i.pinimg.com/736x/1b/13/95/1b13952464f12030b62ea110c527104d.jpg',
       alt: 'Community of ecopreneurs collaborating',
     },
     video: {
@@ -108,7 +109,7 @@ const SLIDES: Slide[] = [
   },
   {
     image: {
-      src: 'https://i.pinimg.com/1200x/27/80/1b/27801b4262592ea66565b178b0fd6ef0.jpg',
+      src: 'https://i.pinimg.com/1200x/ee/ef/a4/eeefa433161de91367f11fa9cdffff8c.jpg',
       alt: 'Restored Western Ghats landscape',
     },
     video: {
