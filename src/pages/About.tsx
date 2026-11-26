@@ -113,6 +113,7 @@ import SolarEnergyVideo from '@/components/AboutCompo/SolarEnergyvideo';
 import { AboutProcessSection } from '@/components/AboutCompo/AboutSections';
 import { AboutPurpose } from '@/components/AboutCompo/Ourpurpose';
 import { AboutValues } from '@/components/AboutCompo/Ourvalues';
+import TeamSection from '@/components/AboutCompo/TeamSection';
 
 
 export function AboutPage() {
@@ -121,12 +122,13 @@ export function AboutPage() {
       <AboutHero />
       <Visionmission />
       <SolarEnergyVideo />
-      <IdentitySection />
       <AboutValues />
+      <IdentitySection />
       <AboutProcessSection />
       <AboutPurpose />
       <ApproachSection />
       <JourneySection />
+      <TeamSection />
       <ClosingCta
         title={['Partner with us,', 'shape the decade ahead.']}
         cta="Explore collaboration"

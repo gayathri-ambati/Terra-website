@@ -164,9 +164,6 @@ export function InsightsPage() {
       <LatestInsights />
       <InsightArticlesSection />
       
-
-     
-
       <ClosingCta title={['Ideas into', 'practice.']} to="/contact" cta="Get in touch" />
       <div className="hidden">
         <Link to="/contact">Contact</Link>
