@@ -5507,6 +5507,2431 @@
 
 
 
+// import { Fragment, useLayoutEffect, useRef } from "react";
+// import {
+//   ArrowDown,
+//   ArrowUpRight,
+//   Leaf,
+//   Sprout,
+//   Globe2,
+//   Users,
+//   Lightbulb,
+//   HeartHandshake,
+// } from "lucide-react";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// const images = {
+//   forest:
+//     "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=90",
+//   aerial:
+//     "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2400&q=90",
+//   leaf:
+//     "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1500&q=90",
+//   landscape:
+//     "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=2400&q=90",
+//   canopy:
+//     "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=90",
+//   agriculture:
+//     "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2200&q=90",
+// };
+
+// const CHAPTERS = [
+//   {
+//     no: "01",
+//     label: "Our mission",
+//     lines: ["Empower", "every farmer."],
+//     body: "Making agriculture more sustainable, productive, and resilient through practical solutions, accessible technology, and responsible farming practices.",
+//     image: images.agriculture,
+//     alt: "Green agricultural fields stretching across the landscape",
+//   },
+//   {
+//     no: "02",
+//     label: "Our approach",
+//     lines: ["Progress", "grows together."],
+//     body: "Working alongside farmers, local communities, and industry stakeholders to understand real challenges and develop solutions that create measurable impact.",
+//     image: images.canopy,
+//     alt: "Sunlight filtering through a lush green forest",
+//   },
+// ];
+
+// const PILLARS = [
+//   {
+//     no: "01",
+//     icon: Users,
+//     title: ["People", "First"],
+//     body: "Empowering farmers and communities through opportunities, knowledge, and meaningful partnerships.",
+//   },
+//   {
+//     no: "02",
+//     icon: Lightbulb,
+//     title: ["Innovation", "with Purpose"],
+//     body: "Bringing together technology, practical thinking, and sustainable solutions to address real agricultural challenges.",
+//   },
+//   {
+//     no: "03",
+//     icon: Leaf,
+//     title: ["Sustainability", "by Design"],
+//     body: "Promoting responsible practices that protect natural resources and support long-term environmental balance.",
+//   },
+//   {
+//     no: "04",
+//     icon: HeartHandshake,
+//     title: ["Impact", "that Lasts"],
+//     body: "Creating measurable improvements in livelihoods, agricultural productivity, and community resilience.",
+//   },
+// ];
+
+// const IMPACTS = [
+//   {
+//     no: "01",
+//     title: "Stronger livelihoods",
+//     body: "Creating better opportunities for farmers and agricultural communities.",
+//   },
+//   {
+//     no: "02",
+//     title: "Responsible farming",
+//     body: "Encouraging practices that protect natural resources and support productivity.",
+//   },
+//   {
+//     no: "03",
+//     title: "Meaningful innovation",
+//     body: "Connecting practical technology with real-world agricultural needs.",
+//   },
+//   {
+//     no: "04",
+//     title: "Lasting resilience",
+//     body: "Building a stronger agricultural ecosystem for future generations.",
+//   },
+// ];
+
+// const MARQUEE_WORDS = [
+//   "People First",
+//   "Purposeful Innovation",
+//   "Sustainable Growth",
+//   "Lasting Impact",
+// ];
+
+// function SplitChars({
+//   text,
+//   charClass,
+//   className = "",
+// }: {
+//   text: string;
+//   charClass: string;
+//   className?: string;
+// }) {
+//   return (
+//     <span className={className} aria-hidden="true">
+//       {text.split(" ").map((word, wordIndex) => (
+//         <Fragment key={wordIndex}>
+//           <span className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
+//             {Array.from(word).map((char, charIndex) => (
+//               <span
+//                 key={charIndex}
+//                 className={`${charClass} inline-block will-change-transform`}
+//               >
+//                 {char}
+//               </span>
+//             ))}
+//           </span>
+//           {wordIndex < text.split(" ").length - 1 ? " " : null}
+//         </Fragment>
+//       ))}
+//     </span>
+//   );
+// }
+
+// export function BrandIntro() {
+//   const root = useRef<HTMLElement>(null);
+
+//   useLayoutEffect(() => {
+//     const element = root.current;
+//     if (!element) return;
+
+//     const ctx = gsap.context(() => {
+//       const mm = gsap.matchMedia();
+
+//       mm.add(
+//         "(prefers-reduced-motion: no-preference)",
+//         () => {
+//           const select = gsap.utils.selector(element);
+
+//           // INTRO TEXT REVEAL
+//           gsap.from(select(".intro-char"), {
+//             yPercent: 120,
+//             rotate: 5,
+//             duration: 1.2,
+//             stagger: 0.025,
+//             ease: "power4.out",
+//             scrollTrigger: {
+//               trigger: select(".living-intro")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.from(select(".intro-detail"), {
+//             y: 25,
+//             opacity: 0,
+//             duration: 1,
+//             stagger: 0.15,
+//             ease: "power3.out",
+//             scrollTrigger: {
+//               trigger: select(".living-intro")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           // FIRST SECTION IMAGE REVEAL
+//           gsap.from(select(".intro-visual-main"), {
+//             clipPath: "inset(12% 0% 0% 0% round 180px 180px 12px 12px)",
+//             scale: 1.08,
+//             duration: 1.5,
+//             ease: "power4.out",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.from(select(".intro-visual-circle"), {
+//             scale: 0.75,
+//             opacity: 0,
+//             rotation: -12,
+//             duration: 1.3,
+//             delay: 0.2,
+//             ease: "back.out(1.4)",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.to(select(".intro-visual-main img"), {
+//             yPercent: -10,
+//             ease: "none",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top bottom",
+//               end: "bottom top",
+//               scrub: 1,
+//             },
+//           });
+
+//           // ORIGINAL GROW CINEMATIC REVEAL
+//           const hero = select(".hero-pin")[0];
+//           const heroFrame = select(".hero-frame")[0];
+//           const heroImage = select(".intro-image")[0];
+
+//           if (hero && heroFrame && heroImage) {
+//             if (window.matchMedia("(min-width: 1024px)").matches) {
+//               gsap
+//                 .timeline({
+//                   scrollTrigger: {
+//                     trigger: hero,
+//                     start: "top top",
+//                     end: "+=110%",
+//                     pin: true,
+//                     scrub: 1,
+//                     anticipatePin: 1,
+//                   },
+//                 })
+//                 .fromTo(
+//                   heroFrame,
+//                   {
+//                     clipPath:
+//                       "inset(13% 30% 10% 30% round 50% 50% 0% 0%)",
+//                   },
+//                   {
+//                     clipPath:
+//                       "inset(0% 0% 0% 0% round 0% 0% 0% 0%)",
+//                     ease: "none",
+//                     duration: 1,
+//                   },
+//                   0
+//                 )
+//                 .fromTo(
+//                   heroImage,
+//                   { scale: 1.35 },
+//                   { scale: 1, ease: "none", duration: 1 },
+//                   0
+//                 );
+//             } else {
+//               gsap.fromTo(
+//                 heroFrame,
+//                 {
+//                   clipPath:
+//                     "inset(12% 12% 8% 12% round 50% 50% 0% 0%)",
+//                 },
+//                 {
+//                   clipPath:
+//                     "inset(0% 0% 0% 0% round 0% 0% 0% 0%)",
+//                   duration: 1.5,
+//                   ease: "power4.out",
+//                   scrollTrigger: {
+//                     trigger: hero,
+//                     start: "top 75%",
+//                   },
+//                 }
+//               );
+
+//               gsap.to(heroImage, {
+//                 yPercent: 10,
+//                 scale: 1.1,
+//                 ease: "none",
+//                 scrollTrigger: {
+//                   trigger: hero,
+//                   start: "top bottom",
+//                   end: "bottom top",
+//                   scrub: 1,
+//                 },
+//               });
+//             }
+//           }
+
+//           // 02.5 — SPLIT VIDEO REVEAL
+//           const videoSection = select(".terra-video-section")[0];
+//           const videoFrame = select(".terra-video-frame")[0];
+//           const videoContent = select(".terra-video-content")[0];
+
+//           if (videoSection && videoFrame && videoContent) {
+//             gsap.from(videoFrame, {
+//               clipPath: "inset(8% 8% 8% 8% round 30px)",
+//               scale: 0.96,
+//               opacity: 0,
+//               duration: 1.4,
+//               ease: "power4.out",
+//               scrollTrigger: {
+//                 trigger: videoSection,
+//                 start: "top 75%",
+//                 once: true,
+//               },
+//             });
+
+//             gsap.from(videoContent.children, {
+//               y: 35,
+//               opacity: 0,
+//               duration: 1,
+//               stagger: 0.12,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: videoSection,
+//                 start: "top 75%",
+//                 once: true,
+//               },
+//             });
+//           }
+
+//           // CINEMATIC MISSION AND APPROACH STORY
+//           if (window.matchMedia("(min-width: 1024px)").matches) {
+//             const pin = select(".chapters-pin")[0];
+//             const chapterImages = select(".chapter-img");
+//             const photos = select(".chapter-photo");
+//             const texts = select(".chapter-text");
+//             const dots = select(".chapter-dot");
+
+//             if (pin && chapterImages.length) {
+//               gsap.set(chapterImages.slice(1), {
+//                 clipPath: "inset(100% 0% 0% 0%)",
+//               });
+
+//               gsap.set(texts.slice(1), {
+//                 opacity: 0,
+//                 y: 60,
+//               });
+
+//               gsap.set(dots.slice(1), {
+//                 opacity: 0.3,
+//                 height: 16,
+//               });
+
+//               const story = gsap.timeline({
+//                 scrollTrigger: {
+//                   trigger: pin,
+//                   start: "top top",
+//                   end: "+=200%",
+//                   pin: true,
+//                   scrub: 1,
+//                   anticipatePin: 1,
+//                 },
+//               });
+
+//               story
+//                 .fromTo(
+//                   photos[0],
+//                   { scale: 1.2 },
+//                   { scale: 1.05, duration: 2, ease: "none" },
+//                   0
+//                 )
+//                 .fromTo(
+//                   texts[0],
+//                   { y: 60, opacity: 0 },
+//                   {
+//                     y: 0,
+//                     opacity: 1,
+//                     duration: 0.8,
+//                     ease: "power3.out",
+//                   },
+//                   0.1
+//                 );
+
+//               for (let i = 1; i < chapterImages.length; i++) {
+//                 const position = i * 2;
+
+//                 story
+//                   .to(
+//                     texts[i - 1],
+//                     {
+//                       opacity: 0,
+//                       y: -45,
+//                       duration: 0.6,
+//                     },
+//                     position - 0.2
+//                   )
+//                   .to(
+//                     chapterImages[i],
+//                     {
+//                       clipPath: "inset(0% 0% 0% 0%)",
+//                       duration: 1.2,
+//                       ease: "power2.inOut",
+//                     },
+//                     position - 0.2
+//                   )
+//                   .fromTo(
+//                     photos[i],
+//                     { scale: 1.25 },
+//                     {
+//                       scale: 1.05,
+//                       duration: 2,
+//                       ease: "none",
+//                     },
+//                     position - 0.2
+//                   )
+//                   .to(
+//                     texts[i],
+//                     {
+//                       opacity: 1,
+//                       y: 0,
+//                       duration: 0.8,
+//                       ease: "power3.out",
+//                     },
+//                     position + 0.4
+//                   )
+//                   .to(
+//                     dots[i - 1],
+//                     {
+//                       opacity: 0.3,
+//                       height: 16,
+//                       duration: 0.4,
+//                     },
+//                     position
+//                   )
+//                   .to(
+//                     dots[i],
+//                     {
+//                       opacity: 1,
+//                       height: 56,
+//                       duration: 0.4,
+//                     },
+//                     position
+//                   );
+//               }
+
+//               story.to({}, { duration: 0.5 });
+//             }
+//           } else {
+//             // MOBILE CHAPTER REVEALS
+//             select(".chapter-card").forEach((card) => {
+//               const photo = card.querySelector(".chapter-card-photo");
+//               const text = card.querySelector(".chapter-card-text");
+
+//               if (photo) {
+//                 gsap.from(photo, {
+//                   scale: 1.15,
+//                   duration: 1.4,
+//                   ease: "power3.out",
+//                   scrollTrigger: {
+//                     trigger: card,
+//                     start: "top 80%",
+//                   },
+//                 });
+//               }
+
+//               if (text) {
+//                 gsap.from(text, {
+//                   y: 35,
+//                   opacity: 0,
+//                   duration: 0.9,
+//                   ease: "power3.out",
+//                   scrollTrigger: {
+//                     trigger: card,
+//                     start: "top 70%",
+//                   },
+//                 });
+//               }
+//             });
+//           }
+
+//           // MARQUEE
+//           const track = select(".marquee-track")[0];
+
+//           if (track) {
+//             const marquee = gsap.to(track, {
+//               xPercent: -50,
+//               duration: 35,
+//               ease: "none",
+//               repeat: -1,
+//             });
+
+//             const marqueeBand = select(".marquee-band")[0];
+
+//             if (marqueeBand) {
+//               ScrollTrigger.create({
+//                 trigger: marqueeBand,
+//                 start: "top bottom",
+//                 end: "bottom top",
+//                 onUpdate: (self) => {
+//                   const speed =
+//                     1 + Math.min(Math.abs(self.getVelocity()) / 350, 4);
+
+//                   marquee.timeScale(self.direction * speed);
+
+//                   gsap.to(marquee, {
+//                     timeScale: self.direction,
+//                     duration: 1,
+//                     ease: "power3.out",
+//                   });
+//                 },
+//               });
+//             }
+//           }
+
+//           // WHAT DRIVES US REVEAL
+//           const pillars = select(".pillar");
+//           const pillarsSection = select(".pillars-section")[0];
+
+//           if (pillars.length && pillarsSection) {
+//             gsap.from(pillars, {
+//               y: 65,
+//               opacity: 0,
+//               duration: 1,
+//               stagger: 0.14,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: pillarsSection,
+//                 start: "top 75%",
+//               },
+//             });
+//           }
+
+//           // IMPACT IMAGE PARALLAX
+//           const impactImage = select(".impact-image")[0];
+//           const impactFrame = select(".impact-frame")[0];
+
+//           if (impactImage && impactFrame) {
+//             gsap.fromTo(
+//               impactImage,
+//               { yPercent: -8, scale: 1.12 },
+//               {
+//                 yPercent: 8,
+//                 scale: 1,
+//                 ease: "none",
+//                 scrollTrigger: {
+//                   trigger: impactFrame,
+//                   start: "top bottom",
+//                   end: "bottom top",
+//                   scrub: 1,
+//                 },
+//               }
+//             );
+
+//             gsap.from(impactFrame, {
+//               clipPath: "inset(10% 6% 10% 6%)",
+//               duration: 1.5,
+//               ease: "power4.out",
+//               scrollTrigger: {
+//                 trigger: impactFrame,
+//                 start: "top 80%",
+//               },
+//             });
+//           }
+
+//           // IMPACT ITEMS
+//           const impactItems = select(".impact-item");
+//           const metricsGrid = select(".metrics-grid")[0];
+
+//           if (impactItems.length && metricsGrid) {
+//             gsap.from(impactItems, {
+//               y: 50,
+//               opacity: 0,
+//               duration: 0.9,
+//               stagger: 0.14,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: metricsGrid,
+//                 start: "top 85%",
+//               },
+//             });
+//           }
+
+//           // FLOATING DECORATIVE ELEMENTS
+//           const floatingElements = select(".organic-float");
+
+//           if (floatingElements.length) {
+//             gsap.to(floatingElements, {
+//               y: -18,
+//               rotation: 8,
+//               duration: 4,
+//               repeat: -1,
+//               yoyo: true,
+//               ease: "sine.inOut",
+//               stagger: 0.7,
+//             });
+//           }
+//         }
+//       );
+//     }, element);
+
+//     const refresh = () => ScrollTrigger.refresh();
+//     window.addEventListener("load", refresh);
+
+//     return () => {
+//       window.removeEventListener("load", refresh);
+//       ctx.revert();
+//     };
+//   }, []);
+
+//   return (
+//     <section
+//       ref={root}
+//       className="relative overflow-x-clip bg-ivory text-forest-800"
+//     >
+//       {/* SCROLL PROGRESS */}
+//       <div className="sticky top-0 z-[60] -mb-[3px] h-[3px] w-full">
+//         <div className="scroll-progress h-full origin-left scale-x-0 bg-forest-600" />
+//       </div>
+
+//       {/* =========================================
+//           01 — INTRODUCTION
+//       ========================================= */}
+//       <div className="living-intro relative px-5 pb-20 pt-28 sm:px-10 sm:pb-28 sm:pt-36 lg:px-16 lg:py-40">
+//         <div className="relative z-10 mx-auto max-w-[1700px]">
+//           <div className="intro-detail mb-16 flex items-center justify-between border-b border-forest-800/20 pb-5">
+//             <div className="flex items-center gap-3">
+//               <span className="h-px w-10 bg-forest-700" />
+//               <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">
+//                 About Terra Ecopreneurs
+//               </span>
+//             </div>
+
+//             <span className="font-mono text-[10px] tracking-widest text-forest-700/50">
+//               GROWING TOGETHER — 001
+//             </span>
+//           </div>
+
+//           <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-8">
+//             {/* LEFT CONTENT */}
+//             <div className="relative z-10 lg:col-span-7">
+//               <h1
+//                 aria-label="Building a future where agriculture and nature thrive together."
+//                 className="font-display text-[clamp(3.5rem,11vw,12rem)] leading-[0.88] tracking-[-0.09em]"
+//               >
+//                 <span className="block">
+//                   <SplitChars text="Growing a" charClass="intro-char" />
+//                 </span>
+
+//                 <span className="block">
+//                   <SplitChars text="better" charClass="intro-char" />{" "}
+//                   <SplitChars
+//                     text="future."
+//                     charClass="intro-char"
+//                     className="italic text-forest-600"
+//                   />
+//                 </span>
+//               </h1>
+
+//               <div className="intro-detail mt-12 flex flex-col justify-between gap-8 xl:flex-row xl:items-end">
+//                 <p className="max-w-2xl text-base leading-8 text-charcoal/70 sm:text-lg">
+//                   We are a team of innovators, sustainability advocates, and
+//                   problem-solvers committed to transforming agriculture through
+//                   meaningful innovation. Together with farmers, communities,
+//                   and industry partners, we create opportunities for a more
+//                   sustainable future.
+//                 </p>
+
+//                 <div className="flex shrink-0 items-center gap-4">
+//                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-forest-800/30">
+//                     <ArrowDown size={17} />
+//                   </div>
+
+//                   <span className="max-w-[130px] text-[10px] font-semibold uppercase leading-5 tracking-[0.18em]">
+//                     Discover more
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* RIGHT VISUAL COMPOSITION */}
+//             <div className="intro-visual relative mx-auto h-[480px] w-full max-w-[540px] lg:col-span-5 lg:h-[650px]">
+//               <div className="intro-visual-main absolute right-0 top-0 h-[82%] w-[76%] overflow-hidden rounded-t-[180px] rounded-b-[12px] shadow-2xl shadow-forest-900/15">
+//                 <img
+//                   src={images.agriculture}
+//                   alt="Lush green agricultural fields"
+//                   className="h-[115%] w-full object-cover"
+//                 />
+
+//                 <div className="absolute inset-0 bg-gradient-to-t from-forest-900/30 via-transparent to-transparent" />
+//               </div>
+
+//               <div className="intro-visual-circle absolute bottom-[3%] left-0 z-10 h-[210px] w-[210px] overflow-hidden rounded-full border-[8px] border-ivory shadow-2xl shadow-forest-900/20 sm:h-[260px] sm:w-[260px] lg:bottom-[5%] lg:h-[290px] lg:w-[290px]">
+//                 <img
+//                   src={images.forest}
+//                   alt="Rich green forest canopy"
+//                   className="h-full w-full object-cover"
+//                 />
+//               </div>
+
+//               <div className="organic-float absolute right-[3%] top-[12%] z-20 flex h-16 w-16 items-center justify-center rounded-full border border-white/60 bg-ivory/90 text-forest-700 shadow-lg backdrop-blur-sm sm:h-20 sm:w-20">
+//                 <Sprout size={35} strokeWidth={1} />
+//               </div>
+
+//               <div className="absolute bottom-[2%] right-[2%] z-20 hidden items-center gap-3 sm:flex">
+//                 <span className="h-px w-8 bg-forest-600/60" />
+//                 <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-forest-700">
+//                   Rooted in nature
+//                 </span>
+//               </div>
+
+//               <div className="pointer-events-none absolute -right-3 top-6 h-[82%] w-[76%] rounded-t-[180px] rounded-b-[12px] border border-forest-800/20" />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           02 — ORIGINAL GROW CINEMATIC REVEAL
+//       ========================================= */}
+//       <div className="hero-pin relative h-[88svh] min-h-[600px] overflow-hidden bg-ivory lg:h-screen">
+//         <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+//           <span className="earth-back font-display text-[clamp(5rem,22vw,26rem)] leading-none tracking-[-0.1em] text-transparent [-webkit-text-stroke:1px_rgba(27,67,50,0.28)]">
+//             GROW
+//           </span>
+//         </div>
+
+//         <div className="hero-frame absolute inset-0 z-10 overflow-hidden">
+//           <img
+//             src={images.aerial}
+//             alt="Sunlight over a lush natural landscape"
+//             className="intro-image h-full w-full object-cover"
+//           />
+
+//           <div className="absolute inset-0 bg-[#122B20]/30" />
+//           <div className="absolute inset-0 bg-gradient-to-t from-[#122B20]/80 via-transparent to-[#122B20]/10" />
+//         </div>
+
+//         <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+//           <span className="font-display text-[clamp(5rem,22vw,26rem)] leading-none tracking-[-0.1em] text-white/[0.12] [-webkit-text-stroke:1px_rgba(255,255,255,0.45)]">
+//             GROW
+//           </span>
+//         </div>
+
+//         <div className="organic-float absolute right-[13%] top-[18%] z-30 text-white/70">
+//           <Leaf size={55} strokeWidth={0.8} />
+//         </div>
+
+//         <div className="absolute bottom-0 left-0 right-0 z-30 flex flex-col justify-end gap-8 px-6 pb-10 sm:px-12 sm:pb-16 lg:flex-row lg:items-end lg:justify-between lg:px-20">
+//           <div className="max-w-4xl">
+//             <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#D9E7C9]">
+//               <span className="h-px w-10 bg-[#D9E7C9]" />
+//               Our purpose
+//             </p>
+
+//             <h2 className="font-display text-[clamp(3.5rem,9vw,10rem)] leading-[0.87] tracking-[-0.075em] text-white">
+//               Agriculture
+//               <br />
+//               meets
+//               <span className="italic text-[#D9E7C9]"> innovation.</span>
+//             </h2>
+//           </div>
+
+//           <div className="flex max-w-[270px] items-center gap-4 text-white/80">
+//             <Globe2 size={30} strokeWidth={1} />
+
+//             <p className="text-xs leading-6">
+//               Building stronger agricultural communities through
+//               sustainability, innovation, and meaningful partnerships.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           02.5 — WHITE SPLIT VIDEO SECTION
+//       ========================================= */}
+//       <section className="terra-video-section relative overflow-hidden bg-white px-5 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-32">
+//         <div className="mx-auto max-w-[1700px]">
+
+//           {/* TOP LABEL */}
+//           <div className="mb-12 flex items-center justify-between gap-4 border-b border-forest-800/15 pb-5">
+//             <div className="flex items-center gap-3">
+//               <span className="h-px w-10 bg-forest-700" />
+//               <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-forest-700">
+//                 The Terra experience
+//               </span>
+//             </div>
+
+//             <span className="font-mono text-[10px] tracking-widest text-forest-700/50">
+//               NATURE IN MOTION — 003
+//             </span>
+//           </div>
+
+//           {/* SPLIT LAYOUT */}
+//           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+//             {/* LEFT — VIDEO */}
+//             <div className="terra-video-frame group relative h-[420px] overflow-hidden rounded-[1.5rem] bg-forest-900 sm:h-[550px] lg:h-[680px]">
+//               <video
+//                 className="terra-video absolute inset-0 h-full w-full object-cover"
+//                 autoPlay
+//                 muted
+//                 loop
+//                 playsInline
+//                 preload="metadata"
+//                 poster={images.aerial}
+//               >
+//                 <source
+//                   src="https://media.istockphoto.com/id/2292801163/video/close-up-view-of-engine-gears-rotating-with-metal-chain.mp4?s=mp4-480x480-is&k=20&c=wMbt-yAUFi0xp4jKx894O7bjczc59qJMOvnLVl-XqYc="
+//                   type="video/mp4"
+//                 />
+//                 Your browser does not support HTML5 video.
+//               </video>
+
+//               {/* VIDEO OVERLAY */}
+//               <div className="absolute inset-0 bg-[#10271D]/15 transition-colors duration-700 group-hover:bg-[#10271D]/5" />
+
+//               {/* VIDEO LABEL */}
+//               <div className="absolute left-6 top-6 sm:left-9 sm:top-9">
+//                 <span className="rounded-full border border-white/50 bg-black/10 px-4 py-2 text-[9px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md">
+//                   Terra / In motion
+//                 </span>
+//               </div>
+
+//               {/* BOTTOM VIDEO TEXT */}
+//               <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-10">
+//                 <div className="flex items-center gap-3 text-white">
+//                   <span className="h-px w-8 bg-white" />
+//                   <span className="text-[9px] font-semibold uppercase tracking-[0.25em]">
+//                     Nature in every frame
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* RIGHT — CONTENT */}
+//             <div className="terra-video-content relative py-6 lg:py-12">
+
+//               <p className="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-forest-600">
+//                 <span className="h-px w-10 bg-forest-600" />
+//                 Rooted in nature
+//               </p>
+
+//               <h2 className="font-display text-[clamp(3.5rem,7vw,7.5rem)] leading-[0.9] tracking-[-0.075em] text-forest-900">
+//                 Every seed
+//                 <br />
+//                 <span className="italic text-forest-600">
+//                   holds a future.
+//                 </span>
+//               </h2>
+
+//               <p className="mt-9 max-w-lg text-base leading-8 text-charcoal/65 sm:text-lg">
+//                 Every transformation begins with a small step. We believe
+//                 in empowering farmers, embracing innovation, and nurturing
+//                 a sustainable relationship between people and nature.
+//               </p>
+
+//               <div className="mt-12 flex items-center gap-5">
+//                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-forest-800/20 text-forest-700 transition-all duration-500 hover:bg-forest-800 hover:text-white">
+//                   <Sprout size={26} strokeWidth={1} />
+//                 </div>
+
+//                 <div>
+//                   <p className="font-display text-xl tracking-tight text-forest-900">
+//                     Growing with purpose.
+//                   </p>
+//                   <p className="mt-1 text-xs tracking-wide text-charcoal/50">
+//                     Building a greener tomorrow, together.
+//                   </p>
+//                 </div>
+//               </div>
+
+//               {/* DECORATIVE DETAIL */}
+//               <div className="mt-16 flex items-center gap-4 border-t border-forest-800/15 pt-6">
+//                 <span className="font-mono text-xs text-forest-600">
+//                   01 / 03
+//                 </span>
+//                 <div className="h-px flex-1 bg-forest-800/15" />
+//                 <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-forest-700/50">
+//                   Sustainable by nature
+//                 </span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* =========================================
+//           03 — OUR MISSION / OUR APPROACH
+//       ========================================= */}
+
+//       {/* DESKTOP PINNED STORY */}
+//       {/* <div className="hidden lg:block">
+//         <div className="chapters-pin relative h-screen min-h-[700px] overflow-hidden bg-[#10271D]">
+//           {CHAPTERS.map((chapter) => (
+//             <div
+//               key={chapter.no}
+//               className="chapter-img absolute inset-0 overflow-hidden"
+//             >
+//               <img
+//                 src={chapter.image}
+//                 alt={chapter.alt}
+//                 className="chapter-photo absolute inset-0 h-full w-full object-cover"
+//               />
+
+//               <div className="absolute inset-0 bg-[#10271D]/40" />
+//               <div className="absolute inset-0 bg-gradient-to-t from-[#10271D]/85 via-transparent to-[#10271D]/20" />
+//             </div>
+//           ))}
+
+//           <div className="absolute left-12 top-12 z-20">
+//             <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70">
+//               Terra / 002
+//             </span>
+//           </div>
+
+//           <div className="organic-float absolute right-[14%] top-[18%] z-20 text-[#D9E7C9]/80">
+//             <Sprout size={70} strokeWidth={0.7} />
+//           </div>
+
+//           <div className="absolute right-12 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3 xl:right-20">
+//             {CHAPTERS.map((chapter, index) => (
+//               <span
+//                 key={chapter.no}
+//                 className="chapter-dot w-[3px] rounded-full bg-white"
+//                 style={{ height: index === 0 ? 56 : 16 }}
+//               />
+//             ))}
+//           </div>
+
+//           {CHAPTERS.map((chapter) => (
+//             <div
+//               key={chapter.no}
+//               className="chapter-text absolute inset-x-0 bottom-0 z-20 px-12 pb-20 xl:px-20"
+//             >
+//               <div className="mb-7 flex items-center gap-3 text-[#D9E7C9]">
+//                 <span className="h-px w-10 bg-[#D9E7C9]" />
+
+//                 <span className="text-[10px] uppercase tracking-[0.25em]">
+//                   {chapter.no} — {chapter.label}
+//                 </span>
+//               </div>
+
+//               <h2 className="max-w-6xl font-display text-[clamp(3.5rem,9vw,10rem)] leading-[0.88] tracking-[-0.075em] text-white">
+//                 {chapter.lines[0]}
+//                 <br />
+//                 <span className="italic text-[#D9E7C9]">
+//                   {chapter.lines[1]}
+//                 </span>
+//               </h2>
+
+//               <div className="mt-10 flex items-end justify-between gap-10 border-t border-white/30 pt-6">
+//                 <p className="max-w-xl text-base leading-7 text-white/75">
+//                   {chapter.body}
+//                 </p>
+
+//                 <span className="font-display text-6xl text-white/40">
+//                   {chapter.no}
+//                 </span>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div> */}
+
+//       {/* MOBILE STACKED STORY */}
+//       <div className="block lg:hidden">
+//         {CHAPTERS.map((chapter) => (
+//           <div
+//             key={chapter.no}
+//             className="chapter-card relative h-[85vh] min-h-[560px] overflow-hidden bg-[#10271D]"
+//           >
+//             <img
+//               src={chapter.image}
+//               alt={chapter.alt}
+//               loading="lazy"
+//               className="chapter-card-photo absolute inset-0 h-full w-full object-cover"
+//             />
+
+//             <div className="absolute inset-0 bg-[#10271D]/40" />
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#10271D]/90 via-transparent to-[#10271D]/20" />
+
+//             <div className="chapter-card-text absolute inset-x-0 bottom-0 px-6 pb-12 sm:px-12">
+//               <div className="mb-5 flex items-center gap-3 text-[#D9E7C9]">
+//                 <span className="h-px w-10 bg-[#D9E7C9]" />
+
+//                 <span className="text-[10px] uppercase tracking-[0.25em]">
+//                   {chapter.no} — {chapter.label}
+//                 </span>
+//               </div>
+
+//               <h2 className="font-display text-[clamp(3.2rem,13vw,6rem)] leading-[0.9] tracking-[-0.07em] text-white">
+//                 {chapter.lines[0]}
+//                 <br />
+//                 <span className="italic text-[#D9E7C9]">
+//                   {chapter.lines[1]}
+//                 </span>
+//               </h2>
+
+//               <p className="mt-6 max-w-md text-sm leading-7 text-white/75">
+//                 {chapter.body}
+//               </p>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* =========================================
+//           04 — MARQUEE
+//       ========================================= */}
+//       <div className="marquee-band overflow-hidden bg-forest-800 py-7 text-ivory">
+//         <div className="marquee-track flex w-max items-center whitespace-nowrap">
+//           {[0, 1].map((copy) => (
+//             <div
+//               key={copy}
+//               className="flex items-center"
+//               aria-hidden={copy === 1}
+//             >
+//               {MARQUEE_WORDS.map((word) => (
+//                 <span
+//                   key={`${copy}-${word}`}
+//                   className="flex items-center"
+//                 >
+//                   <span className="px-8 font-display text-5xl tracking-[-0.05em] sm:text-7xl">
+//                     {word}
+//                   </span>
+
+//                   <Leaf
+//                     size={34}
+//                     strokeWidth={1}
+//                     className="text-[#B5F27E]"
+//                   />
+//                 </span>
+//               ))}
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           05 — WHAT DRIVES US
+//       ========================================= */}
+//       <div className="pillars-section relative overflow-hidden bg-[#E7EBDD] px-5 py-24 sm:px-10 sm:py-36 lg:px-16">
+//         <div className="mx-auto max-w-[1700px]">
+//           <div className="mb-20 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+//             <div>
+//               <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.28em] text-forest-600">
+//                 The Terra mindset
+//               </p>
+
+//              <h2 className="whitespace-nowrap font-display text-[clamp(2.8rem,7vw,7rem)] leading-[0.9] tracking-[-0.075em]">
+//   What drives{" "}
+//   <span className="italic text-forest-600">us forward.</span>
+// </h2>
+//             </div>
+
+//             <p className="max-w-sm text-sm leading-7 text-charcoal/65">
+//               Our values shape every decision we make and every partnership
+//               we build. They guide us towards meaningful and lasting change.
+//             </p>
+//           </div>
+
+//           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+//             {PILLARS.map((pillar) => {
+//               const Icon = pillar.icon;
+
+//               return (
+//                 <div
+//                   key={pillar.no}
+//                   className="pillar group relative min-h-[390px] overflow-hidden rounded-[1.8rem] border border-forest-800/15 p-7 transition-colors duration-700 hover:border-forest-800 sm:p-9"
+//                 >
+//                   <span className="absolute inset-0 translate-y-full bg-forest-800 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+
+//                   <div className="relative z-10 flex h-full flex-col transition-colors duration-500 group-hover:text-white">
+//                     <div className="flex items-start justify-between">
+//                       <span className="font-mono text-xs text-forest-600 transition-colors duration-500 group-hover:text-[#B5F27E]">
+//                         {pillar.no} /
+//                       </span>
+
+//                       <ArrowUpRight
+//                         size={20}
+//                         className="translate-x-0 translate-y-0 opacity-0 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100"
+//                       />
+//                     </div>
+
+//                     <div className="my-auto py-12">
+//                       <Icon
+//                         size={65}
+//                         strokeWidth={0.8}
+//                         className="transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6"
+//                       />
+//                     </div>
+
+//                     <div>
+//                       <h3 className="font-display text-3xl tracking-[-0.055em] sm:text-4xl">
+//                         {pillar.title[0]}
+//                         <br />
+//                         {pillar.title[1]}
+//                       </h3>
+
+//                       <p className="mt-5 max-w-xs text-sm leading-7 text-charcoal/65 transition-colors duration-500 group-hover:text-white/75">
+//                         {pillar.body}
+//                       </p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               );
+//             })}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           06 — IMPACT
+//       ========================================= */}
+//       {/* <div className="impact-section relative px-5 py-28 sm:px-10 sm:py-40 lg:px-16">
+//         <div className="mx-auto max-w-[1700px]">
+//           <div className="impact-frame relative mb-20 h-[420px] overflow-hidden sm:h-[600px] lg:h-[750px]">
+//             <img
+//               src={images.landscape}
+//               alt="A lush green landscape surrounded by nature"
+//               loading="lazy"
+//               className="impact-image absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover"
+//             />
+
+//             <div className="absolute inset-0 bg-[#122B20]/30" />
+
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#122B20]/75 via-transparent to-transparent" />
+
+//             <div className="absolute bottom-8 left-7 right-7 sm:bottom-14 sm:left-14">
+//               <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#D9E7C9]">
+//                 Beyond today
+//               </p>
+
+//               <h2 className="max-w-5xl font-display text-[clamp(3rem,8vw,9rem)] leading-[0.9] tracking-[-0.075em] text-white">
+//                 A better world
+//                 <br />
+//                 is built together.
+//               </h2>
+//             </div>
+//           </div>
+
+          
+//           <div className="mb-16 max-w-3xl">
+//             <h2 className="font-display text-[clamp(2.5rem,6vw,6rem)] leading-[0.95] tracking-[-0.07em]">
+//               Progress that makes
+//               <span className="italic text-forest-600"> a difference.</span>
+//             </h2>
+//           </div>
+
+//           <div className="metrics-grid grid grid-cols-1 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+//             {IMPACTS.map((item) => (
+//               <div
+//                 className="impact-item border-l border-forest-800/20 pl-5 sm:pl-8"
+//                 key={item.no}
+//               >
+//                 <span className="font-mono text-[10px] text-forest-600">
+//                   {item.no}
+//                 </span>
+
+//                 <h3 className="mt-6 font-display text-3xl tracking-[-0.055em] sm:text-4xl">
+//                   {item.title}
+//                 </h3>
+
+//                 <p className="mt-5 max-w-[240px] text-sm leading-7 text-charcoal/65">
+//                   {item.body}
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div> */}
+//     </section>
+//   );
+// }
+
+
+
+
+// import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
+// import {
+//   ArrowDown,
+//   ArrowUpRight,
+//   Leaf,
+//   Sprout,
+//   Globe2,
+//   Users,
+//   Lightbulb,
+//   HeartHandshake,
+// } from "lucide-react";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// // 180 sequential image frames used in place of the video
+// const terraFrames = Array.from({ length: 180 }, (_, index) =>
+//   `/images/terra/ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`
+// );
+
+// const images = {
+//   forest:
+//     "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=90",
+//   aerial:
+//     "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2400&q=90",
+//   leaf:
+//     "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1500&q=90",
+//   landscape:
+//     "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=2400&q=90",
+//   canopy:
+//     "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=90",
+//   agriculture:
+//     "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2200&q=90",
+// };
+
+// const CHAPTERS = [
+//   {
+//     no: "01",
+//     label: "Our mission",
+//     lines: ["Empower", "every farmer."],
+//     body: "Making agriculture more sustainable, productive, and resilient through practical solutions, accessible technology, and responsible farming practices.",
+//     image: images.agriculture,
+//     alt: "Green agricultural fields stretching across the landscape",
+//   },
+//   {
+//     no: "02",
+//     label: "Our approach",
+//     lines: ["Progress", "grows together."],
+//     body: "Working alongside farmers, local communities, and industry stakeholders to understand real challenges and develop solutions that create measurable impact.",
+//     image: images.canopy,
+//     alt: "Sunlight filtering through a lush green forest",
+//   },
+// ];
+
+// const PILLARS = [
+//   {
+//     no: "01",
+//     icon: Users,
+//     title: ["People", "First"],
+//     body: "Empowering farmers and communities through opportunities, knowledge, and meaningful partnerships.",
+//   },
+//   {
+//     no: "02",
+//     icon: Lightbulb,
+//     title: ["Innovation", "with Purpose"],
+//     body: "Bringing together technology, practical thinking, and sustainable solutions to address real agricultural challenges.",
+//   },
+//   {
+//     no: "03",
+//     icon: Leaf,
+//     title: ["Sustainability", "by Design"],
+//     body: "Promoting responsible practices that protect natural resources and support long-term environmental balance.",
+//   },
+//   {
+//     no: "04",
+//     icon: HeartHandshake,
+//     title: ["Impact", "that Lasts"],
+//     body: "Creating measurable improvements in livelihoods, agricultural productivity, and community resilience.",
+//   },
+// ];
+
+// const IMPACTS = [
+//   {
+//     no: "01",
+//     title: "Stronger livelihoods",
+//     body: "Creating better opportunities for farmers and agricultural communities.",
+//   },
+//   {
+//     no: "02",
+//     title: "Responsible farming",
+//     body: "Encouraging practices that protect natural resources and support productivity.",
+//   },
+//   {
+//     no: "03",
+//     title: "Meaningful innovation",
+//     body: "Connecting practical technology with real-world agricultural needs.",
+//   },
+//   {
+//     no: "04",
+//     title: "Lasting resilience",
+//     body: "Building a stronger agricultural ecosystem for future generations.",
+//   },
+// ];
+
+// const MARQUEE_WORDS = [
+//   "People First",
+//   "Purposeful Innovation",
+//   "Sustainable Growth",
+//   "Lasting Impact",
+// ];
+
+// function SplitChars({
+//   text,
+//   charClass,
+//   className = "",
+// }: {
+//   text: string;
+//   charClass: string;
+//   className?: string;
+// }) {
+//   return (
+//     <span className={className} aria-hidden="true">
+//       {text.split(" ").map((word, wordIndex) => (
+//         <Fragment key={wordIndex}>
+//           <span className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
+//             {Array.from(word).map((char, charIndex) => (
+//               <span
+//                 key={charIndex}
+//                 className={`${charClass} inline-block will-change-transform`}
+//               >
+//                 {char}
+//               </span>
+//             ))}
+//           </span>
+//           {wordIndex < text.split(" ").length - 1 ? " " : null}
+//         </Fragment>
+//       ))}
+//     </span>
+//   );
+// }
+
+// export function BrandIntro() {
+//   const root = useRef<HTMLElement>(null);
+//   const frameCanvasRef = useRef<HTMLCanvasElement>(null);
+//   const [terraImages, setTerraImages] = useState<HTMLImageElement[]>([]);
+
+//   // Preload the 180 frames for smooth scroll-scrubbing.
+//   useEffect(() => {
+//     let cancelled = false;
+
+//     const loadFrames = async () => {
+//       try {
+//         const loadedImages = await Promise.all(
+//           terraFrames.map((src) =>
+//             new Promise<HTMLImageElement>((resolve, reject) => {
+//               const image = new Image();
+//               image.onload = () => resolve(image);
+//               image.onerror = () => reject(new Error(`Could not load ${src}`));
+//               image.src = src;
+//             })
+//           )
+//         );
+//         if (!cancelled) setTerraImages(loadedImages);
+//       } catch (error) {
+//         console.error("Terra frame sequence failed to load:", error);
+//       }
+//     };
+
+//     loadFrames();
+//     return () => { cancelled = true; };
+//   }, []);
+
+//   // Draw a frame according to scroll progress through the Terra media section.
+//   useEffect(() => {
+//     const canvas = frameCanvasRef.current;
+//     const section = root.current?.querySelector<HTMLElement>(".terra-video-section");
+//     const frame = root.current?.querySelector<HTMLElement>(".terra-video-frame");
+//     if (!canvas || !section || !frame || terraImages.length !== 180) return;
+
+//     const context = canvas.getContext("2d");
+//     if (!context) return;
+
+//     let canvasWidth = 0;
+//     let canvasHeight = 0;
+//     let currentProgress = 0;
+
+//     const resize = () => {
+//       const rect = canvas.getBoundingClientRect();
+//       const dpr = Math.min(window.devicePixelRatio || 1, 2);
+//       canvasWidth = rect.width;
+//       canvasHeight = rect.height;
+//       canvas.width = Math.round(canvasWidth * dpr);
+//       canvas.height = Math.round(canvasHeight * dpr);
+//       context.setTransform(dpr, 0, 0, dpr, 0, 0);
+//       draw(currentProgress);
+//     };
+
+//     const draw = (progress: number) => {
+//       if (!canvasWidth || !canvasHeight) return;
+//       currentProgress = Math.max(0, Math.min(1, progress));
+//       const index = Math.min(179, Math.round(currentProgress * 179));
+//       const image = terraImages[index];
+//       if (!image) return;
+
+//       const scale = Math.max(canvasWidth / image.naturalWidth, canvasHeight / image.naturalHeight);
+//       const drawWidth = image.naturalWidth * scale;
+//       const drawHeight = image.naturalHeight * scale;
+//       const x = (canvasWidth - drawWidth) / 2;
+//       const y = (canvasHeight - drawHeight) / 2;
+
+//       context.clearRect(0, 0, canvasWidth, canvasHeight);
+//       context.drawImage(image, x, y, drawWidth, drawHeight);
+//     };
+
+//     resize();
+//     const observer = new ResizeObserver(resize);
+//     observer.observe(canvas);
+
+//     const trigger = ScrollTrigger.create({
+//       trigger: section,
+//       start: "top 80%",
+//       end: "bottom 20%",
+//       scrub: true,
+//       onUpdate: (self) => draw(self.progress),
+//     });
+
+//     ScrollTrigger.refresh();
+//     return () => {
+//       trigger.kill();
+//       observer.disconnect();
+//     };
+//   }, [terraImages]);
+
+//   useLayoutEffect(() => {
+//     const element = root.current;
+//     if (!element) return;
+
+//     const ctx = gsap.context(() => {
+//       const mm = gsap.matchMedia();
+
+//       mm.add(
+//         "(prefers-reduced-motion: no-preference)",
+//         () => {
+//           const select = gsap.utils.selector(element);
+
+//           // INTRO TEXT REVEAL
+//           gsap.from(select(".intro-char"), {
+//             yPercent: 120,
+//             rotate: 5,
+//             duration: 1.2,
+//             stagger: 0.025,
+//             ease: "power4.out",
+//             scrollTrigger: {
+//               trigger: select(".living-intro")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.from(select(".intro-detail"), {
+//             y: 25,
+//             opacity: 0,
+//             duration: 1,
+//             stagger: 0.15,
+//             ease: "power3.out",
+//             scrollTrigger: {
+//               trigger: select(".living-intro")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           // FIRST SECTION IMAGE REVEAL
+//           gsap.from(select(".intro-visual-main"), {
+//             clipPath: "inset(12% 0% 0% 0% round 180px 180px 12px 12px)",
+//             scale: 1.08,
+//             duration: 1.5,
+//             ease: "power4.out",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.from(select(".intro-visual-circle"), {
+//             scale: 0.75,
+//             opacity: 0,
+//             rotation: -12,
+//             duration: 1.3,
+//             delay: 0.2,
+//             ease: "back.out(1.4)",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top 80%",
+//             },
+//           });
+
+//           gsap.to(select(".intro-visual-main img"), {
+//             yPercent: -10,
+//             ease: "none",
+//             scrollTrigger: {
+//               trigger: select(".intro-visual")[0],
+//               start: "top bottom",
+//               end: "bottom top",
+//               scrub: 1,
+//             },
+//           });
+
+//           // ORIGINAL GROW CINEMATIC REVEAL
+//           const hero = select(".hero-pin")[0];
+//           const heroFrame = select(".hero-frame")[0];
+//           const heroImage = select(".intro-image")[0];
+
+//           if (hero && heroFrame && heroImage) {
+//             if (window.matchMedia("(min-width: 1024px)").matches) {
+//               gsap
+//                 .timeline({
+//                   scrollTrigger: {
+//                     trigger: hero,
+//                     start: "top top",
+//                     end: "+=110%",
+//                     pin: true,
+//                     scrub: 1,
+//                     anticipatePin: 1,
+//                   },
+//                 })
+//                 .fromTo(
+//                   heroFrame,
+//                   {
+//                     clipPath:
+//                       "inset(13% 30% 10% 30% round 50% 50% 0% 0%)",
+//                   },
+//                   {
+//                     clipPath:
+//                       "inset(0% 0% 0% 0% round 0% 0% 0% 0%)",
+//                     ease: "none",
+//                     duration: 1,
+//                   },
+//                   0
+//                 )
+//                 .fromTo(
+//                   heroImage,
+//                   { scale: 1.35 },
+//                   { scale: 1, ease: "none", duration: 1 },
+//                   0
+//                 );
+//             } else {
+//               gsap.fromTo(
+//                 heroFrame,
+//                 {
+//                   clipPath:
+//                     "inset(12% 12% 8% 12% round 50% 50% 0% 0%)",
+//                 },
+//                 {
+//                   clipPath:
+//                     "inset(0% 0% 0% 0% round 0% 0% 0% 0%)",
+//                   duration: 1.5,
+//                   ease: "power4.out",
+//                   scrollTrigger: {
+//                     trigger: hero,
+//                     start: "top 75%",
+//                   },
+//                 }
+//               );
+
+//               gsap.to(heroImage, {
+//                 yPercent: 10,
+//                 scale: 1.1,
+//                 ease: "none",
+//                 scrollTrigger: {
+//                   trigger: hero,
+//                   start: "top bottom",
+//                   end: "bottom top",
+//                   scrub: 1,
+//                 },
+//               });
+//             }
+//           }
+
+//           // 02.5 — SPLIT VIDEO REVEAL
+//           const videoSection = select(".terra-video-section")[0];
+//           const videoFrame = select(".terra-video-frame")[0];
+//           const videoContent = select(".terra-video-content")[0];
+
+//           if (videoSection && videoFrame && videoContent) {
+//             gsap.from(videoFrame, {
+//               clipPath: "inset(8% 8% 8% 8% round 30px)",
+//               scale: 0.96,
+//               opacity: 0,
+//               duration: 1.4,
+//               ease: "power4.out",
+//               scrollTrigger: {
+//                 trigger: videoSection,
+//                 start: "top 75%",
+//                 once: true,
+//               },
+//             });
+
+//             gsap.from(videoContent.children, {
+//               y: 35,
+//               opacity: 0,
+//               duration: 1,
+//               stagger: 0.12,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: videoSection,
+//                 start: "top 75%",
+//                 once: true,
+//               },
+//             });
+//           }
+
+//           // CINEMATIC MISSION AND APPROACH STORY
+//           if (window.matchMedia("(min-width: 1024px)").matches) {
+//             const pin = select(".chapters-pin")[0];
+//             const chapterImages = select(".chapter-img");
+//             const photos = select(".chapter-photo");
+//             const texts = select(".chapter-text");
+//             const dots = select(".chapter-dot");
+
+//             if (pin && chapterImages.length) {
+//               gsap.set(chapterImages.slice(1), {
+//                 clipPath: "inset(100% 0% 0% 0%)",
+//               });
+
+//               gsap.set(texts.slice(1), {
+//                 opacity: 0,
+//                 y: 60,
+//               });
+
+//               gsap.set(dots.slice(1), {
+//                 opacity: 0.3,
+//                 height: 16,
+//               });
+
+//               const story = gsap.timeline({
+//                 scrollTrigger: {
+//                   trigger: pin,
+//                   start: "top top",
+//                   end: "+=200%",
+//                   pin: true,
+//                   scrub: 1,
+//                   anticipatePin: 1,
+//                 },
+//               });
+
+//               story
+//                 .fromTo(
+//                   photos[0],
+//                   { scale: 1.2 },
+//                   { scale: 1.05, duration: 2, ease: "none" },
+//                   0
+//                 )
+//                 .fromTo(
+//                   texts[0],
+//                   { y: 60, opacity: 0 },
+//                   {
+//                     y: 0,
+//                     opacity: 1,
+//                     duration: 0.8,
+//                     ease: "power3.out",
+//                   },
+//                   0.1
+//                 );
+
+//               for (let i = 1; i < chapterImages.length; i++) {
+//                 const position = i * 2;
+
+//                 story
+//                   .to(
+//                     texts[i - 1],
+//                     {
+//                       opacity: 0,
+//                       y: -45,
+//                       duration: 0.6,
+//                     },
+//                     position - 0.2
+//                   )
+//                   .to(
+//                     chapterImages[i],
+//                     {
+//                       clipPath: "inset(0% 0% 0% 0%)",
+//                       duration: 1.2,
+//                       ease: "power2.inOut",
+//                     },
+//                     position - 0.2
+//                   )
+//                   .fromTo(
+//                     photos[i],
+//                     { scale: 1.25 },
+//                     {
+//                       scale: 1.05,
+//                       duration: 2,
+//                       ease: "none",
+//                     },
+//                     position - 0.2
+//                   )
+//                   .to(
+//                     texts[i],
+//                     {
+//                       opacity: 1,
+//                       y: 0,
+//                       duration: 0.8,
+//                       ease: "power3.out",
+//                     },
+//                     position + 0.4
+//                   )
+//                   .to(
+//                     dots[i - 1],
+//                     {
+//                       opacity: 0.3,
+//                       height: 16,
+//                       duration: 0.4,
+//                     },
+//                     position
+//                   )
+//                   .to(
+//                     dots[i],
+//                     {
+//                       opacity: 1,
+//                       height: 56,
+//                       duration: 0.4,
+//                     },
+//                     position
+//                   );
+//               }
+
+//               story.to({}, { duration: 0.5 });
+//             }
+//           } else {
+//             // MOBILE CHAPTER REVEALS
+//             select(".chapter-card").forEach((card) => {
+//               const photo = card.querySelector(".chapter-card-photo");
+//               const text = card.querySelector(".chapter-card-text");
+
+//               if (photo) {
+//                 gsap.from(photo, {
+//                   scale: 1.15,
+//                   duration: 1.4,
+//                   ease: "power3.out",
+//                   scrollTrigger: {
+//                     trigger: card,
+//                     start: "top 80%",
+//                   },
+//                 });
+//               }
+
+//               if (text) {
+//                 gsap.from(text, {
+//                   y: 35,
+//                   opacity: 0,
+//                   duration: 0.9,
+//                   ease: "power3.out",
+//                   scrollTrigger: {
+//                     trigger: card,
+//                     start: "top 70%",
+//                   },
+//                 });
+//               }
+//             });
+//           }
+
+//           // MARQUEE
+//           const track = select(".marquee-track")[0];
+
+//           if (track) {
+//             const marquee = gsap.to(track, {
+//               xPercent: -50,
+//               duration: 35,
+//               ease: "none",
+//               repeat: -1,
+//             });
+
+//             const marqueeBand = select(".marquee-band")[0];
+
+//             if (marqueeBand) {
+//               ScrollTrigger.create({
+//                 trigger: marqueeBand,
+//                 start: "top bottom",
+//                 end: "bottom top",
+//                 onUpdate: (self) => {
+//                   const speed =
+//                     1 + Math.min(Math.abs(self.getVelocity()) / 350, 4);
+
+//                   marquee.timeScale(self.direction * speed);
+
+//                   gsap.to(marquee, {
+//                     timeScale: self.direction,
+//                     duration: 1,
+//                     ease: "power3.out",
+//                   });
+//                 },
+//               });
+//             }
+//           }
+
+//           // WHAT DRIVES US REVEAL
+//           const pillars = select(".pillar");
+//           const pillarsSection = select(".pillars-section")[0];
+
+//           if (pillars.length && pillarsSection) {
+//             gsap.from(pillars, {
+//               y: 65,
+//               opacity: 0,
+//               duration: 1,
+//               stagger: 0.14,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: pillarsSection,
+//                 start: "top 75%",
+//               },
+//             });
+//           }
+
+//           // IMPACT IMAGE PARALLAX
+//           const impactImage = select(".impact-image")[0];
+//           const impactFrame = select(".impact-frame")[0];
+
+//           if (impactImage && impactFrame) {
+//             gsap.fromTo(
+//               impactImage,
+//               { yPercent: -8, scale: 1.12 },
+//               {
+//                 yPercent: 8,
+//                 scale: 1,
+//                 ease: "none",
+//                 scrollTrigger: {
+//                   trigger: impactFrame,
+//                   start: "top bottom",
+//                   end: "bottom top",
+//                   scrub: 1,
+//                 },
+//               }
+//             );
+
+//             gsap.from(impactFrame, {
+//               clipPath: "inset(10% 6% 10% 6%)",
+//               duration: 1.5,
+//               ease: "power4.out",
+//               scrollTrigger: {
+//                 trigger: impactFrame,
+//                 start: "top 80%",
+//               },
+//             });
+//           }
+
+//           // IMPACT ITEMS
+//           const impactItems = select(".impact-item");
+//           const metricsGrid = select(".metrics-grid")[0];
+
+//           if (impactItems.length && metricsGrid) {
+//             gsap.from(impactItems, {
+//               y: 50,
+//               opacity: 0,
+//               duration: 0.9,
+//               stagger: 0.14,
+//               ease: "power3.out",
+//               scrollTrigger: {
+//                 trigger: metricsGrid,
+//                 start: "top 85%",
+//               },
+//             });
+//           }
+
+//           // FLOATING DECORATIVE ELEMENTS
+//           const floatingElements = select(".organic-float");
+
+//           if (floatingElements.length) {
+//             gsap.to(floatingElements, {
+//               y: -18,
+//               rotation: 8,
+//               duration: 4,
+//               repeat: -1,
+//               yoyo: true,
+//               ease: "sine.inOut",
+//               stagger: 0.7,
+//             });
+//           }
+//         }
+//       );
+//     }, element);
+
+//     const refresh = () => ScrollTrigger.refresh();
+//     window.addEventListener("load", refresh);
+
+//     return () => {
+//       window.removeEventListener("load", refresh);
+//       ctx.revert();
+//     };
+//   }, []);
+
+//   return (
+//     <section
+//       ref={root}
+//       className="relative overflow-x-clip bg-ivory text-forest-800"
+//     >
+//       {/* SCROLL PROGRESS */}
+//       <div className="sticky top-0 z-[60] -mb-[3px] h-[3px] w-full">
+//         <div className="scroll-progress h-full origin-left scale-x-0 bg-forest-600" />
+//       </div>
+
+//       {/* =========================================
+//           01 — INTRODUCTION
+//       ========================================= */}
+//       <div className="living-intro relative px-5 pb-20 pt-28 sm:px-10 sm:pb-28 sm:pt-36 lg:px-16 lg:py-40">
+//         <div className="relative z-10 mx-auto max-w-[1700px]">
+//           <div className="intro-detail mb-16 flex items-center justify-between border-b border-forest-800/20 pb-5">
+//             <div className="flex items-center gap-3">
+//               <span className="h-px w-10 bg-forest-700" />
+//               <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">
+//                 About Terra Ecopreneurs
+//               </span>
+//             </div>
+
+//             <span className="font-mono text-[10px] tracking-widest text-forest-700/50">
+//               GROWING TOGETHER — 001
+//             </span>
+//           </div>
+
+//           <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-8">
+//             {/* LEFT CONTENT */}
+//             <div className="relative z-10 lg:col-span-7">
+//               <h1
+//                 aria-label="Building a future where agriculture and nature thrive together."
+//                 className="font-display text-[clamp(3.5rem,11vw,12rem)] leading-[0.88] tracking-[-0.09em]"
+//               >
+//                 <span className="block">
+//                   <SplitChars text="Growing a" charClass="intro-char" />
+//                 </span>
+
+//                 <span className="block">
+//                   <SplitChars text="better" charClass="intro-char" />{" "}
+//                   <SplitChars
+//                     text="future."
+//                     charClass="intro-char"
+//                     className="italic text-forest-600"
+//                   />
+//                 </span>
+//               </h1>
+
+//               <div className="intro-detail mt-12 flex flex-col justify-between gap-8 xl:flex-row xl:items-end">
+//                 <p className="max-w-2xl text-base leading-8 text-charcoal/70 sm:text-lg">
+//                   We are a team of innovators, sustainability advocates, and
+//                   problem-solvers committed to transforming agriculture through
+//                   meaningful innovation. Together with farmers, communities,
+//                   and industry partners, we create opportunities for a more
+//                   sustainable future.
+//                 </p>
+
+//                 <div className="flex shrink-0 items-center gap-4">
+//                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-forest-800/30">
+//                     <ArrowDown size={17} />
+//                   </div>
+
+//                   <span className="max-w-[130px] text-[10px] font-semibold uppercase leading-5 tracking-[0.18em]">
+//                     Discover more
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* RIGHT VISUAL COMPOSITION */}
+//             <div className="intro-visual relative mx-auto h-[480px] w-full max-w-[540px] lg:col-span-5 lg:h-[650px]">
+//               <div className="intro-visual-main absolute right-0 top-0 h-[82%] w-[76%] overflow-hidden rounded-t-[180px] rounded-b-[12px] shadow-2xl shadow-forest-900/15">
+//                 <img
+//                   src={images.agriculture}
+//                   alt="Lush green agricultural fields"
+//                   className="h-[115%] w-full object-cover"
+//                 />
+
+//                 <div className="absolute inset-0 bg-gradient-to-t from-forest-900/30 via-transparent to-transparent" />
+//               </div>
+
+//               <div className="intro-visual-circle absolute bottom-[3%] left-0 z-10 h-[210px] w-[210px] overflow-hidden rounded-full border-[8px] border-ivory shadow-2xl shadow-forest-900/20 sm:h-[260px] sm:w-[260px] lg:bottom-[5%] lg:h-[290px] lg:w-[290px]">
+//                 <img
+//                   src={images.forest}
+//                   alt="Rich green forest canopy"
+//                   className="h-full w-full object-cover"
+//                 />
+//               </div>
+
+//               <div className="organic-float absolute right-[3%] top-[12%] z-20 flex h-16 w-16 items-center justify-center rounded-full border border-white/60 bg-ivory/90 text-forest-700 shadow-lg backdrop-blur-sm sm:h-20 sm:w-20">
+//                 <Sprout size={35} strokeWidth={1} />
+//               </div>
+
+//               <div className="absolute bottom-[2%] right-[2%] z-20 hidden items-center gap-3 sm:flex">
+//                 <span className="h-px w-8 bg-forest-600/60" />
+//                 <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-forest-700">
+//                   Rooted in nature
+//                 </span>
+//               </div>
+
+//               <div className="pointer-events-none absolute -right-3 top-6 h-[82%] w-[76%] rounded-t-[180px] rounded-b-[12px] border border-forest-800/20" />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           02 — ORIGINAL GROW CINEMATIC REVEAL
+//       ========================================= */}
+//       <div className="hero-pin relative h-[88svh] min-h-[600px] overflow-hidden bg-ivory lg:h-screen">
+//         <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+//           <span className="earth-back font-display text-[clamp(5rem,22vw,26rem)] leading-none tracking-[-0.1em] text-transparent [-webkit-text-stroke:1px_rgba(27,67,50,0.28)]">
+//             GROW
+//           </span>
+//         </div>
+
+//         <div className="hero-frame absolute inset-0 z-10 overflow-hidden">
+//           <img
+//             src={images.aerial}
+//             alt="Sunlight over a lush natural landscape"
+//             className="intro-image h-full w-full object-cover"
+//           />
+
+//           <div className="absolute inset-0 bg-[#122B20]/30" />
+//           <div className="absolute inset-0 bg-gradient-to-t from-[#122B20]/80 via-transparent to-[#122B20]/10" />
+//         </div>
+
+//         <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+//           <span className="font-display text-[clamp(5rem,22vw,26rem)] leading-none tracking-[-0.1em] text-white/[0.12] [-webkit-text-stroke:1px_rgba(255,255,255,0.45)]">
+//             GROW
+//           </span>
+//         </div>
+
+//         <div className="organic-float absolute right-[13%] top-[18%] z-30 text-white/70">
+//           <Leaf size={55} strokeWidth={0.8} />
+//         </div>
+
+//         <div className="absolute bottom-0 left-0 right-0 z-30 flex flex-col justify-end gap-8 px-6 pb-10 sm:px-12 sm:pb-16 lg:flex-row lg:items-end lg:justify-between lg:px-20">
+//           <div className="max-w-4xl">
+//             <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#D9E7C9]">
+//               <span className="h-px w-10 bg-[#D9E7C9]" />
+//               Our purpose
+//             </p>
+
+//             <h2 className="font-display text-[clamp(3.5rem,9vw,10rem)] leading-[0.87] tracking-[-0.075em] text-white">
+//               Agriculture
+//               <br />
+//               meets
+//               <span className="italic text-[#D9E7C9]"> innovation.</span>
+//             </h2>
+//           </div>
+
+//           <div className="flex max-w-[270px] items-center gap-4 text-white/80">
+//             <Globe2 size={30} strokeWidth={1} />
+
+//             <p className="text-xs leading-6">
+//               Building stronger agricultural communities through
+//               sustainability, innovation, and meaningful partnerships.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           02.5 — WHITE SPLIT VIDEO SECTION
+//       ========================================= */}
+//       <section className="terra-video-section relative overflow-hidden bg-white px-5 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-32">
+//         <div className="mx-auto max-w-[1700px]">
+
+//           {/* TOP LABEL */}
+//           <div className="mb-12 flex items-center justify-between gap-4 border-b border-forest-800/15 pb-5">
+//             <div className="flex items-center gap-3">
+//               <span className="h-px w-10 bg-forest-700" />
+//               <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-forest-700">
+//                 The Terra experience
+//               </span>
+//             </div>
+
+//             <span className="font-mono text-[10px] tracking-widest text-forest-700/50">
+//               NATURE IN MOTION — 003
+//             </span>
+//           </div>
+
+//           {/* SPLIT LAYOUT */}
+//           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+//             {/* LEFT — VIDEO */}
+//             <div className="terra-video-frame group relative h-[420px] overflow-hidden rounded-[1.5rem] bg-forest-900 sm:h-[550px] lg:h-[680px]">
+//               <canvas
+//                 ref={frameCanvasRef}
+//                 className="terra-video absolute inset-0 h-full w-full object-cover"
+//                 aria-label="Terra mechanical frame animation controlled by scrolling"
+//               />
+//               {terraImages.length !== 180 && (
+//                 <div className="absolute inset-0 grid place-items-center bg-forest-900 text-xs uppercase tracking-[0.2em] text-white/75">
+//                   Loading Terra experience...
+//                 </div>
+//               )}
+
+//               {/* VIDEO OVERLAY */}
+//               <div className="absolute inset-0 bg-[#10271D]/15 transition-colors duration-700 group-hover:bg-[#10271D]/5" />
+
+//               {/* VIDEO LABEL */}
+//               <div className="absolute left-6 top-6 sm:left-9 sm:top-9">
+//                 <span className="rounded-full border border-white/50 bg-black/10 px-4 py-2 text-[9px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md">
+//                   Terra / In motion
+//                 </span>
+//               </div>
+
+//               {/* BOTTOM VIDEO TEXT */}
+//               <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-10">
+//                 <div className="flex items-center gap-3 text-white">
+//                   <span className="h-px w-8 bg-white" />
+//                   <span className="text-[9px] font-semibold uppercase tracking-[0.25em]">
+//                     Nature in every frame
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* RIGHT — CONTENT */}
+//             <div className="terra-video-content relative py-6 lg:py-12">
+
+//               <p className="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-forest-600">
+//                 <span className="h-px w-10 bg-forest-600" />
+//                 Rooted in nature
+//               </p>
+
+//               <h2 className="font-display text-[clamp(3.5rem,7vw,7.5rem)] leading-[0.9] tracking-[-0.075em] text-forest-900">
+//                 Every seed
+//                 <br />
+//                 <span className="italic text-forest-600">
+//                   holds a future.
+//                 </span>
+//               </h2>
+
+//               <p className="mt-9 max-w-lg text-base leading-8 text-charcoal/65 sm:text-lg">
+//                 Every transformation begins with a small step. We believe
+//                 in empowering farmers, embracing innovation, and nurturing
+//                 a sustainable relationship between people and nature.
+//               </p>
+
+//               <div className="mt-12 flex items-center gap-5">
+//                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-forest-800/20 text-forest-700 transition-all duration-500 hover:bg-forest-800 hover:text-white">
+//                   <Sprout size={26} strokeWidth={1} />
+//                 </div>
+
+//                 <div>
+//                   <p className="font-display text-xl tracking-tight text-forest-900">
+//                     Growing with purpose.
+//                   </p>
+//                   <p className="mt-1 text-xs tracking-wide text-charcoal/50">
+//                     Building a greener tomorrow, together.
+//                   </p>
+//                 </div>
+//               </div>
+
+//               {/* DECORATIVE DETAIL */}
+//               <div className="mt-16 flex items-center gap-4 border-t border-forest-800/15 pt-6">
+//                 <span className="font-mono text-xs text-forest-600">
+//                   01 / 03
+//                 </span>
+//                 <div className="h-px flex-1 bg-forest-800/15" />
+//                 <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-forest-700/50">
+//                   Sustainable by nature
+//                 </span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* =========================================
+//           03 — OUR MISSION / OUR APPROACH
+//       ========================================= */}
+
+//       {/* DESKTOP PINNED STORY */}
+//       {/* <div className="hidden lg:block">
+//         <div className="chapters-pin relative h-screen min-h-[700px] overflow-hidden bg-[#10271D]">
+//           {CHAPTERS.map((chapter) => (
+//             <div
+//               key={chapter.no}
+//               className="chapter-img absolute inset-0 overflow-hidden"
+//             >
+//               <img
+//                 src={chapter.image}
+//                 alt={chapter.alt}
+//                 className="chapter-photo absolute inset-0 h-full w-full object-cover"
+//               />
+
+//               <div className="absolute inset-0 bg-[#10271D]/40" />
+//               <div className="absolute inset-0 bg-gradient-to-t from-[#10271D]/85 via-transparent to-[#10271D]/20" />
+//             </div>
+//           ))}
+
+//           <div className="absolute left-12 top-12 z-20">
+//             <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70">
+//               Terra / 002
+//             </span>
+//           </div>
+
+//           <div className="organic-float absolute right-[14%] top-[18%] z-20 text-[#D9E7C9]/80">
+//             <Sprout size={70} strokeWidth={0.7} />
+//           </div>
+
+//           <div className="absolute right-12 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3 xl:right-20">
+//             {CHAPTERS.map((chapter, index) => (
+//               <span
+//                 key={chapter.no}
+//                 className="chapter-dot w-[3px] rounded-full bg-white"
+//                 style={{ height: index === 0 ? 56 : 16 }}
+//               />
+//             ))}
+//           </div>
+
+//           {CHAPTERS.map((chapter) => (
+//             <div
+//               key={chapter.no}
+//               className="chapter-text absolute inset-x-0 bottom-0 z-20 px-12 pb-20 xl:px-20"
+//             >
+//               <div className="mb-7 flex items-center gap-3 text-[#D9E7C9]">
+//                 <span className="h-px w-10 bg-[#D9E7C9]" />
+
+//                 <span className="text-[10px] uppercase tracking-[0.25em]">
+//                   {chapter.no} — {chapter.label}
+//                 </span>
+//               </div>
+
+//               <h2 className="max-w-6xl font-display text-[clamp(3.5rem,9vw,10rem)] leading-[0.88] tracking-[-0.075em] text-white">
+//                 {chapter.lines[0]}
+//                 <br />
+//                 <span className="italic text-[#D9E7C9]">
+//                   {chapter.lines[1]}
+//                 </span>
+//               </h2>
+
+//               <div className="mt-10 flex items-end justify-between gap-10 border-t border-white/30 pt-6">
+//                 <p className="max-w-xl text-base leading-7 text-white/75">
+//                   {chapter.body}
+//                 </p>
+
+//                 <span className="font-display text-6xl text-white/40">
+//                   {chapter.no}
+//                 </span>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div> */}
+
+//       {/* MOBILE STACKED STORY */}
+//       <div className="block lg:hidden">
+//         {CHAPTERS.map((chapter) => (
+//           <div
+//             key={chapter.no}
+//             className="chapter-card relative h-[85vh] min-h-[560px] overflow-hidden bg-[#10271D]"
+//           >
+//             <img
+//               src={chapter.image}
+//               alt={chapter.alt}
+//               loading="lazy"
+//               className="chapter-card-photo absolute inset-0 h-full w-full object-cover"
+//             />
+
+//             <div className="absolute inset-0 bg-[#10271D]/40" />
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#10271D]/90 via-transparent to-[#10271D]/20" />
+
+//             <div className="chapter-card-text absolute inset-x-0 bottom-0 px-6 pb-12 sm:px-12">
+//               <div className="mb-5 flex items-center gap-3 text-[#D9E7C9]">
+//                 <span className="h-px w-10 bg-[#D9E7C9]" />
+
+//                 <span className="text-[10px] uppercase tracking-[0.25em]">
+//                   {chapter.no} — {chapter.label}
+//                 </span>
+//               </div>
+
+//               <h2 className="font-display text-[clamp(3.2rem,13vw,6rem)] leading-[0.9] tracking-[-0.07em] text-white">
+//                 {chapter.lines[0]}
+//                 <br />
+//                 <span className="italic text-[#D9E7C9]">
+//                   {chapter.lines[1]}
+//                 </span>
+//               </h2>
+
+//               <p className="mt-6 max-w-md text-sm leading-7 text-white/75">
+//                 {chapter.body}
+//               </p>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* =========================================
+//           04 — MARQUEE
+//       ========================================= */}
+//       <div className="marquee-band overflow-hidden bg-forest-800 py-7 text-ivory">
+//         <div className="marquee-track flex w-max items-center whitespace-nowrap">
+//           {[0, 1].map((copy) => (
+//             <div
+//               key={copy}
+//               className="flex items-center"
+//               aria-hidden={copy === 1}
+//             >
+//               {MARQUEE_WORDS.map((word) => (
+//                 <span
+//                   key={`${copy}-${word}`}
+//                   className="flex items-center"
+//                 >
+//                   <span className="px-8 font-display text-5xl tracking-[-0.05em] sm:text-7xl">
+//                     {word}
+//                   </span>
+
+//                   <Leaf
+//                     size={34}
+//                     strokeWidth={1}
+//                     className="text-[#B5F27E]"
+//                   />
+//                 </span>
+//               ))}
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           05 — WHAT DRIVES US
+//       ========================================= */}
+//       <div className="pillars-section relative overflow-hidden bg-[#E7EBDD] px-5 py-24 sm:px-10 sm:py-36 lg:px-16">
+//         <div className="mx-auto max-w-[1700px]">
+//           <div className="mb-20 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+//             <div>
+//               <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.28em] text-forest-600">
+//                 The Terra mindset
+//               </p>
+
+//              <h2 className="whitespace-nowrap font-display text-[clamp(2.8rem,7vw,7rem)] leading-[0.9] tracking-[-0.075em]">
+//   What drives{" "}
+//   <span className="italic text-forest-600">us forward.</span>
+// </h2>
+//             </div>
+
+//             <p className="max-w-sm text-sm leading-7 text-charcoal/65">
+//               Our values shape every decision we make and every partnership
+//               we build. They guide us towards meaningful and lasting change.
+//             </p>
+//           </div>
+
+//           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+//             {PILLARS.map((pillar) => {
+//               const Icon = pillar.icon;
+
+//               return (
+//                 <div
+//                   key={pillar.no}
+//                   className="pillar group relative min-h-[390px] overflow-hidden rounded-[1.8rem] border border-forest-800/15 p-7 transition-colors duration-700 hover:border-forest-800 sm:p-9"
+//                 >
+//                   <span className="absolute inset-0 translate-y-full bg-forest-800 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+
+//                   <div className="relative z-10 flex h-full flex-col transition-colors duration-500 group-hover:text-white">
+//                     <div className="flex items-start justify-between">
+//                       <span className="font-mono text-xs text-forest-600 transition-colors duration-500 group-hover:text-[#B5F27E]">
+//                         {pillar.no} /
+//                       </span>
+
+//                       <ArrowUpRight
+//                         size={20}
+//                         className="translate-x-0 translate-y-0 opacity-0 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100"
+//                       />
+//                     </div>
+
+//                     <div className="my-auto py-12">
+//                       <Icon
+//                         size={65}
+//                         strokeWidth={0.8}
+//                         className="transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6"
+//                       />
+//                     </div>
+
+//                     <div>
+//                       <h3 className="font-display text-3xl tracking-[-0.055em] sm:text-4xl">
+//                         {pillar.title[0]}
+//                         <br />
+//                         {pillar.title[1]}
+//                       </h3>
+
+//                       <p className="mt-5 max-w-xs text-sm leading-7 text-charcoal/65 transition-colors duration-500 group-hover:text-white/75">
+//                         {pillar.body}
+//                       </p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               );
+//             })}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           06 — IMPACT
+//       ========================================= */}
+//       {/* <div className="impact-section relative px-5 py-28 sm:px-10 sm:py-40 lg:px-16">
+//         <div className="mx-auto max-w-[1700px]">
+//           <div className="impact-frame relative mb-20 h-[420px] overflow-hidden sm:h-[600px] lg:h-[750px]">
+//             <img
+//               src={images.landscape}
+//               alt="A lush green landscape surrounded by nature"
+//               loading="lazy"
+//               className="impact-image absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover"
+//             />
+
+//             <div className="absolute inset-0 bg-[#122B20]/30" />
+
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#122B20]/75 via-transparent to-transparent" />
+
+//             <div className="absolute bottom-8 left-7 right-7 sm:bottom-14 sm:left-14">
+//               <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#D9E7C9]">
+//                 Beyond today
+//               </p>
+
+//               <h2 className="max-w-5xl font-display text-[clamp(3rem,8vw,9rem)] leading-[0.9] tracking-[-0.075em] text-white">
+//                 A better world
+//                 <br />
+//                 is built together.
+//               </h2>
+//             </div>
+//           </div>
+
+          
+//           <div className="mb-16 max-w-3xl">
+//             <h2 className="font-display text-[clamp(2.5rem,6vw,6rem)] leading-[0.95] tracking-[-0.07em]">
+//               Progress that makes
+//               <span className="italic text-forest-600"> a difference.</span>
+//             </h2>
+//           </div>
+
+//           <div className="metrics-grid grid grid-cols-1 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+//             {IMPACTS.map((item) => (
+//               <div
+//                 className="impact-item border-l border-forest-800/20 pl-5 sm:pl-8"
+//                 key={item.no}
+//               >
+//                 <span className="font-mono text-[10px] text-forest-600">
+//                   {item.no}
+//                 </span>
+
+//                 <h3 className="mt-6 font-display text-3xl tracking-[-0.055em] sm:text-4xl">
+//                   {item.title}
+//                 </h3>
+
+//                 <p className="mt-5 max-w-[240px] text-sm leading-7 text-charcoal/65">
+//                   {item.body}
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div> */}
+//     </section>
+//   );
+// }
+
+
+
+
+
+
+
+
 import { Fragment, useLayoutEffect, useRef } from "react";
 import {
   ArrowDown,
