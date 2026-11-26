@@ -1,189 +1,255 @@
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Leaf,
+  Settings2,
+  Users,
+  Zap,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { projects } from "@/lib/content";
 
 const stories = [
   {
-    number: "01",
-    category: "REGENERATIVE AGRICULTURE",
-    title: "Restoring the Earth, One Farm at a Time.",
+    project: projects[0],
+    category: "Energy efficiency",
+    title: "Making industrial operations more efficient.",
     description:
-      "A journey towards healthier soil, sustainable farming and a future where agriculture works with nature.",
-    image: "/images/success/farming.jpg",
-    impact: "Soil regeneration",
+      "A targeted retrofit helped a Coimbatore textile mill cut energy use without stopping production.",
+    image:
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Solar panels generating clean energy",
   },
   {
-    number: "02",
-    category: "CIRCULAR ECONOMY",
-    title: "Giving Waste a Second Life.",
+    project: projects[1],
+    category: "Agriculture · TRANSFORM",
+    title: "TRANSFORM FPO Cluster Programme",
     description:
-      "Transforming discarded resources into opportunities through smarter reuse and responsible practices.",
-    image: "/images/success/recycling.jpg",
-    impact: "Resource recovery",
+      "Training and shared infrastructure are opening stronger market access for small-holder farmers.",
+    image:
+      "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=1000&q=85",
+    imageAlt: "Farmer working in a green field",
   },
   {
-    number: "03",
-    category: "COMMUNITY TRANSFORMATION",
-    title: "Together, We Grow Greener.",
+    project: projects[2],
+    category: "Industrial automation",
+    title: "Auto Component Line Automation",
     description:
-      "Bringing people together to create cleaner spaces and build environmentally conscious communities.",
-    image: "/images/success/community.jpg",
-    impact: "Community action",
+      "Automation is helping a precision components maker increase throughput and trace every batch.",
+    image:
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=85",
+    imageAlt: "Engineer reviewing equipment and system performance",
+  },
+];
+
+const impactHighlights = [
+  {
+    value: projects[0].results[0].value,
+    label: "Energy use reduced",
+    context: "Textile mill retrofit",
+    icon: Zap,
+  },
+  {
+    value: projects[0].results[2].value,
+    label: "CO₂ avoided per year",
+    context: "Textile mill retrofit",
+    icon: Leaf,
+  },
+  {
+    value: projects[2].results[0].value,
+    label: "Line throughput",
+    context: "Auto-component automation",
+    icon: Settings2,
+  },
+  {
+    value: projects[1].results[0].value,
+    label: "Farmers supported",
+    context: "TRANSFORM programme",
+    icon: Users,
   },
 ];
 
 export default function SuccessStories() {
+  const [featuredStory, ...supportingStories] = stories;
+
   return (
-    <section className="relative overflow-hidden bg-[#14291f] py-28 text-[#f4f1e8]">
+    <section className="relative isolate overflow-hidden bg-[#F4F7EB] py-14 text-[#14352A] sm:py-16 lg:py-20">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,255,255,0.96),transparent_58%),radial-gradient(ellipse_at_0%_70%,rgba(185,222,133,0.25),transparent_34%),radial-gradient(ellipse_at_100%_58%,rgba(193,229,151,0.28),transparent_36%)]"
+      />
+      <Leaf
+        aria-hidden="true"
+        className="pointer-events-none absolute left-4 top-16 rotate-[-35deg] text-lime-700/[0.14]"
+        size={80}
+        strokeWidth={0.8}
+      />
+      <Leaf
+        aria-hidden="true"
+        className="pointer-events-none absolute right-4 bottom-16 rotate-[35deg] text-lime-700/[0.14]"
+        size={80}
+        strokeWidth={0.8}
+      />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-
-        {/* Header */}
-        <div className="mb-20 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div>
-            <p className="mb-5 text-xs uppercase tracking-[0.4em] text-[#b5c58e]">
-              Our Impact · Real Stories
+      <div className="shell relative z-10">
+        <header className="relative mx-auto max-w-7xl pb-9 text-center sm:pb-11">
+          <div className="mx-auto max-w-3xl">
+            <p className="mb-4 flex items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#347A35] sm:text-xs sm:tracking-[0.24em]">
+              <span className="h-px w-8 bg-[#8ABF55] sm:w-12" />
+              Real-world results · Success stories
+              <span className="h-px w-8 bg-[#8ABF55] sm:w-12" />
             </p>
-            <h2 className="max-w-3xl text-5xl font-light leading-[1.1] md:text-7xl">
-              Change is not just
+            <h2 className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-[0.98] tracking-[-0.045em] text-[#103A2B]">
+              Real challenges.
               <br />
-              <span className="font-serif italic text-[#b5c58e]">
-                something we imagine.
+              Measurable{" "}
+              <span className="font-display italic text-[#68A93C]">
+                impact.
               </span>
-              <br />
-              It's something we create.
             </h2>
-          </div>
-
-          <p className="max-w-sm text-sm leading-7 text-white/60">
-            Behind every sustainable initiative is a story of people,
-            purpose and positive change. Discover the journeys shaping
-            a greener tomorrow.
-          </p>
-        </div>
-
-        {/* Featured Story */}
-        <div className="group relative mb-24 grid overflow-hidden rounded-3xl border border-white/10 bg-[#20392c] md:grid-cols-2">
-          <div className="relative min-h-[350px] overflow-hidden">
-            <img
-              src="/images/success/featured.jpg"
-              alt="Sustainable landscape project"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            <span className="absolute bottom-8 left-8 text-xs tracking-[0.3em] text-white">
-              FEATURED JOURNEY · 01
-            </span>
-          </div>
-
-          <div className="flex flex-col justify-center p-9 md:p-16">
-            <span className="mb-6 text-xs tracking-[0.3em] text-[#b5c58e]">
-              A STORY OF TRANSFORMATION
-            </span>
-
-            <h3 className="mb-6 text-4xl font-light leading-tight md:text-5xl">
-              When sustainability becomes a way of life.
-            </h3>
-
-            <p className="mb-10 max-w-lg text-sm leading-8 text-white/60">
-              Every meaningful transformation starts with one decision.
-              Explore how sustainable thinking can create lasting
-              environmental and community value.
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-[#4D6256] sm:text-base sm:leading-7">
+              Discover how Terra turns engineering challenges into sustainable
+              progress for industries, businesses, and communities.
             </p>
-
-            <a
-              href="#more-stories"
-              className="w-fit border-b border-[#b5c58e] pb-2 text-xs uppercase tracking-[0.25em] text-[#d5dfbd] transition hover:text-white"
-            >
-              Discover the journey ↗
-            </a>
           </div>
-        </div>
 
-        {/* Impact Numbers */}
-        <div className="mb-24 grid grid-cols-2 gap-8 border-y border-white/15 py-12 md:grid-cols-4">
-          {[
-            ["01", "Stories of change"],
-            ["02", "Sustainable ideas"],
-            ["03", "Community action"],
-            ["04", "Greener futures"],
-          ].map(([number, label]) => (
-            <div key={number}>
-              <p className="mb-3 text-4xl font-light text-[#b5c58e]">
-                {number}
-              </p>
-              <p className="text-xs uppercase tracking-widest text-white/50">
-                {label}
-              </p>
+          <Link
+            to="/projects"
+            className="group mt-5 inline-flex items-center gap-3 rounded-full border border-[#397A48] px-4 py-2 text-xs font-semibold text-[#174D35] transition hover:bg-[#E8F1D9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3E8C2F] lg:absolute lg:bottom-11 lg:right-0 lg:mt-0"
+          >
+            View all stories
+            <ArrowRight
+              size={17}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+        </header>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Link
+            to={`/projects/${featuredStory.project.slug}`}
+            aria-label={`Read case study: ${featuredStory.project.title}`}
+            className="group grid overflow-hidden rounded-[1.6rem] border border-[#DDE7D0] bg-white/80 shadow-[0_16px_45px_rgba(27,67,50,0.1)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(27,67,50,0.16)] sm:grid-cols-2 lg:min-h-[410px]"
+          >
+            <div className="relative min-h-[250px] overflow-hidden sm:min-h-[370px]">
+              <img
+                src={featuredStory.image}
+                alt={featuredStory.imageAlt}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#092D21]/65 via-transparent to-[#092D21]/10" />
+              <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/35 bg-[#0A3A29]/65 px-3.5 py-2 text-[9px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-md sm:left-6 sm:top-6">
+                <Leaf size={13} className="text-lime-300" />
+                {featuredStory.category}
+              </span>
+              <span className="absolute bottom-5 left-5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/85 sm:bottom-6 sm:left-6">
+                Featured case study · {featuredStory.project.location}
+              </span>
             </div>
-          ))}
-        </div>
 
-        {/* More Stories */}
-        <div id="more-stories">
-          <div className="mb-12 flex items-end justify-between">
-            <div>
-              <p className="mb-3 text-xs tracking-[0.3em] text-[#b5c58e]">
-                EXPLORE OUR JOURNEYS
+            <div className="flex flex-col justify-center p-6 sm:p-7 lg:p-8">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#578A43]">
+                {featuredStory.project.title}
               </p>
-              <h3 className="text-4xl font-light md:text-5xl">
-                Stories that matter.
+              <h3 className="mt-3 font-display text-[clamp(1.65rem,2.4vw,2.2rem)] leading-[1.08] tracking-[-0.025em] text-[#123B2C]">
+                {featuredStory.title}
               </h3>
-            </div>
-            <span className="hidden text-sm text-white/40 md:block">
-              Discover · Learn · Inspire
-            </span>
-          </div>
+              <p className="mt-3 text-sm leading-6 text-[#52655A]">
+                {featuredStory.description}
+              </p>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {stories.map((story) => (
-              <article key={story.number} className="group">
-                <div className="relative mb-7 aspect-[4/5] overflow-hidden rounded-2xl">
+              <div className="mt-5 grid grid-cols-2 gap-3 border-t border-[#DDE7D0] pt-4">
+                {[featuredStory.project.results[0], featuredStory.project.results[2]].map(
+                  (result) => (
+                    <div key={result.label}>
+                      <p className="font-display text-2xl leading-none text-[#15543A] sm:text-3xl">
+                        {result.value}
+                      </p>
+                      <p className="mt-1.5 text-[10px] leading-4 text-[#617267] sm:text-xs">
+                        {result.label}
+                      </p>
+                    </div>
+                  )
+                )}
+              </div>
+
+              <span className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-[#14533A]">
+                Explore case study
+                <ArrowRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </span>
+            </div>
+          </Link>
+
+          <div className="grid gap-4 lg:grid-rows-2">
+            {supportingStories.map((story) => (
+              <Link
+                key={story.project.slug}
+                to={`/projects/${story.project.slug}`}
+                aria-label={`Read case study: ${story.project.title}`}
+                className="group grid overflow-hidden rounded-[1.45rem] border border-[#DDE7D0] bg-white/80 shadow-[0_12px_32px_rgba(27,67,50,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(27,67,50,0.14)] sm:grid-cols-2 lg:min-h-[197px]"
+              >
+                <div className="relative min-h-[180px] overflow-hidden sm:min-h-[197px]">
                   <img
                     src={story.image}
-                    alt={story.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    alt={story.imageAlt}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <span className="absolute left-5 top-5 text-sm text-white">
-                    {story.number} /
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#092D21]/35 to-transparent" />
+                </div>
+                <div className="flex min-w-0 flex-col justify-center p-5 sm:p-5 lg:p-5">
+                  <span className="w-fit rounded-full bg-[#EAF2DC] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[0.12em] text-[#28633B] sm:text-[9px]">
+                    {story.category}
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <span className="absolute bottom-5 left-5 text-xs uppercase tracking-widest text-[#d5dfbd]">
-                    {story.impact}
+                  <h3 className="mt-2.5 font-display text-xl leading-[1.08] tracking-[-0.02em] text-[#123B2C] sm:text-[1.35rem]">
+                    {story.project.title}
+                  </h3>
+                  <p className="mt-2 text-xs leading-5 text-[#52655A]">
+                    {story.description}
+                  </p>
+                  <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-semibold text-[#28633B]">
+                    Read story
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-lime-500/60 text-[#28633B] transition group-hover:bg-lime-300 group-hover:translate-x-0.5">
+                      <ArrowUpRight size={14} />
+                    </span>
                   </span>
                 </div>
-
-                <p className="mb-4 text-[10px] tracking-[0.25em] text-[#b5c58e]">
-                  {story.category}
-                </p>
-
-                <h4 className="mb-4 text-2xl font-light leading-snug transition-colors group-hover:text-[#b5c58e]">
-                  {story.title}
-                </h4>
-
-                <p className="text-sm leading-7 text-white/50">
-                  {story.description}
-                </p>
-
-                <div className="mt-7 h-px w-full bg-white/15 transition-all duration-500 group-hover:bg-[#b5c58e]" />
-              </article>
+              </Link>
             ))}
           </div>
         </div>
 
-        {/* Closing CTA */}
-        <div className="mt-28 rounded-3xl bg-[#dce4cf] px-8 py-14 text-center text-[#183527] md:px-16 md:py-20">
-          <p className="mb-5 text-xs tracking-[0.35em]">
-            BE PART OF THE CHANGE
-          </p>
-          <h3 className="mx-auto max-w-3xl text-4xl font-light leading-tight md:text-6xl">
-            Every great story begins with a small step.
-          </h3>
-          <a
-            href="/contact"
-            className="mt-9 inline-block rounded-full bg-[#183527] px-9 py-4 text-xs uppercase tracking-widest text-white transition hover:bg-[#345b42]"
-          >
-            Start Your Journey ↗
-          </a>
+        <div className="mt-7 grid grid-cols-2 gap-4 rounded-[1.6rem] border border-white/20 bg-gradient-to-r from-[#062D22] via-[#0B4A34] to-[#062D22] px-5 py-5 text-white shadow-[0_20px_45px_rgba(12,60,37,0.18)] sm:px-7 sm:py-6 lg:grid-cols-4">
+          {impactHighlights.map(({ value, label, context, icon: Icon }, index) => (
+            <div
+              key={label}
+              className={`flex items-center gap-3 ${
+                index < impactHighlights.length - 1
+                  ? "lg:border-r lg:border-white/20 lg:pr-4"
+                  : ""
+              }`}
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-lime-400/80 bg-lime-300/10 text-lime-300 sm:h-12 sm:w-12">
+                <Icon size={22} strokeWidth={1.7} />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-2xl leading-none text-white sm:text-[1.8rem]">
+                  {value}
+                </span>
+                <span className="mt-1 block text-[10px] font-medium leading-4 text-white/90 sm:text-xs">
+                  {label}
+                </span>
+                <span className="mt-0.5 block text-[9px] leading-4 text-white/55">
+                  {context}
+                </span>
+              </span>
+            </div>
+          ))}
         </div>
-
       </div>
     </section>
   );

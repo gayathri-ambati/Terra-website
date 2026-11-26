@@ -97,7 +97,7 @@ const ICONS: LucideIcon[] = [
 ];
 
 const BANNER_IMG =
-  'https://images.unsplash.com/photo-1508614999368-9260051292e5?auto=format&fit=crop&w=2200&q=85';
+  'https://i.pinimg.com/1200x/c5/68/bc/c568bc49e59ac32b8b58df0d98dd83ed.jpg';
 
 const W = 560;
 const H = 570;
