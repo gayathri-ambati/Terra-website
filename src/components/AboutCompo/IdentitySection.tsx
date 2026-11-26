@@ -168,28 +168,7 @@ export function IdentitySection() {
             </p>
           </Reveal>
 
-          <div className="mt-12 grid gap-6 w-full">
-
-            {/* Vision */}
-            <ClipReveal className="rounded-sm bg-forest-800 p-8 md:p-10 text-ivory">
-              <h3 className="label-caps text-sage-400">Vision</h3>
-              <p className="mt-4 font-display text-2xl leading-snug">
-                {company.vision}
-              </p>
-            </ClipReveal>
-
-            {/* Mission */}
-            <ClipReveal
-              delay={150}
-              className="rounded-sm bg-linen p-8 md:p-10 text-forest-800"
-            >
-              <h3 className="label-caps text-forest-600">Mission</h3>
-              <p className="mt-4 font-body text-base leading-relaxed">
-                {company.mission}
-              </p>
-            </ClipReveal>
-
-          </div>
+        
         </div>
 
         {/* RIGHT SIDE IMAGE COLLAGE - Unchanged */}
