@@ -73,21 +73,22 @@
 
 
 
-// pages/SolutionsPage.tsx
+
 import { ClosingCta } from '@/components/HomeCompo/ClosingCta';
 import PartnersSection from '@/components/SolutionsCompo/PartnersSection';
 import SolarEnergySection from '@/components/SolutionsCompo/SolarEnergySection';
-
-
-
 import { SolutionsHero } from '@/components/SolutionsCompo/SolutionsHero';
 import { SolutionsList } from '@/components/SolutionsCompo/SolutionsList';
+import SolutionsSection from '@/components/SolutionsCompo/SolutionsSection';
+import SolutionsShowcase from '@/components/SolutionsCompo/SolutionsShowcase';
 
 export function SolutionsPage() {
   return (
     <main>
       <SolutionsHero />
       <SolarEnergySection />
+      <SolutionsSection />
+      <SolutionsShowcase />
       <SolutionsList />
       <PartnersSection />
       <ClosingCta title={['Not sure where', 'to begin?']} cta="Request an energy audit" />
