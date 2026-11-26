@@ -465,7 +465,17 @@ export function AgricultureStrip() {
       ref={sectionRef}
       className="relative overflow-hidden bg-[#F2F0E8] py-20 md:py-28"
     >
-      <div className="shell">
+      {/* Soft ambient wash */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 top-1/3 h-[30rem] w-[30rem] rounded-full bg-[#D97818]/[0.06] blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 bottom-1/4 h-[28rem] w-[28rem] rounded-full bg-[#3297A9]/[0.07] blur-3xl"
+      />
+
+      <div className="shell relative">
         {/* Section introduction */}
         <div className="mx-auto max-w-5xl text-center">
           <Reveal>
@@ -518,9 +528,22 @@ export function AgricultureStrip() {
                           : 'polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%, 12% 50%)',
                       backgroundColor: isActive ? step.color : '#E4E5DD',
                       color: isActive ? '#FFFFFF' : '#284238',
+                      filter: isActive ? 'none' : 'saturate(0.85)',
                     }}
                   >
-                    <span className="flex items-center gap-3 px-5">
+                    {/* Inner glow on active */}
+                    {isActive && (
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 opacity-40"
+                        style={{
+                          background:
+                            'linear-gradient(180deg, rgba(255,255,255,0.35), transparent 60%)',
+                        }}
+                      />
+                    )}
+
+                    <span className="relative flex items-center gap-3 px-5">
                       <Icon
                         size={22}
                         strokeWidth={1.7}
@@ -548,7 +571,7 @@ export function AgricultureStrip() {
         {/* Active stage image and content */}
         <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <div className="relative min-h-[320px] overflow-hidden rounded-[1.75rem] bg-forest-900 sm:min-h-[460px]">
+            <div className="relative min-h-[320px] overflow-hidden rounded-[1.75rem] bg-forest-900 shadow-[0_30px_70px_-35px_rgba(7,24,18,0.6)] sm:min-h-[460px]">
               {steps.map((step, index) => (
                 <img
                   key={step.number}
@@ -567,9 +590,15 @@ export function AgricultureStrip() {
               ))}
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#071812]/85 via-[#071812]/10 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#071812]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#071812]/25 to-transparent" />
 
-              <div className="absolute left-5 top-5 z-10 flex items-center gap-3 rounded-full border border-white/30 bg-black/15 px-4 py-2 text-white backdrop-blur-sm sm:left-7 sm:top-7">
+              {/* Corner accents */}
+              <div aria-hidden className="absolute left-4 top-4 z-10 h-5 w-5 border-l border-t border-white/40" />
+              <div aria-hidden className="absolute right-4 top-4 z-10 h-5 w-5 border-r border-t border-white/40" />
+              <div aria-hidden className="absolute bottom-4 left-4 z-10 h-5 w-5 border-b border-l border-white/40" />
+              <div aria-hidden className="absolute bottom-4 right-4 z-10 h-5 w-5 border-b border-r border-white/40" />
+
+              <div className="absolute left-7 top-7 z-10 flex items-center gap-3 rounded-full border border-white/30 bg-black/20 px-4 py-2 text-white backdrop-blur-sm">
                 <span
                   className="h-2 w-2 rounded-full"
                   style={{ backgroundColor: currentStep.color }}
@@ -581,6 +610,11 @@ export function AgricultureStrip() {
 
               {currentStep.quote && (
                 <div className="absolute bottom-6 left-6 z-10 max-w-lg sm:bottom-9 sm:left-9">
+                  <span
+                    aria-hidden
+                    className="mb-3 block h-px w-10"
+                    style={{ backgroundColor: currentStep.color }}
+                  />
                   <p className="font-display text-xl leading-snug text-white sm:text-2xl">
                     {currentStep.quote}
                   </p>
@@ -590,10 +624,11 @@ export function AgricultureStrip() {
                 </div>
               )}
 
-              <div className="absolute bottom-6 right-6 z-10 font-mono text-xs tracking-[0.18em] text-white/85 sm:bottom-9 sm:right-9">
-                {currentStep.number}
-                <span className="mx-2 text-white/50">/</span>
-                05
+              <div className="absolute bottom-6 right-6 z-10 flex items-end gap-1.5 font-mono text-xs tracking-[0.18em] text-white/85 sm:bottom-9 sm:right-9">
+                <span className="text-3xl leading-none text-white">
+                  {currentStep.number}
+                </span>
+                <span className="mb-0.5 text-white/50">/ 05</span>
               </div>
 
               {/* Active step progress */}
@@ -611,12 +646,23 @@ export function AgricultureStrip() {
 
           <div className="flex flex-col justify-center lg:col-span-5">
             <Reveal key={currentStep.number} delay={100}>
-              <p
-                className="font-mono text-xs tracking-[0.2em]"
-                style={{ color: currentStep.color }}
-              >
-                FIELD JOURNEY / {currentStep.number}
-              </p>
+              <div className="flex items-center gap-3">
+                <span
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
+                  style={{ backgroundColor: currentStep.color }}
+                >
+                  {(() => {
+                    const Icon = currentStep.icon;
+                    return <Icon size={18} strokeWidth={1.8} />;
+                  })()}
+                </span>
+                <p
+                  className="font-mono text-xs tracking-[0.2em]"
+                  style={{ color: currentStep.color }}
+                >
+                  FIELD JOURNEY / {currentStep.number}
+                </p>
+              </div>
 
               <h3 className="mt-5 font-display text-3xl leading-tight text-forest-800 sm:text-4xl">
                 {currentStep.title}
@@ -638,7 +684,7 @@ export function AgricultureStrip() {
                     type="button"
                     onClick={showPrevious}
                     aria-label="Previous TRANSFORM stage"
-                    className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 text-forest-800 transition-colors hover:bg-forest-800 hover:text-white"
+                    className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 text-forest-800 transition-all duration-300 hover:-translate-x-0.5 hover:bg-forest-800 hover:text-white"
                   >
                     <ArrowLeft size={17} />
                   </button>
@@ -647,7 +693,7 @@ export function AgricultureStrip() {
                     type="button"
                     onClick={showNext}
                     aria-label="Next TRANSFORM stage"
-                    className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 text-forest-800 transition-colors hover:bg-forest-800 hover:text-white"
+                    className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 text-forest-800 transition-all duration-300 hover:translate-x-0.5 hover:bg-forest-800 hover:text-white"
                   >
                     <ArrowRight size={17} />
                   </button>
@@ -664,12 +710,14 @@ export function AgricultureStrip() {
                   onClick={() => setActiveStep(index)}
                   aria-label={`Show stage ${step.number}: ${step.label}`}
                   aria-pressed={activeStep === index}
-                  className="h-1.5 flex-1 rounded-full transition-all duration-300"
+                  className="group/marker h-1.5 flex-1 rounded-full transition-all duration-300"
                   style={{
                     backgroundColor:
                       activeStep === index ? step.color : '#C9CEC2',
                   }}
-                />
+                >
+                  <span className="sr-only">{step.label}</span>
+                </button>
               ))}
             </div>
           </div>

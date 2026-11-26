@@ -410,9 +410,6 @@
 
 
 
-
-
-
 import { useEffect, useRef, useState } from 'react';
 
 const PRINCIPLES = [
@@ -446,9 +443,9 @@ const PRINCIPLES = [
 ];
 
 const SCENE_POINTS = [
-  { x: 23, y: 62 },
-  { x: 50, y: 38 },
-  { x: 77, y: 62 },
+  { x: 24, y: 66 },
+  { x: 50, y: 36 },
+  { x: 76, y: 66 },
 ];
 
 function clamp(value: number, min: number, max: number) {
@@ -491,7 +488,6 @@ export function Story() {
           return;
         }
 
-        // Match image progress to the principle closest to the viewport center.
         const viewportAnchor = window.innerHeight * 0.5;
         const centers = items.map((item) => {
           const rect = item!.getBoundingClientRect();
@@ -521,7 +517,6 @@ export function Story() {
           Math.abs(current - nextProgress) < 0.002 ? current : nextProgress
         );
 
-        // Subtle gallery drift follows the page scroll.
         const section = sectionRef.current;
         const gallery = galleryRef.current;
 
@@ -535,7 +530,7 @@ export function Story() {
           } else {
             const rect = section.getBoundingClientRect();
             const drift = clamp(
-              (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.018,
+              (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.015,
               -12,
               12
             );
@@ -583,10 +578,7 @@ export function Story() {
           <div>
             {PRINCIPLES.map((principle, index) => {
               const isActive = activeIndex === index;
-              const distance = Math.min(
-                Math.abs(boundedProgress - index),
-                1
-              );
+              const distance = Math.min(Math.abs(boundedProgress - index), 1);
 
               return (
                 <article
@@ -637,14 +629,15 @@ export function Story() {
           </div>
         </div>
 
-        {/* Scroll-synced image journey */}
+        {/* Scroll-synced image journey — full-bleed, no dark block */}
         <div className="lg:col-span-7">
           <div className="lg:sticky lg:top-0">
-            <div className="relative h-[480px] overflow-hidden sm:h-[600px] lg:h-[100svh]">
+            <div className="relative h-[520px] sm:h-[640px] lg:h-[100svh]">
               <div
                 ref={galleryRef}
                 className="absolute inset-0 will-change-transform"
               >
+                {/* Path — drawn directly on the cream background */}
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 100 100"
@@ -652,78 +645,104 @@ export function Story() {
                   className="pointer-events-none absolute inset-0 h-full w-full"
                 >
                   <path
-                    d="M 23 62 C 32 62, 39 38, 50 38 S 68 62, 77 62"
+                    d="M 24 66 C 33 66, 40 36, 50 36 S 67 66, 76 66"
                     fill="none"
-                    stroke="rgba(39, 75, 60, 0.28)"
-                    strokeWidth="0.4"
-                    strokeDasharray="1.2 1.8"
+                    stroke="rgba(39, 75, 60, 0.22)"
+                    strokeWidth="0.45"
+                    strokeDasharray="1.4 2"
                     vectorEffect="non-scaling-stroke"
                   />
 
                   <path
-                    d="M 23 62 C 32 62, 39 38, 50 38 S 68 62, 77 62"
+                    d="M 24 66 C 33 66, 40 36, 50 36 S 67 66, 76 66"
                     fill="none"
                     stroke="#9D8B5B"
-                    strokeWidth="0.55"
+                    strokeWidth="0.6"
                     strokeDasharray="1000"
-                    strokeDashoffset={1000 - (boundedProgress / lastIndex) * 1000}
+                    strokeDashoffset={
+                      1000 - (boundedProgress / lastIndex) * 1000
+                    }
                     pathLength="1000"
                     vectorEffect="non-scaling-stroke"
                   />
                 </svg>
 
+                {/* Images — free-floating, no card frame */}
                 {PRINCIPLES.map((principle, index) => {
                   const distance = Math.min(
                     Math.abs(boundedProgress - index),
                     1
                   );
-                  const scale = 1 - distance * 0.38;
-                  const opacity = 1 - distance * 0.36;
+                  const scale = 1 - distance * 0.3;
+                  const opacity = 1 - distance * 0.25;
                   const point = SCENE_POINTS[index];
+                  const isActive = index === activeIndex;
 
                   return (
                     <figure
                       key={principle.number}
-                      className="absolute overflow-hidden rounded-3xl"
+                      className="absolute"
                       style={{
                         left: `${point.x}%`,
                         top: `${point.y}%`,
-                        width: `${46 * scale}%`,
-                        height: `${60 * scale}%`,
+                        width: `${42 * scale}%`,
+                        height: `${56 * scale}%`,
                         opacity,
                         transform: 'translate(-50%, -50%)',
-                        transformOrigin: 'center',
-                        filter: `saturate(${1 - distance * 0.25})`,
+                        filter: `saturate(${1 - distance * 0.3}) brightness(${
+                          1 - distance * 0.15
+                        })`,
                         zIndex: 20 - Math.round(distance * 10),
                       }}
                     >
-                      <img
-                        src={principle.image}
-                        alt={principle.imageAlt}
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        referrerPolicy="no-referrer"
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
+                      {/* Off-white frame — like a printed photo on a page */}
+                      <div className="relative h-full w-full bg-white p-2 shadow-[0_20px_50px_-25px_rgba(39,75,60,0.35)] sm:p-3">
+                        <div className="relative h-full w-full overflow-hidden">
+                          <img
+                            src={principle.image}
+                            alt={principle.imageAlt}
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            referrerPolicy="no-referrer"
+                            className="absolute inset-0 h-full w-full object-cover"
+                          />
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#081610]/90 via-[#081610]/15 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-                      <figcaption
-                        className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7"
-                        style={{ opacity: index === activeIndex ? 1 : 0 }}
-                      >
-                        <span className="font-mono text-[10px] tracking-[0.18em] text-[#E1D2A7]">
-                          {principle.number} / FIELD NOTES
-                        </span>
-
-                        <span className="mt-2 block max-w-[18rem] font-display text-xl leading-tight sm:text-2xl">
-                          {principle.imageCaption}
-                        </span>
-                      </figcaption>
+                          <figcaption
+                            className="absolute inset-x-0 bottom-0 p-4 transition-opacity duration-500"
+                            style={{ opacity: isActive ? 1 : 0 }}
+                          >
+                            <span className="font-mono text-[9px] tracking-[0.18em] text-[#E1D2A7]">
+                              {principle.number}
+                            </span>
+                            <span className="mt-1 block font-display text-sm leading-tight text-white sm:text-base">
+                              {principle.imageCaption}
+                            </span>
+                          </figcaption>
+                        </div>
+                      </div>
                     </figure>
                   );
                 })}
 
-                {/* Traveler follows the same scroll progress */}
+                {/* Station dots on the path */}
+                {SCENE_POINTS.map((point, i) => (
+                  <div
+                    key={i}
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${point.x}%`, top: `${point.y}%` }}
+                  >
+                    <span
+                      className={`block rounded-full border-2 transition-all duration-500 ${
+                        i === activeIndex
+                          ? 'h-3 w-3 border-[#9D8B5B] bg-[#9D8B5B]'
+                          : 'h-2.5 w-2.5 border-forest-800/30 bg-[#EEECE2]'
+                      }`}
+                    />
+                  </div>
+                ))}
+
+                {/* Traveller */}
                 <div
                   className="absolute z-30"
                   style={{
@@ -735,7 +754,7 @@ export function Story() {
                 >
                   <svg
                     viewBox="0 0 32 40"
-                    className="h-8 w-7 drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
+                    className="h-8 w-7 drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
                     fill="none"
                   >
                     <circle
@@ -748,7 +767,7 @@ export function Story() {
                     />
                     <path
                       d="M16 12v11m0-7-7 5m7-5 7 4m-7-1-6 10m6-10 7 9"
-                      stroke="#EEECE2"
+                      stroke="#274B3C"
                       strokeWidth="2.2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -757,15 +776,15 @@ export function Story() {
                 </div>
               </div>
 
-              <div className="absolute right-5 top-5 z-30 font-mono text-xs tracking-widest text-white/80 sm:right-8 sm:top-8">
-                {String(activeIndex + 1).padStart(2, '0')}
-                <span className="mx-2 text-white/45">/</span>
-                {String(PRINCIPLES.length).padStart(2, '0')}
+              {/* Minimal index — just text on the cream, no chip */}
+              <div className="absolute bottom-6 right-6 z-30 text-right">
+                <div className="font-display text-4xl leading-none text-forest-800/80">
+                  {String(activeIndex + 1).padStart(2, '0')}
+                </div>
+                <div className="mt-1 font-mono text-[9px] tracking-[0.2em] text-forest-800/40">
+                  / {String(PRINCIPLES.length).padStart(2, '0')}
+                </div>
               </div>
-
-              <p className="absolute bottom-5 right-5 z-30 text-[8px] font-semibold uppercase tracking-[0.18em] text-white/65 sm:bottom-8 sm:right-8">
-                A considered path forward
-              </p>
             </div>
           </div>
         </div>

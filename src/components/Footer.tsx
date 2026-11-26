@@ -105,7 +105,6 @@
 
 
 
-
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -117,8 +116,7 @@ import {
   Instagram,
   Twitter,
 } from "lucide-react";
-import { MaskedLines } from "@/components/Reveal";
-import logo from "@/assets/logo.avif"; 
+import logo from "@/assets/logo.avif";
 
 const NAV = [
   { to: "/about", label: "About" },
@@ -130,63 +128,36 @@ const NAV = [
 ];
 
 const SOCIALS = [
-  {
-    label: "LinkedIn",
-    href: "#",
-    icon: Linkedin,
-  },
-  {
-    label: "Instagram",
-    href: "#",
-    icon: Instagram,
-  },
-  {
-    label: "Twitter / X",
-    href: "#",
-    icon: Twitter,
-  },
-  {
-    label: "YouTube",
-    href: "#",
-    icon: Youtube,
-  },
+  { label: "LinkedIn", href: "#", icon: Linkedin },
+  { label: "Instagram", href: "#", icon: Instagram },
+  { label: "Twitter / X", href: "#", icon: Twitter },
+  { label: "YouTube", href: "#", icon: Youtube },
 ];
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-white text-black">
-      <div className="shell pb-10 pt-24 md:pt-32">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-white via-stone-50 to-stone-100 text-black">
+      {/* Decorative background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-green-200/40 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-100/50 blur-3xl"
+      />
 
-        {/* Footer Heading */}
-        {/* <MaskedLines
-          lines={["More than a website.", "A story of impact."]}
-          className="headline-xl max-w-5xl text-black"
-        />
-
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          <Link
-            to="/contact"
-            className="btn-ghost-light border border-black text-black hover:bg-black hover:text-white"
-          >
-            Start a conversation <ArrowUpRight size={16} />
-          </Link>
-
-          <span className="font-body text-sm text-black/50">
-            or write to us directly — we reply within two working days.
-          </span>
-        </div> */}
-
+      <div className="shell relative pb-10 pt-12 md:pt-16">
         {/* Footer Content */}
-        <div className="mt-20 grid gap-12 border-t border-black/10 pt-14 md:grid-cols-2 lg:grid-cols-4">
-
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <Link to="/" className="inline-flex items-center">
-             <img
-              src={logo}
-              alt="Terra Ecopreneurs"
-              className="h-20 w-26 object-contain"
-            />
+              <img
+                src={logo}
+                alt="Terra Ecopreneurs"
+                className="h-24 w-auto object-contain md:h-28"
+              />
             </Link>
 
             <p className="mt-5 max-w-xs font-body text-sm leading-relaxed text-black/60">
@@ -194,6 +165,14 @@ export function Footer() {
               solutions that deliver verified outcomes for industry,
               communities and the environment.
             </p>
+
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-green-700/20 bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-green-600" />
+              </span>
+              Based in Coimbatore, India
+            </div>
           </div>
 
           {/* Explore */}
@@ -205,8 +184,9 @@ export function Footer() {
                 <li key={n.to}>
                   <Link
                     to={n.to}
-                    className="font-body text-sm text-black/70 transition-colors hover:text-green-700"
+                    className="group inline-flex items-center gap-2 font-body text-sm text-black/70 transition-colors hover:text-green-700"
                   >
+                    <span className="h-px w-0 bg-green-700 transition-all duration-300 group-hover:w-3" />
                     {n.label}
                   </Link>
                 </li>
@@ -220,18 +200,12 @@ export function Footer() {
 
             <ul className="mt-5 space-y-4 font-body text-sm text-black/70">
               <li className="flex gap-3">
-                <MapPin
-                  size={16}
-                  className="mt-0.5 shrink-0 text-green-700"
-                />
+                <MapPin size={16} className="mt-0.5 shrink-0 text-green-700" />
                 <span>Coimbatore, Tamil Nadu, India</span>
               </li>
 
               <li className="flex gap-3">
-                <Mail
-                  size={16}
-                  className="mt-0.5 shrink-0 text-green-700"
-                />
+                <Mail size={16} className="mt-0.5 shrink-0 text-green-700" />
                 <a
                   href="mailto:hello@terraeco.in"
                   className="transition-colors hover:text-green-700"
@@ -241,10 +215,7 @@ export function Footer() {
               </li>
 
               <li className="flex gap-3">
-                <Phone
-                  size={16}
-                  className="mt-0.5 shrink-0 text-green-700"
-                />
+                <Phone size={16} className="mt-0.5 shrink-0 text-green-700" />
                 <span>+91 (0) 422 000 0000</span>
               </li>
             </ul>
@@ -263,11 +234,13 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-3 font-body text-sm text-black/70 transition-colors duration-300 hover:text-green-700"
                   >
-                    <Icon
-                      size={18}
-                      strokeWidth={1.8}
-                      className="transition-transform duration-300 group-hover:scale-110"
-                    />
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white transition-all duration-300 group-hover:border-green-700/30 group-hover:bg-green-50">
+                      <Icon
+                        size={16}
+                        strokeWidth={1.8}
+                        className="transition-transform duration-300 group-hover:scale-110"
+                      />
+                    </span>
 
                     <span>{label}</span>
 
@@ -283,13 +256,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Footer */}
-        <div className="mt-16 flex flex-col gap-3 border-t border-black/10 pt-8 text-xs text-black/40 md:flex-row md:items-center md:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-black/10 pt-8 text-xs text-black/40 md:flex-row md:items-center md:justify-between">
           <span>
             © {new Date().getFullYear()} Terra Ecopreneurs. All rights reserved.
           </span>
 
-          <span>
-            Nature inspires. Engineering transforms. Impact defines us.
+          <span className="font-body tracking-wide">
+            Nature inspires. Engineering transforms.{" "}
+            <span className="text-green-700">Impact defines us.</span>
           </span>
         </div>
       </div>
