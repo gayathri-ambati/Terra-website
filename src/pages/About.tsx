@@ -116,6 +116,7 @@ import { AboutValues } from '@/components/AboutCompo/Ourvalues';
 import TeamSection from '@/components/AboutCompo/TeamSection';
 
 
+
 export function AboutPage() {
   return (
     <main>
