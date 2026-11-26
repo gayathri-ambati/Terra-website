@@ -395,6 +395,7 @@ export function HomePage() {
       {/* <TerraCinematicHero /> */}
       <Hero />
       <BrandIntro />
+      <TerraCinematicHero />
       <ImpactStats />
       <Story />
       <Expertise />

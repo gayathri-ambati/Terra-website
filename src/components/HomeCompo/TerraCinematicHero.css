@@ -1,0 +1,475 @@
+
+.terra-scroll-section {
+  position: relative;
+  height: 550vh;
+  background: #07140f;
+  color: #f5f2e8;
+}
+
+.terra-sticky-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #07140f;
+}
+
+.terra-background {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse at 72% 45%,
+      rgba(55, 103, 65, 0.27),
+      transparent 48%
+    ),
+    linear-gradient(
+      120deg,
+      #07140f 0%,
+      #10291d 55%,
+      #07140f 100%
+    );
+}
+
+.terra-background-glow {
+  position: absolute;
+  width: 55vw;
+  height: 55vw;
+  top: 10%;
+  right: 0;
+  border-radius: 50%;
+  background: rgba(180, 151, 77, 0.07);
+  filter: blur(120px);
+}
+
+.terra-grid-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.1) 1px,
+      transparent 1px
+    );
+  background-size: 90px 90px;
+}
+
+.terra-machine-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.terra-machine-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.terra-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  background: #07140f;
+  color: #d5c99c;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.terra-loader {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(213, 168, 76, 0.2);
+  border-top-color: #d5a84c;
+  border-radius: 50%;
+  animation: terra-spin 1s linear infinite;
+}
+
+@keyframes terra-spin {
+  to { transform: rotate(360deg); }
+}
+
+.terra-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px 6%;
+}
+
+.terra-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+.terra-brand-symbol {
+  width: 37px;
+  height: 37px;
+  border: 1px solid rgba(213, 168, 76, 0.7);
+  color: #d5a84c;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, serif;
+  font-size: 22px;
+}
+
+.terra-top-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #a8b6a6;
+}
+
+.terra-content {
+  position: absolute;
+  z-index: 3;
+  left: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(450px, 40%);
+  animation: terra-text-reveal 0.7s ease both;
+}
+
+@keyframes terra-text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 25px));
+    clip-path: inset(0 0 20% 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.terra-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #d5a84c;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+.terra-eyebrow-line {
+  height: 1px;
+  width: 35px;
+  background: #d5a84c;
+}
+
+.terra-content h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(43px, 5.5vw, 76px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -2.8px;
+  margin: 0;
+  color: #f5f2e8;
+}
+
+.terra-content h1 span {
+  color: #d5b36d;
+  font-style: italic;
+}
+
+.terra-content p {
+  max-width: 390px;
+  margin-top: 26px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #c0c9bd;
+  font-weight: 300;
+}
+
+.terra-chapter-number {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 42px;
+  color: #c3c8b9;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.terra-chapter-number span:first-child {
+  color: #d5a84c;
+  font-size: 17px;
+}
+
+.terra-number-divider {
+  height: 20px;
+  width: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+.terra-bottom {
+  position: absolute;
+  bottom: 35px;
+  left: 6%;
+  right: 6%;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terra-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #d5d8c9;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.terra-scroll-icon {
+  color: #d5a84c;
+  font-size: 19px;
+}
+
+.terra-progress {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 200px;
+  color: #c9cfbf;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.terra-progress-track {
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+  flex: 1;
+  overflow: hidden;
+}
+
+.terra-progress-fill {
+  height: 100%;
+  background: #d5a84c;
+  transition: width 0.1s linear;
+}
+
+.terra-progress-percentage {
+  color: #d5a84c;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.terra-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 17, 11, 0.9) 0%,
+      rgba(4, 17, 11, 0.62) 27%,
+      rgba(4, 17, 11, 0.05) 70%,
+      rgba(4, 17, 11, 0.12) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(4,17,11,0.5),
+      transparent 22%,
+      transparent 80%,
+      rgba(4,17,11,0.3)
+    );
+}
+
+@media (max-width: 767px) {
+  .terra-scroll-section {
+    height: 400vh;
+  }
+
+  .terra-topbar {
+    padding: 22px 6%;
+  }
+
+  .terra-brand {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .terra-brand-symbol {
+    width: 31px;
+    height: 31px;
+  }
+
+  .terra-top-label {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .terra-machine-canvas {
+    height: 58%;
+    margin-top: -35px;
+  }
+
+  .terra-content {
+    top: auto;
+    bottom: 115px;
+    left: 7%;
+    transform: none;
+    width: 86%;
+  }
+
+  @keyframes terra-text-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .terra-eyebrow {
+    margin-bottom: 16px;
+    font-size: 8px;
+  }
+
+  .terra-content h1 {
+    font-size: clamp(37px, 10vw, 53px);
+    letter-spacing: -1.5px;
+  }
+
+  .terra-content p {
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 15px;
+    max-width: 340px;
+  }
+
+  .terra-chapter-number {
+    margin-top: 18px;
+  }
+
+  .terra-bottom {
+    left: 7%;
+    right: 7%;
+    bottom: 25px;
+  }
+
+  .terra-progress {
+    width: 115px;
+    gap: 8px;
+  }
+
+  .terra-scroll-hint {
+    font-size: 7px;
+    gap: 5px;
+  }
+
+  .terra-progress-percentage {
+    display: none;
+  }
+
+  .terra-vignette {
+    background: linear-gradient(
+      0deg,
+      rgba(4,17,11,0.95) 0%,
+      rgba(4,17,11,0.55) 38%,
+      rgba(4,17,11,0.05) 100%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terra-loader {
+    animation: none;
+  }
+
+  .terra-content {
+    animation: none;
+  }
+}
+
+
+
+/* Performance improvements */
+
+.terra-scroll-section {
+  position: relative;
+  isolation: isolate;
+  contain: layout style;
+}
+
+.terra-sticky-stage {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.terra-machine-container {
+  contain: strict;
+  overflow: hidden;
+}
+
+.terra-machine-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.terra-progress-track {
+  overflow: hidden;
+}
+
+.terra-progress-fill {
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: none;
+  will-change: transform;
+}
+
+.terra-content {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.terra-vignette {
+  pointer-events: none;
+}
+
+/* Reduce unnecessary animation on mobile */
+@media (max-width: 767px) {
+  .terra-machine-container {
+    contain: layout paint;
+  }
+
+  .terra-content {
+    will-change: auto;
+  }
+}

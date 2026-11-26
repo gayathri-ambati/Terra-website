@@ -1570,7 +1570,6 @@
 
 
 
-
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -1797,7 +1796,7 @@ export function SolutionIndex() {
         if (bannerImageRef.current) {
           const imageOffset = (progress - 0.5) * -34;
           bannerImageRef.current.style.transform =
-            `scale(1.1) translate3d(0, ${imageOffset}px, 0)`;
+            `scale(1.12) translate3d(0, ${imageOffset}px, 0)`;
         }
 
         if (ringRef.current) {
@@ -1875,41 +1874,56 @@ export function SolutionIndex() {
       ref={sectionRef}
       className="relative overflow-hidden bg-gradient-to-b from-white to-[#F3F6F2]"
     >
-      {/* Parallax banner */}
-      <div className="relative h-[340px] overflow-hidden sm:h-[380px] xl:h-[420px]">
-        <img
-          ref={bannerImageRef}
-          src={BANNER_IMG}
-          alt="Renewable energy infrastructure at dusk"
-          className="absolute inset-0 h-full w-full object-cover will-change-transform"
-        />
+      {/* Full-bleed hero banner */}
+      <div className="relative pb-4 pt-4 sm:pb-6 sm:pt-6 xl:pt-8">
+        <div className="shell relative">
+          <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem]">
+            <div className="relative h-[280px] sm:h-[360px] xl:h-[440px]">
+              {/* Full-bleed image */}
+              <img
+                ref={bannerImageRef}
+                src={BANNER_IMG}
+                alt="Renewable energy infrastructure at dusk"
+                className="absolute inset-0 h-full w-full object-cover will-change-transform"
+              />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#061D22]/85 via-[#0B3A45]/55 to-[#0B3A45]/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(120,200,150,0.2),transparent_60%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/25 to-transparent" />
+              {/* Gradient overlays for legibility */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#061D22]/85 via-[#0B3A45]/55 to-[#0B3A45]/25" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#061D22]/60 via-transparent to-[#061D22]/20" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(120,200,150,0.18),transparent_65%)]" />
 
-        <div className="shell relative z-10 flex h-full flex-col items-center justify-center px-5 text-center">
-          <Reveal>
-            <p className="mb-4 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/85 sm:text-xs">
-              <span className="h-px w-8 bg-[#C8DDAA]" />
-              Terra Ecopreneurs · Capabilities
-              <span className="h-px w-8 bg-[#C8DDAA]" />
-            </p>
+              {/* Corner accents */}
+              <div aria-hidden className="absolute left-5 top-5 z-10 h-6 w-6 border-l border-t border-white/30 sm:left-7 sm:top-7" />
+              <div aria-hidden className="absolute right-5 top-5 z-10 h-6 w-6 border-r border-t border-white/30 sm:right-7 sm:top-7" />
+              <div aria-hidden className="absolute bottom-5 left-5 z-10 h-6 w-6 border-b border-l border-white/30 sm:bottom-7 sm:left-7" />
+              <div aria-hidden className="absolute bottom-5 right-5 z-10 h-6 w-6 border-b border-r border-white/30 sm:bottom-7 sm:right-7" />
 
-            <h2 className="whitespace-nowrap font-display text-[clamp(1rem,4.5vw,3.4rem)] leading-tight text-white">
-              Eight disciplines. One purpose.
-            </h2>
+              {/* Text overlay */}
+              <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 text-center">
+                <Reveal>
+                  <p className="mb-3 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/85 sm:text-xs">
+                    <span className="h-px w-8 bg-[#C8DDAA]" />
+                    Terra Ecopreneurs · Capabilities
+                    <span className="h-px w-8 bg-[#C8DDAA]" />
+                  </p>
 
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base lg:text-lg">
-              Every discipline works as part of one connected system, from the
-              first audit to long-term performance.
-            </p>
-          </Reveal>
+                  <h2 className="whitespace-nowrap font-display text-[clamp(1rem,4.5vw,3rem)] leading-tight text-white">
+                    Eight disciplines. One purpose.
+                  </h2>
+
+                  <p className="mx-auto mt-3 max-w-xl text-xs leading-relaxed text-white/80 sm:text-sm lg:text-base">
+                    Every discipline works as part of one connected system, from
+                    the first audit to long-term performance.
+                  </p>
+                </Reveal>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Ring overlaps the banner; service labels begin at the banner edge */}
-      <div className="shell relative z-10 -mt-14 pb-14 sm:-mt-20 sm:pb-16 xl:-mt-[120px] xl:pb-20">
+      {/* Ring overlaps the hero */}
+      <div className="shell relative z-10 -mt-16 pb-12 sm:-mt-24 sm:pb-14 xl:-mt-[140px] xl:pb-16">
         <div className="grid items-start xl:grid-cols-[minmax(0,1fr)_500px_minmax(0,1fr)] xl:gap-x-6">
           {/* Capabilities 01–04 */}
           <div className="hidden flex-col gap-3 pt-[120px] xl:flex xl:min-h-[600px]">
@@ -1961,15 +1975,11 @@ export function SolutionIndex() {
               >
                 {ITEMS.map((capability, index) => {
                   const end = ARC_START - index * step - GAP / 2;
-                  const start =
-                    ARC_START - (index + 1) * step + GAP / 2;
+                  const start = ARC_START - (index + 1) * step + GAP / 2;
                   const middle = ARC_START - (index + 0.5) * step;
                   const isActive = hovered === index;
                   const push = polar(isActive ? 7 : 0, middle);
-                  const center = polar(
-                    (RING_OUTER + RING_INNER) / 2,
-                    middle
-                  );
+                  const center = polar((RING_OUTER + RING_INNER) / 2, middle);
                   const Icon = ICONS[index % ICONS.length];
 
                   return (
@@ -1989,7 +1999,8 @@ export function SolutionIndex() {
                       <g
                         style={{
                           transform: `translate(${push.x - CX}px, ${push.y - CY}px)`,
-                          transition: 'transform 280ms cubic-bezier(0.2,0.75,0.25,1)',
+                          transition:
+                            'transform 280ms cubic-bezier(0.2,0.75,0.25,1)',
                         }}
                       >
                         <path
@@ -2066,13 +2077,7 @@ export function SolutionIndex() {
                   THE TERRA APPROACH
                 </text>
 
-                <line
-                  x1="215"
-                  y1="230"
-                  x2="345"
-                  y2="230"
-                  stroke="#C9D3CB"
-                />
+                <line x1="215" y1="230" x2="345" y2="230" stroke="#C9D3CB" />
 
                 <text
                   x={CX}
@@ -2096,13 +2101,7 @@ export function SolutionIndex() {
                   PROGRESS.
                 </text>
 
-                <line
-                  x1="215"
-                  y1="340"
-                  x2="345"
-                  y2="340"
-                  stroke="#C9D3CB"
-                />
+                <line x1="215" y1="340" x2="345" y2="340" stroke="#C9D3CB" />
               </g>
             </svg>
           </div>

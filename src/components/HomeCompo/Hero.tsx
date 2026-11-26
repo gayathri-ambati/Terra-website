@@ -5186,35 +5186,35 @@ const riseStyle = (isActive: boolean, delay: number): CSSProperties => ({
 });
 
 /* ------------------------------------------------------------------ */
-/*  ARC GEOMETRY (pixel based, so nothing is ever stretched)           */
-/*                                                                     */
-/*  Anchor points, as fractions of the hero box:                       */
-/*    top       (0.715, 0.00)                                          */
-/*    leftmost  (0.564, 0.51)   <- the bulge of the ellipse            */
-/*    bottom    (0.830, 1.00)                                          */
+/*  WAVE ARC GEOMETRY                                                  */
+/*  One function, arcX(y), defines the shape. The clip, glow and echo  */
+/*  lines are all derived from it, so no lines can ever cross.         */
+/*  x and y are fractions of the hero box (0..1).                      */
 /* ------------------------------------------------------------------ */
-function edgePath(w: number, h: number, off = 0) {
-  const x0 = 0.715 * w - off * 0.9;
-  const xm = 0.564 * w - off;
-  const x2 = 0.83 * w - off * 1.6;
-  return [
-    `M ${x0} 0`,
-    `C ${0.61 * w - off} ${0.06 * h}, ${xm} ${0.27 * h}, ${xm} ${0.51 * h}`,
-    `C ${xm} ${0.72 * h}, ${0.68 * w - off} ${0.9 * h}, ${x2} ${h}`,
-  ].join(' ');
+const STEPS = 120;
+const ARC_TOP = 0.68; // where the arc meets the top edge
+const ARC_BOTTOM = 0.845; // where the arc lands on the bottom edge
+const ARC_DEPTH = 0.125; // how far the bulge pushes left
+const ARC_TAIL = 2.2; // higher = bottom sweep happens later
+
+const arcX = (y: number) =>
+  ARC_TOP +
+  (ARC_BOTTOM - ARC_TOP) * Math.pow(y, ARC_TAIL) -
+  ARC_DEPTH * Math.sin(Math.PI * y);
+
+function arcPoints(w: number, h: number, d = 0) {
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i <= STEPS; i++) {
+    const y = i / STEPS;
+    pts.push([(arcX(y) - d * Math.sin(Math.PI * y)) * w, y * h]);
+  }
+  return pts;
 }
 
-function wavePath(w: number, h: number, i: number, n: number) {
-  const t = i / (n - 1); // 0..1 across the bundle
-  const y0 = (0.9 + t * 0.07) * h; // start spread at the left
-  const yMid = (0.79 + t * 0.035) * h; // crest spread
-  const endX = (0.8 + t * 0.07) * w; // all converge on the edge near the bottom
-  return [
-    `M ${0.04 * w} ${y0}`,
-    `C ${0.28 * w} ${y0 + 0.03 * h}, ${0.4 * w} ${yMid - 0.01 * h}, ${0.58 * w} ${yMid}`,
-    `C ${0.68 * w} ${yMid + 0.012 * h}, ${0.76 * w} ${0.93 * h}, ${endX} ${h}`,
-  ].join(' ');
-}
+const toPath = (pts: Array<[number, number]>) =>
+  pts
+    .map(([x, y], i) => `${i ? 'L' : 'M'} ${x.toFixed(1)} ${y.toFixed(1)}`)
+    .join(' ');
 
 function useBox<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -5223,8 +5223,7 @@ function useBox<T extends HTMLElement>() {
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const update = () =>
-      setSize({ w: el.offsetWidth, h: el.offsetHeight });
+    const update = () => setSize({ w: el.offsetWidth, h: el.offsetHeight });
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
@@ -5235,7 +5234,7 @@ function useBox<T extends HTMLElement>() {
 }
 
 function ArcDefs({ w, h }: { w: number; h: number }) {
-  const clip = `${edgePath(w, h)} L ${w} ${h} L ${w} 0 Z`;
+  const clip = `${toPath(arcPoints(w, h))} L ${w} ${h} L ${w} 0 Z`;
   return (
     <svg width="0" height="0" className="absolute" aria-hidden="true">
       <defs>
@@ -5248,7 +5247,8 @@ function ArcDefs({ w, h }: { w: number; h: number }) {
 }
 
 function ArcGlow({ w, h }: { w: number; h: number }) {
-  const waves = 9;
+  const edge = toPath(arcPoints(w, h));
+
   return (
     <svg
       width={w}
@@ -5266,35 +5266,9 @@ function ArcGlow({ w, h }: { w: number; h: number }) {
           x2="0"
           y2={h}
         >
-          <stop offset="0%" stopColor={GREEN} stopOpacity="0.25" />
+          <stop offset="0%" stopColor={GREEN} stopOpacity="0.3" />
           <stop offset="35%" stopColor={GREEN_SOFT} stopOpacity="1" />
-          <stop offset="100%" stopColor={GREEN} stopOpacity="0.95" />
-        </linearGradient>
-
-        <linearGradient
-          id="arc-blue"
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2={h}
-        >
-          <stop offset="0%" stopColor="#2BA6C9" stopOpacity="0" />
-          <stop offset="50%" stopColor="#2BA6C9" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#3DDC97" stopOpacity="0.35" />
-        </linearGradient>
-
-        <linearGradient
-          id="arc-wave"
-          gradientUnits="userSpaceOnUse"
-          x1={0.04 * w}
-          y1="0"
-          x2={0.7 * w}
-          y2="0"
-        >
-          <stop offset="0%" stopColor="#1E6FA8" stopOpacity="0" />
-          <stop offset="50%" stopColor="#2BA6C9" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#3DDC97" stopOpacity="0.95" />
+          <stop offset="100%" stopColor={GREEN} stopOpacity="1" />
         </linearGradient>
 
         <filter id="arc-blur" x="-20%" y="-20%" width="140%" height="140%">
@@ -5307,44 +5281,33 @@ function ArcGlow({ w, h }: { w: number; h: number }) {
 
       {/* soft teal haze outside the edge */}
       <path
-        d={edgePath(w, h, 18)}
+        d={toPath(arcPoints(w, h, 0.02))}
         fill="none"
         stroke="#1B8DA6"
         strokeWidth="60"
-        opacity="0.3"
+        opacity="0.28"
         filter="url(#arc-blur-wide)"
       />
 
-      {/* outer echo lines */}
+      {/* echo lines: same curve pushed outward, converge at top/bottom */}
       <path
-        d={edgePath(w, h, 0.03 * w)}
+        d={toPath(arcPoints(w, h, 0.03))}
         fill="none"
-        stroke="url(#arc-blue)"
-        strokeWidth="1.3"
-      />
-      <path
-        d={edgePath(w, h, 0.065 * w)}
-        fill="none"
-        stroke="url(#arc-blue)"
-        strokeWidth="1"
+        stroke="#2BA6C9"
+        strokeWidth="1.2"
         opacity="0.55"
       />
-
-      {/* bottom wave bundle */}
-      {Array.from({ length: waves }).map((_, i) => (
-        <path
-          key={i}
-          d={wavePath(w, h, i, waves)}
-          fill="none"
-          stroke="url(#arc-wave)"
-          strokeWidth="1"
-          opacity={0.95 - i * 0.08}
-        />
-      ))}
+      <path
+        d={toPath(arcPoints(w, h, 0.065))}
+        fill="none"
+        stroke="#2BA6C9"
+        strokeWidth="1"
+        opacity="0.3"
+      />
 
       {/* glowing green edge */}
       <path
-        d={edgePath(w, h)}
+        d={edge}
         fill="none"
         stroke={GREEN}
         strokeWidth="8"
@@ -5352,15 +5315,16 @@ function ArcGlow({ w, h }: { w: number; h: number }) {
         filter="url(#arc-blur)"
       />
       <path
-        d={edgePath(w, h)}
+        d={edge}
         fill="none"
         stroke="url(#arc-green)"
         strokeWidth="3"
+        strokeLinejoin="round"
       />
 
       {/* moving shimmer */}
       <path
-        d={edgePath(w, h)}
+        d={edge}
         pathLength="100"
         fill="none"
         stroke="#F2FFE3"
@@ -5370,6 +5334,38 @@ function ArcGlow({ w, h }: { w: number; h: number }) {
         filter="url(#arc-blur)"
         className="hero-shimmer"
       />
+    </svg>
+  );
+}
+
+/* Original bottom wave lines, restored as they were */
+function BackdropWaves() {
+  return (
+    <svg
+      viewBox="0 0 1200 300"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      className="pointer-events-none absolute bottom-0 left-0 z-0 hidden h-[42%] w-[82%] lg:block"
+    >
+      <defs>
+        <linearGradient id="wave-fade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#1E6FA8" stopOpacity="0" />
+          <stop offset="55%" stopColor="#2BA6C9" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#3DDC97" stopOpacity="0.5" />
+        </linearGradient>
+      </defs>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <path
+          key={i}
+          d={`M0 ${120 + i * 9} C 320 ${230 + i * 6}, 760 ${
+            200 + i * 5
+          }, 1200 ${230 + i * 11}`}
+          fill="none"
+          stroke="url(#wave-fade)"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+      ))}
     </svg>
   );
 }
@@ -5449,6 +5445,7 @@ export function Hero() {
     >
       {/* background */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_25%_35%,#0A2636_0%,#06151F_45%,#04101A_100%)]" />
+      <BackdropWaves />
       <BlurredLeaves />
 
       {/* ---------- ARC MEDIA PANEL ---------- */}
