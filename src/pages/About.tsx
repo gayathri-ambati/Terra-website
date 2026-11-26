@@ -109,6 +109,7 @@ import { ApproachSection } from '@/components/AboutCompo/ApproachSection';
 import { JourneySection } from '@/components/AboutCompo/JourneySection';
 import { ClosingCta } from '@/components/HomeCompo/ClosingCta';
 import Visionmission from '@/components/AboutCompo/Visionmission';
+import SolarEnergyVideo from '@/components/AboutCompo/SolarEnergyvideo';
 
 
 export function AboutPage() {
@@ -116,6 +117,7 @@ export function AboutPage() {
     <main>
       <AboutHero />
       <Visionmission />
+     <SolarEnergyVideo />
       <IdentitySection />
       <ApproachSection />
       <JourneySection />
