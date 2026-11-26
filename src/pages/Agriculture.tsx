@@ -195,11 +195,11 @@ export function AgriculturePage() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-900 via-forest-900/75 to-forest-900/20" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-forest-900 via-transparent to-forest-900/40" />
 
-        <div className={`${SHELL} grid min-h-[100svh] items-center gap-12 pb-40 pt-36 lg:grid-cols-12 lg:pb-48`}>
+        <div className={`${SHELL} grid min-h-[92svh] items-center gap-12 pb-32 pt-36 lg:grid-cols-12 lg:pb-36`}>
           {/* copy */}
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-ivory/25 bg-forest-900/40 px-4 py-2 font-body text-sm font-medium text-sage-300 backdrop-blur-md">
+              <p className="mb-7 inline-flex items-center gap-3 font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sage-300">
                 <Sprout size={16} />
                 Agriculture programme · TRANSFORM
               </p>
@@ -207,12 +207,12 @@ export function AgriculturePage() {
 
             <MaskedLines
               lines={['Where the work', 'takes root.']}
-              className="font-heading text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl xl:text-8xl"
+              className="font-display text-6xl font-medium leading-[0.92] tracking-tight sm:text-7xl lg:text-8xl xl:text-9xl"
               startDelay={150}
             />
 
             <Reveal delay={400}>
-              <p className="mt-8 max-w-xl font-body text-base leading-relaxed text-ivory/85 md:text-lg">
+              <p className="mt-8 max-w-xl font-body text-base leading-relaxed text-ivory/75 md:text-lg">
                 TRANSFORM is Terra&apos;s agriculture programme: farmer field schools, stronger producer organisations and shared
                 rural infrastructure — built with communities, not just for them.
               </p>
@@ -239,19 +239,16 @@ export function AgriculturePage() {
 
           {/* floating photo card (desktop) */}
           <Reveal delay={500} variant="scale" className="hidden lg:col-span-5 lg:block">
-            <div className="relative ml-auto w-full max-w-sm">
+            <div className="relative ml-auto w-full max-w-md">
               <FieldImage
                 src={IMG.story3}
                 alt="Crop rows stretching across a village field"
-                className="relative aspect-[3/4] rotate-2 rounded-[2rem] border-4 border-ivory/80 shadow-[0_40px_90px_rgba(0,0,0,0.5)]"
+                className="relative aspect-[4/5] rounded-sm shadow-[0_40px_90px_rgba(0,0,0,0.45)]"
               />
-              <div className="absolute -bottom-6 -left-10 flex items-center gap-4 rounded-2xl bg-ivory p-4 pr-6 text-forest-900 shadow-2xl">
-                <span className="grid h-12 w-12 place-items-center rounded-full bg-forest-800 text-sage-300">
-                  <Users size={22} />
-                </span>
+              <div className="absolute -bottom-5 -left-8 flex items-center gap-5 border-l-2 border-sage-400 bg-ivory px-6 py-4 text-forest-900 shadow-xl">
                 <div>
-                  <p className="font-heading text-2xl font-bold leading-none">{TRANSFORM_PROJECT.results[0].value}</p>
-                  <p className="mt-1 font-body text-xs text-charcoal/70">farmers supported</p>
+                  <p className="font-heading text-3xl font-bold leading-none">{TRANSFORM_PROJECT.results[0].value}</p>
+                  <p className="mt-1 font-body text-xs uppercase tracking-wider text-charcoal/70">farmers supported</p>
                 </div>
               </div>
             </div>
@@ -261,7 +258,7 @@ export function AgriculturePage() {
         <a
           href="#challenge"
           aria-label="Scroll to the challenge section"
-          className="absolute bottom-28 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-body text-xs text-ivory/60 transition-colors hover:text-ivory md:flex"
+          className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-body text-xs text-ivory/60 transition-colors hover:text-ivory md:flex"
         >
           Scroll
           <ArrowDown size={16} className="animate-bounce motion-reduce:animate-none" />
@@ -271,11 +268,11 @@ export function AgriculturePage() {
       {/* ============================ STATS STRIP ============================ */}
       <div className={`${SHELL} relative z-20 -mt-20`}>
         <Reveal>
-          <dl className="grid grid-cols-1 divide-y divide-forest-800/10 overflow-hidden rounded-3xl bg-ivory shadow-[0_30px_70px_rgba(16,47,39,0.18)] ring-1 ring-forest-800/5 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <dl className="grid grid-cols-1 divide-y divide-forest-800/15 border-y border-forest-800/10 bg-ivory shadow-[0_18px_50px_rgba(16,47,39,0.08)] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {TRANSFORM_PROJECT.results.map((r) => (
-              <div key={r.label} className="flex flex-col-reverse gap-1 p-7 md:p-9">
-                <dt className="font-body text-sm leading-snug text-charcoal/70">{r.label}</dt>
-                <dd className="font-heading text-4xl font-bold text-forest-800 md:text-5xl">{r.value}</dd>
+              <div key={r.label} className="flex flex-col-reverse gap-2 p-6 md:p-8">
+                <dt className="font-body text-xs leading-snug text-charcoal/65 md:text-sm">{r.label}</dt>
+                <dd className="font-display text-5xl font-semibold leading-none text-forest-800 md:text-6xl">{r.value}</dd>
               </div>
             ))}
           </dl>
@@ -283,43 +280,55 @@ export function AgriculturePage() {
       </div>
 
       {/* ========================== CHALLENGE ========================= */}
-      <section id="challenge" className="bg-linen pb-24 pt-28 md:pb-32 md:pt-36">
-        <div className={`${SHELL} grid items-center gap-16 lg:grid-cols-2`}>
-          <div className="relative">
-            <ClipReveal className="aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]">
-              <VideoPanel
-                src={AGRI_VIDEO}
-                poster={IMG.challenge}
-                className="h-full w-full rounded-3xl shadow-[0_30px_80px_rgba(16,47,39,0.25)]"
-              />
-            </ClipReveal>
-            <Reveal delay={500} variant="scale" className="absolute -bottom-6 right-4 max-w-[17rem] rounded-2xl bg-forest-800 p-5 text-ivory shadow-xl sm:-right-6">
-              <p className="font-heading text-lg font-semibold leading-snug">Small farms, shared problems.</p>
-              <p className="mt-2 font-body text-sm leading-relaxed text-ivory/70">
-                Four obstacles compound each other. TRANSFORM tackles them together.
-              </p>
-            </Reveal>
-          </div>
-
-          <div>
-            <MaskedLines lines={['The challenge']} className="font-heading text-4xl font-bold tracking-tight text-forest-800 md:text-5xl" />
-            <Reveal delay={150}>
-              <p className="mt-6 max-w-xl font-body text-lg leading-relaxed text-charcoal/80">
+      <section id="challenge" className="bg-ivory py-24 md:py-32">
+        <div className={SHELL}>
+          <div className="mb-12 grid gap-8 border-b border-forest-800/15 pb-10 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-6">
+              <p className="label-caps mb-4 text-forest-600">The context</p>
+              <MaskedLines lines={['The challenge']} className="headline-lg text-forest-800" />
+            </div>
+            <Reveal delay={150} className="lg:col-span-5 lg:col-start-8">
+              <p className="font-body text-base leading-relaxed text-charcoal/70 md:text-lg">
                 Small-holder farmers face a compound problem: fragmented holdings that cannot fund infrastructure, post-harvest
                 losses that erase thin margins, and agronomy advice that arrives late or not at all.
               </p>
             </Reveal>
+          </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {CHALLENGES.map(({ icon: Icon, title, body }, i) => (
-                <Reveal key={title} delay={i * 90} className="rounded-2xl border border-forest-800/10 bg-ivory p-5">
-                  <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-forest-800 text-sage-300">
-                    <Icon size={18} />
-                  </span>
-                  <h3 className="font-heading text-base font-semibold text-forest-800">{title}</h3>
-                  <p className="mt-1 font-body text-sm leading-relaxed text-charcoal/70">{body}</p>
-                </Reveal>
-              ))}
+          <div className="grid items-start gap-12 lg:grid-cols-12">
+            <div className="relative lg:col-span-5">
+              <ClipReveal className="aspect-[4/3] lg:aspect-[4/5]">
+                <VideoPanel
+                  src={AGRI_VIDEO}
+                  poster={IMG.challenge}
+                  className="h-full w-full shadow-[0_24px_60px_rgba(16,47,39,0.16)]"
+                />
+              </ClipReveal>
+              <Reveal delay={500} variant="scale" className="absolute -bottom-5 right-4 max-w-[17rem] bg-forest-800 p-5 text-ivory shadow-xl sm:-right-5">
+                <p className="font-display text-2xl font-medium leading-snug">Small farms, shared problems.</p>
+                <p className="mt-2 font-body text-sm leading-relaxed text-ivory/70">
+                  Four obstacles compound each other. TRANSFORM tackles them together.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="divide-y divide-forest-800/15 border-y border-forest-800/15">
+                {CHALLENGES.map(({ icon: Icon, title, body }, i) => (
+                  <Reveal key={title} delay={i * 90} className="grid grid-cols-[2.5rem_1fr] gap-4 py-5 sm:grid-cols-[3rem_1fr] sm:gap-6">
+                    <span className="grid h-10 w-10 place-items-center bg-sage-300/60 text-forest-800">
+                      <Icon size={18} />
+                    </span>
+                    <div>
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <h3 className="font-heading text-base font-semibold text-forest-800">{title}</h3>
+                        <span className="font-heading text-xs font-semibold tracking-widest text-forest-600/60">0{i + 1}</span>
+                      </div>
+                      <p className="mt-1 font-body text-sm leading-relaxed text-charcoal/65">{body}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -329,10 +338,13 @@ export function AgriculturePage() {
       <section className="bg-forest-800 py-24 text-ivory md:py-32">
         <div className={SHELL}>
           <div className="grid items-end gap-8 lg:grid-cols-12">
-            <MaskedLines
-              lines={['Our approach:', 'build capability first.']}
-              className="font-heading text-4xl font-bold tracking-tight md:text-5xl lg:col-span-7"
-            />
+            <div className="lg:col-span-7">
+              <p className="label-caps mb-4 text-sage-300">How we work</p>
+              <MaskedLines
+                lines={['Our approach:', 'build capability first.']}
+                className="headline-lg"
+              />
+            </div>
             <Reveal delay={200} className="lg:col-span-5">
               <p className="font-body text-base leading-relaxed text-ivory/70">
                 Four parts, one programme. Training gives farmers the skills, producer organisations give them scale, and shared
@@ -341,17 +353,18 @@ export function AgriculturePage() {
             </Reveal>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-px bg-ivory/15 sm:grid-cols-2 lg:grid-cols-4">
             {APPROACH.map(({ icon: Icon, img, alt, title, body }, i) => (
-              <Reveal key={title} delay={i * 110} as="article" className="group flex flex-col overflow-hidden rounded-3xl bg-forest-900/60 ring-1 ring-ivory/10">
-                <FieldImage src={img} alt={alt} className="relative aspect-[4/3]">
+              <Reveal key={title} delay={i * 110} as="article" className="group flex flex-col overflow-hidden bg-forest-800">
+                <FieldImage src={img} alt={alt} className="relative aspect-[5/3]">
                   <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-transparent to-transparent" />
-                  <span className="absolute bottom-4 left-4 grid h-10 w-10 place-items-center rounded-full bg-sage-300 text-forest-900">
+                  <span className="absolute bottom-4 left-4 grid h-10 w-10 place-items-center bg-sage-300 text-forest-900">
                     <Icon size={18} />
                   </span>
                 </FieldImage>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-heading text-lg font-semibold">{title}</h3>
+                <div className="flex flex-1 flex-col border-t border-ivory/15 p-6">
+                  <span className="font-heading text-xs font-semibold tracking-widest text-sage-300">0{i + 1}</span>
+                  <h3 className="mt-3 font-heading text-lg font-semibold">{title}</h3>
                   <p className="mt-2 font-body text-sm leading-relaxed text-ivory/65">{body}</p>
                 </div>
               </Reveal>
@@ -363,30 +376,53 @@ export function AgriculturePage() {
       {/* ========================= FARMER STORIES ===================== */}
       <section className="bg-linen py-24 md:py-32">
         <div className={SHELL}>
-          <MaskedLines lines={['From the field']} className="font-heading text-4xl font-bold tracking-tight text-forest-800 md:text-6xl" />
+          <div className="flex flex-col justify-between gap-5 border-b border-forest-800/15 pb-8 md:flex-row md:items-end">
+            <div>
+              <p className="label-caps mb-4 text-forest-600">People & place</p>
+              <MaskedLines lines={['From the field']} className="headline-lg text-forest-800" />
+            </div>
+            <p className="max-w-sm font-body text-sm leading-relaxed text-charcoal/65">
+              Progress is personal. Here is what change can feel like for the people building it.
+            </p>
+          </div>
 
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {FARMER_STORIES.map((s, i) => (
-              <Reveal key={s.name} delay={i * 110} as="figure" className="group flex flex-col overflow-hidden rounded-3xl bg-ivory shadow-[0_20px_50px_rgba(16,47,39,0.08)]">
-                <FieldImage src={s.img} alt={s.alt} className="relative aspect-[16/10]">
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest-900/50 via-transparent to-transparent" />
-                </FieldImage>
-                <div className="relative flex flex-1 flex-col justify-between p-8">
-                  <span className="absolute -top-6 left-8 grid h-12 w-12 place-items-center rounded-full bg-forest-800 text-sage-300 shadow-lg">
-                    <Quote size={20} />
-                  </span>
-                  <blockquote className="mt-4 font-display text-xl italic leading-snug text-forest-800">“{s.quote}”</blockquote>
-                  <figcaption className="mt-8 border-t border-forest-800/10 pt-4">
-                    <p className="font-heading text-sm font-semibold text-forest-800">{s.name}</p>
-                    <p className="font-body text-xs text-charcoal/60">{s.place}</p>
-                  </figcaption>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10 grid gap-10 lg:grid-cols-12">
+            <Reveal delay={0} as="figure" className="group lg:col-span-7">
+              <FieldImage src={FARMER_STORIES[0].img} alt={FARMER_STORIES[0].alt} className="relative aspect-[16/9]">
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent" />
+                <span className="absolute bottom-5 left-5 grid h-10 w-10 place-items-center bg-sage-300 text-forest-900">
+                  <Quote size={18} />
+                </span>
+              </FieldImage>
+              <div className="grid gap-5 border-b border-forest-800/15 py-6 sm:grid-cols-[1fr_auto] sm:items-end">
+                <blockquote className="font-display text-2xl italic leading-snug text-forest-800 md:text-3xl">“{FARMER_STORIES[0].quote}”</blockquote>
+                <figcaption className="sm:text-right">
+                  <p className="font-heading text-sm font-semibold text-forest-800">{FARMER_STORIES[0].name}</p>
+                  <p className="font-body text-xs text-charcoal/60">{FARMER_STORIES[0].place}</p>
+                </figcaption>
+              </div>
+            </Reveal>
+
+            <div className="flex flex-col justify-between gap-8 lg:col-span-5">
+              {FARMER_STORIES.slice(1).map((s, i) => (
+                <Reveal key={s.name} delay={i * 110} as="figure" className="group flex gap-5 border-t border-forest-800/15 pt-5">
+                  <FieldImage src={s.img} alt={s.alt} className="relative aspect-square w-24 shrink-0 sm:w-32">
+                    <div className="absolute inset-0 bg-forest-900/10" />
+                  </FieldImage>
+                  <div className="flex flex-col justify-between gap-4">
+                    <blockquote className="font-display text-xl italic leading-snug text-forest-800">“{s.quote}”</blockquote>
+                    <figcaption>
+                      <p className="font-heading text-sm font-semibold text-forest-800">{s.name}</p>
+                      <p className="font-body text-xs text-charcoal/60">{s.place}</p>
+                    </figcaption>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
 
           <Reveal delay={200}>
-            <p className="mt-10 max-w-2xl font-body text-sm leading-relaxed text-charcoal/60">
+            <p className="mt-8 max-w-2xl font-body text-xs leading-relaxed text-charcoal/55">
               Names and photographs of farmers are withheld pending consent. These accounts are composites of field feedback until
               approved stories are published, and the images show the landscapes they come from.
             </p>
@@ -395,13 +431,14 @@ export function AgriculturePage() {
       </section>
 
       {/* =========================== OUTCOMES ========================= */}
-      <section className="relative isolate overflow-hidden bg-forest-900 py-24 text-ivory md:py-36">
+      <section className="relative isolate overflow-hidden bg-forest-900 py-24 text-ivory md:py-32">
         <FieldImage src={IMG.outcomes} alt="Farmland at sunrise" className="absolute inset-0 -z-10 opacity-40" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-forest-900 via-forest-900/70 to-forest-900" />
 
-        <div className={`${SHELL} grid items-center gap-16 lg:grid-cols-12`}>
-          <div className="lg:col-span-5">
-            <MaskedLines lines={['Verified outcomes']} className="font-heading text-4xl font-bold tracking-tight md:text-5xl" />
+        <div className={`${SHELL} grid items-start gap-12 lg:grid-cols-12`}>
+          <div className="lg:sticky lg:top-32 lg:col-span-5">
+            <p className="label-caps mb-4 text-sage-300">The measure of progress</p>
+            <MaskedLines lines={['Verified outcomes']} className="headline-lg" />
             <Reveal delay={150}>
               <p className="mt-6 max-w-md font-body text-base leading-relaxed text-ivory/75">
                 TRANSFORM measures itself in farmer income, not footage. Current programme results, pending third-party
@@ -421,15 +458,15 @@ export function AgriculturePage() {
             </Reveal>
           </div>
 
-          <div className="grid gap-4 lg:col-span-7">
+          <div className="divide-y divide-ivory/20 border-y border-ivory/20 lg:col-span-7">
             {TRANSFORM_PROJECT.results.map((r, i) => (
               <Reveal
                 key={r.label}
                 delay={i * 100}
                 variant="right"
-                className="flex flex-col gap-2 rounded-2xl border border-ivory/15 bg-ivory/[0.07] p-6 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:gap-8 md:p-8"
+                className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 md:py-8"
               >
-                <span className="font-heading text-5xl font-bold text-sage-300 md:text-6xl">{r.value}</span>
+                <span className="font-display text-5xl font-semibold leading-none text-sage-300 md:text-6xl">{r.value}</span>
                 <span className="max-w-xs font-body text-sm leading-relaxed text-ivory/75 sm:text-right">{r.label}</span>
               </Reveal>
             ))}
