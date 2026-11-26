@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Sun,
@@ -46,23 +45,20 @@ const SolarInfographic: React.FC = () => {
   return (
     <section className="w-full bg-[#f7faf7] px-4 py-16 sm:px-8 lg:px-12 overflow-hidden">
       <div className="mx-auto max-w-7xl">
-
         {/* Heading */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-medium text-[#163d2b] tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-medium text-[#163d2b] tracking-tight">
             Solar <span className="font-light">Infographic</span>
           </h2>
-          <p className="mt-2 text-[11px] text-[#789183]">
+          <p className="mt-3 text-sm sm:text-base text-[#789183]">
             Powering a Sustainable Future
           </p>
         </div>
 
         {/* ================= DESKTOP ================= */}
         <div className="relative mx-auto max-w-[1150px] h-[650px] hidden md:block">
-
           {/* Enlarged Circle */}
           <div className="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px]">
-
             {/* Outer Ring */}
             <div className="absolute inset-[20px] rounded-full border-[30px] border-[#e1eee5]" />
 
@@ -135,38 +131,21 @@ const SolarInfographic: React.FC = () => {
 
             {/* Decorative Leaf */}
             <div className="absolute bottom-[-100px] left-[55%] -translate-x-1/2 rotate-[18deg] z-30">
-              <svg
-                width="110"
-                height="100"
-                viewBox="0 0 110 100"
-                fill="none"
-              >
-                <path
-                  d="M8 60 L98 10 L75 90 L48 62 L8 60Z"
-                  fill="#c8dfd1"
-                />
-                <path
-                  d="M48 62 L98 10 L57 83"
-                  fill="#399a73"
-                />
-                <path
-                  d="M48 62 L57 83 L68 72"
-                  fill="#176b4b"
-                />
-                <path
-                  d="M8 60 L48 62 L57 83"
-                  fill="#a8cdb8"
-                />
+              <svg width="110" height="100" viewBox="0 0 110 100" fill="none">
+                <path d="M8 60 L98 10 L75 90 L48 62 L8 60Z" fill="#c8dfd1" />
+                <path d="M48 62 L98 10 L57 83" fill="#399a73" />
+                <path d="M48 62 L57 83 L68 72" fill="#176b4b" />
+                <path d="M8 60 L48 62 L57 83" fill="#a8cdb8" />
               </svg>
             </div>
           </div>
 
           {/* LEFT TOP - Sunlight */}
           <div className="absolute left-[1%] top-[14%] w-[25%] text-right">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Sunlight
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
               Harnessing abundant natural sunlight as a renewable energy
               source.
             </p>
@@ -174,10 +153,10 @@ const SolarInfographic: React.FC = () => {
 
           {/* RIGHT TOP - Solar Panels */}
           <div className="absolute right-[1%] top-[8%] w-[25%] text-left">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Solar Panels
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
               Solar panels capture sunlight and generate clean electrical
               energy.
             </p>
@@ -185,10 +164,10 @@ const SolarInfographic: React.FC = () => {
 
           {/* LEFT MIDDLE - Energy Storage */}
           <div className="absolute left-[-1%] top-[43%] w-[25%] text-right">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Energy Storage
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
               Store excess solar power for later use and maintain energy
               availability.
             </p>
@@ -196,32 +175,32 @@ const SolarInfographic: React.FC = () => {
 
           {/* RIGHT MIDDLE - Inverter */}
           <div className="absolute right-[-1%] top-[40%] w-[25%] text-left">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Inverter System
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
-              Converts solar electricity into usable power for your home
-              or business.
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
+              Converts solar electricity into usable power for your home or
+              business.
             </p>
           </div>
 
           {/* LEFT BOTTOM - Clean Energy */}
           <div className="absolute left-[2%] bottom-[9%] w-[25%] text-right">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Clean Energy
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
-              Generate sustainable electricity while reducing dependence
-              on conventional energy.
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
+              Generate sustainable electricity while reducing dependence on
+              conventional energy.
             </p>
           </div>
 
           {/* RIGHT BOTTOM - Smart Monitoring */}
           <div className="absolute right-[2%] bottom-[8%] w-[25%] text-left">
-            <h3 className="text-sm font-medium text-[#244d38]">
+            <h3 className="text-base lg:text-lg font-semibold text-[#244d38]">
               Smart Monitoring
             </h3>
-            <p className="text-[11px] leading-5 text-[#718878] mt-2">
+            <p className="text-sm lg:text-[15px] leading-6 lg:leading-7 text-[#718878] mt-2">
               Monitor system performance and solar energy production
               efficiently.
             </p>
@@ -230,10 +209,8 @@ const SolarInfographic: React.FC = () => {
 
         {/* ================= MOBILE & TABLET ================= */}
         <div className="md:hidden flex flex-col items-center">
-
           {/* Enlarged Circle */}
           <div className="relative w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]">
-
             {/* Circle */}
             <div className="absolute inset-[20px] rounded-full border-[25px] border-[#e1eee5]" />
 
@@ -301,21 +278,19 @@ const SolarInfographic: React.FC = () => {
           </div>
 
           {/* Mobile descriptions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16 w-full max-w-2xl">
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-16 w-full max-w-3xl">
             {items.map((item, index) => (
               <div key={index} className="text-center px-4 py-2">
-                <h3 className="text-sm font-medium text-[#244d38]">
+                <h3 className="text-lg font-semibold text-[#244d38]">
                   {item.title}
                 </h3>
-                <p className="text-xs text-[#718878] leading-6 mt-2">
+                <p className="text-sm sm:text-[15px] text-[#718878] leading-6 sm:leading-7 mt-2">
                   {item.description}
                 </p>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

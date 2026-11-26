@@ -93,7 +93,7 @@ export function SolutionsPage() {
       <SolutionsShowcase />
       <SolutionsList />
       <PartnersSection />
-      <ClosingCta title={['Not sure where', 'to begin?']} cta="Request an energy audit" />
+      {/* <ClosingCta title={['Not sure where', 'to begin?']} cta="Request an energy audit" /> */}
     </main>
   );
 }
