@@ -113,6 +113,8 @@
 
 
 
+
+
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search, ArrowUpRight, TrendingUp, MapPin } from 'lucide-react';
@@ -189,21 +191,36 @@ export function ProjectsPage() {
   return (
     <main>
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="grain relative flex min-h-[60vh] items-end overflow-hidden bg-forest-900 text-ivory">
-        <SceneCanvas variant="energy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-forest-900 via-forest-900/40 to-forest-900/60" />
-        <div className="pointer-events-none absolute right-8 top-32 hidden h-40 w-px bg-gradient-to-b from-transparent via-sage-400/50 to-transparent md:block" />
-        <div className="shell relative z-10 pb-20 pt-40">
-          <p className="label-caps mb-6 flex items-center gap-3 text-sage-400">
-            <span className="h-px w-10 bg-sage-400" /> Projects &amp; Case Studies
-          </p>
-          <MaskedLines lines={['Proof, not promises.']} className="headline-xl" startDelay={150} />
-          <p className="mt-6 max-w-xl font-body text-base text-ivory/70">
-            Every project below began as a hard problem. Here's how we solved it — and what it
-            changed on the ground.
-          </p>
-        </div>
-      </section>
+  <section className="grain relative flex min-h-[60vh] items-end overflow-hidden bg-forest-900 text-ivory">
+    {/* Fallback animated scene (sits behind the photo) */}
+    <SceneCanvas variant="energy" />
+
+    {/* Background image */}
+    <img
+      src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
+      alt=""
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full object-cover"
+      onError={(e) => {
+        e.currentTarget.style.display = 'none';
+      }}
+    />
+
+    {/* Gradient overlay for legibility */}
+    <div className="absolute inset-0 bg-gradient-to-t from-forest-900 via-forest-900/70 to-forest-900/40" />
+
+    <div className="pointer-events-none absolute right-8 top-32 hidden h-40 w-px bg-gradient-to-b from-transparent via-sage-400/50 to-transparent md:block" />
+    <div className="shell relative z-10 pb-20 pt-40">
+      <p className="label-caps mb-6 flex items-center gap-3 text-sage-400">
+        <span className="h-px w-10 bg-sage-400" /> Projects &amp; Case Studies
+      </p>
+      <MaskedLines lines={['Proof, not promises.']} className="headline-xl" startDelay={150} />
+      <p className="mt-6 max-w-xl font-body text-base text-ivory/70">
+        Every project below began as a hard problem. Here's how we solved it — and what it
+        changed on the ground.
+      </p>
+    </div>
+  </section>
 
       {/* ── Filter + Grid ─────────────────────────────────────── */}
       <section className="bg-ivory py-16 md:py-24">
