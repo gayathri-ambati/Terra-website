@@ -116,18 +116,19 @@ import { AboutValues } from '@/components/AboutCompo/Ourvalues';
 import TeamSection from '@/components/AboutCompo/TeamSection';
 
 
+
 export function AboutPage() {
   return (
     <main>
       <AboutHero />
       <Visionmission />
+      <JourneySection />
       <SolarEnergyVideo />
       <AboutValues />
       <IdentitySection />
       <AboutProcessSection />
       <AboutPurpose />
       <ApproachSection />
-      <JourneySection />
       <TeamSection />
       <ClosingCta
         title={['Partner with us,', 'shape the decade ahead.']}
