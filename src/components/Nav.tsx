@@ -139,11 +139,12 @@ import logo from "../assets/logo.avif";
 
 const NAV = [
   { to: "/about", label: "About", icon: Leaf },
-  { to: "/impact", label: "Impact", icon: BarChart3 },
   { to: "/solutions", label: "Solutions", icon: Lightbulb },
+  { to: "/insights", label: "Insights", icon: Newspaper },
+  { to: "/impact", label: "Impact", icon: BarChart3 },
   { to: "/projects", label: "Projects", icon: FolderKanban },
   { to: "/agriculture", label: "Transform", icon: Sprout },
-  { to: "/insights", label: "Insights", icon: Newspaper },
+  
 ];
 
 const GREEN_GRADIENT = "linear-gradient(135deg, #7ED957 0%, #B5F27E 100%)";
