@@ -120,10 +120,10 @@
 
 
 
-
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
+  ArrowRight,
   ArrowUpRight,
   Leaf,
   BarChart3,
@@ -135,7 +135,7 @@ import {
   X,
 } from "lucide-react";
 
-import logo from "../assets/logo.avif"; 
+import logo from "../assets/logo.avif";
 
 const NAV = [
   { to: "/about", label: "About", icon: Leaf },
@@ -146,14 +146,24 @@ const NAV = [
   { to: "/insights", label: "Insights", icon: Newspaper },
 ];
 
+const GREEN_GRADIENT = "linear-gradient(135deg, #7ED957 0%, #B5F27E 100%)";
+
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -178,78 +188,103 @@ export function Nav() {
 
   return (
     <>
-      {/* Desktop / Tablet Navbar */}
-      <header className="fixed inset-x-0 top-4 sm:top-6 z-50 px-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border-2 border-black bg-white px-5 sm:px-8 py-3">
-
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center shrink-0"
-            aria-label="Terra home"
+      {/* ───────── Desktop / Tablet pill navbar ───────── */}
+      <header className="fixed inset-x-0 top-3 z-50 sm:top-5">
+        {/* `shell` = same container as the hero, so the pill edges line up with the headline */}
+        <div className="shell">
+          <div
+            className={`flex items-center rounded-full bg-white py-2 pl-5 pr-2 transition-shadow duration-300 sm:pl-7 ${
+              scrolled
+                ? "shadow-[0_12px_40px_rgba(0,0,0,0.28)]"
+                : "shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
+            }`}
           >
-            <img
-              src={logo}
-              alt="Terra Logo"
-              className="h-12 sm:h-12 w-14 object-contain"
-            />
-          </Link>
+            {/* Logo */}
+            <Link
+              to="/"
+              className="flex shrink-0 items-center"
+              aria-label="Terra home"
+            >
+              <img
+                src={logo}
+                alt="Terra Logo"
+                className="h-11 w-auto object-contain sm:h-12"
+              />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <nav
-            className="hidden lg:flex items-center gap-5 xl:gap-7"
-            aria-label="Primary Navigation"
-          >
-            {NAV.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  `group inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
-                    isActive
-                      ? "text-green-700"
-                      : "text-black hover:text-green-700"
-                  }`
-                }
+            {/* Divider */}
+            <span className="mx-6 hidden h-9 w-px bg-black/15 lg:block" />
+
+            {/* Desktop links */}
+            <nav
+              className="hidden flex-1 items-center justify-center gap-5 lg:flex xl:gap-9"
+              aria-label="Primary Navigation"
+            >
+              {NAV.map(({ to, label, icon: Icon }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  className={({ isActive }) =>
+                    `group relative inline-flex items-center gap-2 py-2 font-heading text-[15px] font-medium transition-colors duration-300 ${
+                      isActive
+                        ? "text-green-700"
+                        : "text-[#0B1A14] hover:text-green-700"
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <Icon
+                        size={17}
+                        strokeWidth={1.7}
+                        className="transition-transform duration-300 group-hover:-translate-y-0.5"
+                      />
+                      <span>{label}</span>
+                      <span
+                        className={`absolute -bottom-0.5 left-0 h-[2px] rounded-full bg-[#7ED957] transition-all duration-300 ${
+                          isActive ? "w-full" : "w-0 group-hover:w-full"
+                        }`}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            {/* Spacer on mobile pushes the burger to the right */}
+            <span className="flex-1 lg:hidden" />
+
+            {/* CTA */}
+            <Link
+              to="/contact"
+              className="group hidden items-center gap-3 rounded-full bg-[#06151F] py-2 pl-6 pr-2 font-heading text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#0B2A3A] lg:inline-flex"
+            >
+              Let&apos;s Talk
+              <span
+                className="grid h-9 w-9 place-items-center rounded-full text-[#06151F] transition-transform duration-300 group-hover:translate-x-0.5"
+                style={{ backgroundImage: GREEN_GRADIENT }}
               >
-                <Icon
-                  size={16}
-                  strokeWidth={1.8}
-                  className="transition-transform duration-300 group-hover:-translate-y-0.5"
-                />
-                <span>{label}</span>
-              </NavLink>
-            ))}
-          </nav>
+                <ArrowRight size={17} strokeWidth={2.4} />
+              </span>
+            </Link>
 
-          {/* CTA */}
-          <Link
-            to="/contact"
-            className="hidden lg:inline-flex items-center gap-2 rounded-full bg-black text-white px-5 py-2.5 text-sm font-semibold transition-all duration-300 hover:bg-green-700 group"
-          >
-            Let's Talk
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-            />
-          </Link>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full border border-black text-black transition-all hover:bg-black hover:text-white"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            {/* Mobile menu button */}
+            <button
+              className="mr-1 flex h-11 w-11 items-center justify-center rounded-full bg-[#06151F] text-white transition-colors hover:bg-green-700 lg:hidden"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Navigation */}
+      {/* ───────── Mobile navigation ───────── */}
       <div
         ref={panelRef}
-        className={`fixed inset-0 z-40 bg-white text-black lg:hidden transition-[clip-path] duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+        className={`fixed inset-0 z-40 bg-white text-black transition-[clip-path] duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] lg:hidden ${
           open ? "" : "pointer-events-none"
         }`}
         style={{
@@ -260,7 +295,7 @@ export function Nav() {
         aria-hidden={!open}
       >
         <nav
-          className="flex h-full flex-col justify-center gap-1 px-8 sm:px-12"
+          className="flex h-full flex-col justify-center gap-1 px-8 pb-10 pt-28 sm:px-12"
           aria-label="Mobile Navigation"
         >
           {NAV.map(({ to, label, icon: Icon }, i) => (
@@ -271,7 +306,7 @@ export function Nav() {
                 transitionDelay: open ? `${120 + i * 60}ms` : "0ms",
               }}
               className={({ isActive }) =>
-                `flex items-center gap-4 border-b border-black/10 py-4 text-2xl sm:text-3xl font-medium transition-all duration-500 ${
+                `flex items-center gap-4 border-b border-black/10 py-4 text-2xl font-medium transition-all duration-500 sm:text-3xl ${
                   open
                     ? "translate-y-0 opacity-100"
                     : "translate-y-6 opacity-0"
@@ -280,28 +315,24 @@ export function Nav() {
             >
               <Icon size={22} strokeWidth={1.8} />
               <span>{label}</span>
-              <ArrowUpRight
-                size={18}
-                className="ml-auto text-black/40"
-              />
+              <ArrowUpRight size={18} className="ml-auto text-black/40" />
             </NavLink>
           ))}
 
-          {/* Mobile Contact */}
           <Link
             to="/contact"
             style={{ transitionDelay: open ? "480ms" : "0ms" }}
-            className={`flex items-center justify-between mt-5 rounded-full bg-black px-6 py-4 text-white transition-all duration-500 ${
-              open
-                ? "translate-y-0 opacity-100"
-                : "translate-y-6 opacity-0"
+            className={`mt-5 flex items-center justify-between rounded-full bg-[#06151F] py-2 pl-6 pr-2 text-white transition-all duration-500 ${
+              open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
             }`}
           >
-            <span className="flex items-center gap-3 font-semibold">
-              <ArrowUpRight size={20} />
-              Let's Talk
+            <span className="font-semibold">Let&apos;s Talk</span>
+            <span
+              className="grid h-11 w-11 place-items-center rounded-full text-[#06151F]"
+              style={{ backgroundImage: GREEN_GRADIENT }}
+            >
+              <ArrowRight size={20} strokeWidth={2.4} />
             </span>
-            <ArrowUpRight size={20} />
           </Link>
 
           <p className="mt-8 text-sm text-black/50">

@@ -386,11 +386,13 @@ import { ImpactStats } from "@/components/HomeCompo/ImpactStats";
 import { Journey } from "@/components/HomeCompo/Journey";
 import { SolutionIndex } from "@/components/HomeCompo/SolutionIndex";
 import { Story } from "@/components/HomeCompo/Story";
+import TerraCinematicHero from "@/components/HomeCompo/TerraCinematicHero";
 import { Testimonials } from "@/components/HomeCompo/Testimonials";
 
 export function HomePage() {
   return (
     <main>
+      {/* <TerraCinematicHero /> */}
       <Hero />
       <BrandIntro />
       <ImpactStats />
