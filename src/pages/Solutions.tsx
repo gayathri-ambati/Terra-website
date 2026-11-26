@@ -75,6 +75,7 @@
 
 
 import { ClosingCta } from '@/components/HomeCompo/ClosingCta';
+import HolidayInfographic from '@/components/SolutionsCompo/HolidayInfographic';
 import PartnersSection from '@/components/SolutionsCompo/PartnersSection';
 import SolarEnergySection from '@/components/SolutionsCompo/SolarEnergySection';
 import { SolutionsHero } from '@/components/SolutionsCompo/SolutionsHero';
@@ -87,6 +88,7 @@ export function SolutionsPage() {
     <main>
       <SolutionsHero />
       <SolarEnergySection />
+      <HolidayInfographic />
       <SolutionsSection />
       <SolutionsShowcase />
       <SolutionsList />

@@ -19,7 +19,7 @@ export default function SolarEnergyVideo() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
           {/* LEFT - VIDEO */}
-          <div className="relative h-[400px] overflow-hidden rounded-[28px] border-[3px] border-[#14532d] shadow-xl md:h-[560px]">
+          <div className="relative h-[800px] overflow-hidden rounded-[28px] border-[3px] border-[#14532d] shadow-xl md:h-[700px]">
             <video
               autoPlay
               muted
