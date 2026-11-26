@@ -386,6 +386,7 @@ import { ImpactStats } from "@/components/HomeCompo/ImpactStats";
 import { Journey } from "@/components/HomeCompo/Journey";
 import { SolutionIndex } from "@/components/HomeCompo/SolutionIndex";
 import { Story } from "@/components/HomeCompo/Story";
+import SuccessStories from "@/components/HomeCompo/SuccessStories";
 import TerraCinematicHero from "@/components/HomeCompo/TerraCinematicHero";
 import { Testimonials } from "@/components/HomeCompo/Testimonials";
 
@@ -395,13 +396,14 @@ export function HomePage() {
       {/* <TerraCinematicHero /> */}
       <Hero />
       <BrandIntro />
-      <TerraCinematicHero />
+      {/* <TerraCinematicHero /> */}
       <ImpactStats />
       <Story />
       <Expertise />
       <SolutionIndex />
       <AgricultureStrip />
       <Journey />
+      {/* <SuccessStories /> */}
       <Testimonials />
       <ClosingCta />
     </main>

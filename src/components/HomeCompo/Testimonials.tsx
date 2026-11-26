@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight, Leaf } from 'lucide-react';
 import { testimonials } from '@/lib/content';
 import { Reveal } from '@/components/Reveal';
 
@@ -17,10 +17,41 @@ type TestimonialDetails = (typeof testimonials)[number] & {
 };
 
 export function Testimonials() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(() =>
+    testimonials.length > 1 ? 1 : 0
+  );
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [isCentered, setIsCentered] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const count = testimonials.length;
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    let observer: IntersectionObserver | undefined;
+
+    const observeCenter = () => {
+      observer?.disconnect();
+      const inset = Math.round(window.innerHeight * 0.42);
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry) setIsCentered(entry.isIntersecting);
+        },
+        { rootMargin: `-${inset}px 0px -${inset}px` },
+      );
+      observer.observe(stage);
+    };
+
+    observeCenter();
+    window.addEventListener('resize', observeCenter);
+
+    return () => {
+      window.removeEventListener('resize', observeCenter);
+      observer?.disconnect();
+    };
+  }, []);
 
   if (!count) return null;
 
@@ -45,27 +76,75 @@ export function Testimonials() {
   const showNext = () => goTo(nextIndex, 1);
 
   return (
-    <section className="relative overflow-hidden bg-[#EAF0EE] py-20 md:py-28">
+    <section className="relative isolate scroll-mt-20 overflow-hidden bg-[#F5F6ED] py-10 sm:py-12 lg:py-14">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_40%,rgba(190,229,139,0.28),transparent_35%),radial-gradient(ellipse_at_100%_32%,rgba(202,225,164,0.24),transparent_36%),linear-gradient(180deg,#F7F7EE_0%,#F2F5E9_100%)]"
+      />
+      <Leaf
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-10 top-10 rotate-[-28deg] text-lime-700/[0.12]"
+        size={170}
+        strokeWidth={0.7}
+      />
+      <Leaf
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-10 top-8 rotate-[35deg] text-lime-700/[0.12]"
+        size={180}
+        strokeWidth={0.7}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-36 overflow-hidden sm:h-48"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2200&q=85"
+          alt=""
+          className="h-full w-full object-cover object-[center_68%] opacity-35"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#527A35]/45 via-[#F5F6ED]/50 to-transparent" />
+      </div>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1200 210"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute bottom-0 h-28 w-full text-lime-700/[0.08] sm:h-36"
+      >
+        <path
+          d="M0 128c115-58 184-18 280 14 112 37 215-3 328-50 144-60 270-14 399 24 77 23 126-8 193-48v142H0Z"
+          fill="currentColor"
+        />
+        <path
+          d="M0 178c136-42 238-20 354 2 154 30 242-46 365-58 176-18 294 83 481 10v78H0Z"
+          fill="currentColor"
+          opacity=".55"
+        />
+      </svg>
+
       <style>{`
         @keyframes testimonialEnterFromRight {
           from {
             opacity: 0;
-            transform: translateX(56px) scale(0.97);
+            transform: translateX(48px) scale(0.98);
+            clip-path: inset(0 9% 0 0 round 26px);
           }
           to {
             opacity: 1;
             transform: translateX(0) scale(1);
+            clip-path: inset(0 0 0 0 round 26px);
           }
         }
 
         @keyframes testimonialEnterFromLeft {
           from {
             opacity: 0;
-            transform: translateX(-56px) scale(0.97);
+            transform: translateX(-48px) scale(0.98);
+            clip-path: inset(0 0 0 9% round 26px);
           }
           to {
             opacity: 1;
             transform: translateX(0) scale(1);
+            clip-path: inset(0 0 0 0 round 26px);
           }
         }
 
@@ -76,30 +155,24 @@ export function Testimonials() {
         }
       `}</style>
 
-      {/* Quiet background accents */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="absolute -left-32 top-8 h-72 w-72 rounded-full bg-[#BED8D2]/50 blur-[90px]" />
-        <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-[#D8D3E8]/50 blur-[100px]" />
-      </div>
-
       <div className="shell relative z-10">
         {/* Heading */}
         <div className="text-center">
           <Reveal>
-            <p className="mb-5 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-forest-600 sm:text-xs">
-              <span className="h-px w-9 bg-forest-600" />
+            <p className="mb-3 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-forest-700 sm:text-xs">
+              <span className="h-px w-10 bg-forest-600/70" />
               Voices of partnership
-              <span className="h-px w-9 bg-forest-600" />
+              <span className="h-px w-10 bg-forest-600/70" />
             </p>
 
-            <h2 className="font-display text-4xl leading-tight text-forest-900 sm:text-5xl">
-              Built together. Remembered together.
+            <h2 className="font-display text-[clamp(2rem,4.2vw,3.55rem)] leading-[1.08] tracking-[-0.035em] text-forest-900">
+              Built together. Remembered{' '}
+              <span className="font-display italic text-lime-700">
+                together.
+              </span>
             </h2>
 
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-charcoal/65 sm:text-base">
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-charcoal/65 sm:text-base">
               Perspectives from the people and organisations working alongside
               Terra.
             </p>
@@ -107,29 +180,23 @@ export function Testimonials() {
         </div>
 
         {/* Carousel stage */}
-        <div className="relative mx-auto mt-12 h-[455px] max-w-[1080px] sm:mt-16 sm:h-[475px]">
+        <div
+          ref={stageRef}
+          className="relative mx-auto mt-7 h-[555px] max-w-[1190px] sm:mt-8 md:h-[405px]"
+        >
           {/* Previous portrait preview */}
           {count > 1 && (
             <button
               type="button"
               onClick={showPrevious}
               aria-label={`Show testimonial from ${previous.role}`}
-              className="absolute left-0 top-1/2 z-10 hidden h-[270px] w-[210px] -translate-y-1/2 overflow-hidden rounded-[1.4rem] shadow-[0_18px_50px_rgba(22,47,42,0.18)] transition-all duration-500 hover:scale-[1.04] md:block lg:left-2"
+              className="absolute left-0 top-1/2 z-10 hidden h-[292px] w-[118px] -translate-y-1/2 overflow-hidden rounded-[1.5rem] border-[6px] border-white bg-white p-1 shadow-[0_18px_50px_rgba(22,47,42,0.16)] transition-all duration-500 hover:scale-[1.04] lg:block xl:w-[146px]"
             >
               <img
                 src={imageFor(previousIndex)}
                 alt=""
-                className="h-full w-full object-cover"
+                className="h-full w-full rounded-[1.1rem] object-cover"
               />
-              <span className="absolute inset-0 bg-gradient-to-t from-[#0A211A]/85 via-[#0A211A]/5 to-transparent" />
-              <span className="absolute inset-x-4 bottom-4 text-left text-white">
-                <span className="block text-xs font-semibold">
-                  {previous.role}
-                </span>
-                <span className="mt-1 block text-[10px] text-white/75">
-                  {previous.org}
-                </span>
-              </span>
             </button>
           )}
 
@@ -139,27 +206,24 @@ export function Testimonials() {
               type="button"
               onClick={showNext}
               aria-label={`Show testimonial from ${next.role}`}
-              className="absolute right-0 top-1/2 z-10 hidden h-[270px] w-[210px] -translate-y-1/2 overflow-hidden rounded-[1.4rem] shadow-[0_18px_50px_rgba(22,47,42,0.18)] transition-all duration-500 hover:scale-[1.04] md:block lg:right-2"
+              className="absolute right-0 top-1/2 z-10 hidden h-[292px] w-[118px] -translate-y-1/2 overflow-hidden rounded-[1.5rem] border-[6px] border-white bg-white p-1 shadow-[0_18px_50px_rgba(22,47,42,0.16)] transition-all duration-500 hover:scale-[1.04] lg:block xl:w-[146px]"
             >
               <img
                 src={imageFor(nextIndex)}
                 alt=""
-                className="h-full w-full object-cover"
+                className="h-full w-full rounded-[1.1rem] object-cover"
               />
-              <span className="absolute inset-0 bg-gradient-to-t from-[#0A211A]/85 via-[#0A211A]/5 to-transparent" />
-              <span className="absolute inset-x-4 bottom-4 text-left text-white">
-                <span className="block text-xs font-semibold">{next.role}</span>
-                <span className="mt-1 block text-[10px] text-white/75">
-                  {next.org}
-                </span>
-              </span>
             </button>
           )}
 
           {/* Featured testimonial */}
           <article
             key={activeIndex}
-            className="testimonial-feature absolute left-1/2 top-1/2 z-20 grid h-[390px] w-[min(88vw,700px)] grid-rows-[1fr_132px] overflow-hidden rounded-[1.6rem] bg-white shadow-[0_28px_80px_rgba(22,47,42,0.2)] md:h-[400px] md:grid-cols-[1.08fr_0.92fr] md:grid-rows-1"
+            className={`testimonial-feature absolute left-1/2 top-1/2 z-20 grid h-[510px] w-[min(88vw,810px)] grid-rows-[205px_1fr] overflow-hidden rounded-[1.8rem] border border-lime-800/15 bg-[#FFFDF7] shadow-[0_30px_90px_rgba(40,74,43,0.2)] transition-[scale,opacity] duration-700 ease-out motion-reduce:transition-none md:h-[360px] md:grid-cols-[1.15fr_0.85fr] md:grid-rows-1 lg:w-[min(60vw,810px)] ${
+              isCentered
+                ? '[scale:1] opacity-100'
+                : '[scale:0.94] opacity-90 md:[scale:0.86]'
+            }`}
             style={{
               // Individual translate centers the card without conflicting with animation transforms.
               translate: '-50% -50%',
@@ -174,21 +238,21 @@ export function Testimonials() {
             aria-live="polite"
           >
             {/* Quote and attribution */}
-            <div className="flex min-h-0 flex-col justify-between p-5 sm:p-8">
+            <div className="order-2 flex min-h-0 flex-col justify-between bg-[linear-gradient(135deg,#FFFDF7_0%,#F8F8EE_100%)] p-5 sm:p-7 md:order-1 md:p-8 lg:p-9">
               <div className="min-h-0 overflow-hidden">
-                <span className="mb-3 block font-display text-5xl leading-[0.65] text-[#9BB6A4] sm:text-6xl">
+                <span className="mb-2 block font-display text-5xl leading-[0.65] text-lime-600 sm:mb-3 sm:text-6xl">
                   “
                 </span>
 
-                <p className="overflow-hidden font-display text-lg leading-snug text-forest-900 sm:text-xl md:text-2xl [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:6]">
+                <p className="overflow-hidden font-display text-base leading-snug text-forest-900 sm:text-lg md:text-[1.45rem] md:leading-[1.22] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:6]">
                   {active.quote}
                 </p>
               </div>
 
-              <div className="mt-4 flex items-end justify-between gap-3">
+              <div className="mt-3 flex items-end justify-between gap-3 sm:mt-4">
                 <div className="min-w-0">
                   {active.name && (
-                    <p className="truncate font-heading text-sm font-semibold text-forest-900">
+                    <p className="truncate font-heading text-sm font-semibold text-forest-900 sm:text-base">
                       {active.name}
                     </p>
                   )}
@@ -200,38 +264,32 @@ export function Testimonials() {
                   </p>
                 </div>
 
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-forest-800 text-white sm:h-10 sm:w-10">
-                  <ArrowRight size={17} />
-                </span>
               </div>
             </div>
 
             {/* Featured portrait */}
-            <div className="relative min-h-0 overflow-hidden">
+            <div
+              className="relative order-1 min-h-0 overflow-hidden bg-lime-100 md:order-2"
+              style={{ clipPath: 'ellipse(110% 82% at 100% 50%)' }}
+            >
               <img
                 key={`portrait-${activeIndex}`}
                 src={imageFor(activeIndex)}
                 alt=""
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A211A]/25 via-transparent to-transparent md:bg-gradient-to-l md:from-transparent md:to-[#0A211A]/10" />
-
-              <span className="absolute right-4 top-4 rounded-full border border-white/45 bg-black/10 px-3 py-1.5 font-mono text-[10px] tracking-[0.14em] text-white backdrop-blur-sm">
-                {String(activeIndex + 1).padStart(2, '0')}
-                <span className="mx-1.5 text-white/60">/</span>
-                {String(count).padStart(2, '0')}
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A211A]/20 via-transparent to-transparent md:bg-gradient-to-l md:from-transparent md:to-[#0A211A]/10" />
             </div>
           </article>
         </div>
 
         {/* Carousel navigation */}
-        <div className="relative z-30 mt-3 flex items-center justify-center gap-5">
+        <div className="relative z-30 mt-1 flex items-center justify-center gap-4 sm:gap-5">
           <button
             type="button"
             onClick={showPrevious}
             aria-label="Previous testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 bg-white/70 text-forest-800 transition-all duration-300 hover:border-forest-800 hover:bg-forest-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-600"
+            className="grid h-11 w-11 place-items-center rounded-full border border-lime-700/35 bg-white/65 text-forest-800 transition-all duration-300 hover:border-forest-800 hover:bg-forest-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-600"
           >
             <ArrowLeft size={18} />
           </button>
@@ -247,7 +305,7 @@ export function Testimonials() {
                 className={`h-2 rounded-full transition-all duration-300 ${
                   activeIndex === index
                     ? 'w-8 bg-forest-700'
-                    : 'w-2 bg-forest-800/25 hover:bg-forest-800/55'
+                      : 'w-2 bg-forest-800/20 hover:bg-forest-800/50'
                 }`}
               />
             ))}
@@ -257,7 +315,7 @@ export function Testimonials() {
             type="button"
             onClick={showNext}
             aria-label="Next testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border border-forest-800/20 bg-white/70 text-forest-800 transition-all duration-300 hover:border-forest-800 hover:bg-forest-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-600"
+            className="grid h-11 w-11 place-items-center rounded-full border border-lime-700/45 bg-lime-100/65 text-forest-800 transition-all duration-300 hover:border-forest-800 hover:bg-forest-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-600"
           >
             <ArrowRight size={18} />
           </button>
