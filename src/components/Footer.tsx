@@ -158,7 +158,7 @@ export function Footer() {
       <div className="shell pb-10 pt-24 md:pt-32">
 
         {/* Footer Heading */}
-        <MaskedLines
+        {/* <MaskedLines
           lines={["More than a website.", "A story of impact."]}
           className="headline-xl max-w-5xl text-black"
         />
@@ -174,7 +174,7 @@ export function Footer() {
           <span className="font-body text-sm text-black/50">
             or write to us directly — we reply within two working days.
           </span>
-        </div>
+        </div> */}
 
         {/* Footer Content */}
         <div className="mt-20 grid gap-12 border-t border-black/10 pt-14 md:grid-cols-2 lg:grid-cols-4">
