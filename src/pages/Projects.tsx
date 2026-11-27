@@ -231,15 +231,7 @@ export function ProjectsPage() {
               Real solutions. Measurable impact.
               <br />A cleaner tomorrow.
             </p>
-            <a
-              href="#portfolio"
-              className="group mt-8 inline-flex items-center gap-3 font-heading text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
-            >
-              <span className="grid h-12 w-12 place-items-center rounded-full border border-white/70 transition-colors group-hover:bg-lime-400 group-hover:text-[#04231c]">
-                <Play size={16} fill="currentColor" />
-              </span>
-              Explore Our Projects
-            </a>
+           
           </div>
 
           <div className="lg:justify-self-end">

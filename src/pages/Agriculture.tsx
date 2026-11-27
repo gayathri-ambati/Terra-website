@@ -118,15 +118,7 @@ export function AgriculturePage() {
           <p className="mt-6 max-w-md font-body text-lg leading-relaxed text-white/85">
             Empowering farmers with clean energy for a brighter and more productive future.
           </p>
-          <a
-            href="#commitment"
-            className="group mt-8 inline-flex items-center gap-3 font-heading text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
-          >
-            <span className="grid h-12 w-12 place-items-center rounded-full border border-white/70 transition-colors group-hover:bg-lime-400 group-hover:text-[#04231c]">
-              <Play size={16} fill="currentColor" />
-            </span>
-            Watch How It Works
-          </a>
+        
         </div>
 
         <svg
