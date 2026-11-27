@@ -121,11 +121,11 @@ export function AboutPage() {
   return (
     <main>
       <AboutHero />
+      <IdentitySection />
       <Visionmission />
       <JourneySection />
       <SolarEnergyVideo />
       <AboutValues />
-      <IdentitySection />
       <AboutProcessSection />
       <AboutPurpose />
       <ApproachSection />
