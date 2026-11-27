@@ -18,6 +18,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
+import { ProcessSection } from '@/components/ProjectsCompo/DeliveryProcess';
 
 const img = (id: string, w = 1200) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
@@ -427,7 +428,7 @@ export function ProjectsPage() {
       </section>
 
       {/* ------------------------------ PROCESS ---------------------------- */}
-      <section className="bg-[#f3f8f1] py-16 md:py-24">
+      {/* <section className="bg-[#f3f8f1] py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
           <Reveal>
             <p className="flex items-center gap-2 font-body text-sm font-medium text-green-700">
@@ -455,7 +456,9 @@ export function ProjectsPage() {
             ))}
           </ol>
         </div>
-      </section>
+      </section> */}
+
+      <ProcessSection />
 
       {/* --------------------------- BEFORE / AFTER ------------------------ */}
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 sm:px-10 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-16">
