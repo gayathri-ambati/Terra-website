@@ -1,678 +1,552 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowDown,
   ArrowRight,
-  ArrowUpRight,
+  Building2,
+  Cloud,
   Factory,
+  Home,
   Leaf,
+  Play,
+  TreePine,
+  Zap,
+  Activity,
+  ClipboardList,
   MapPin,
-  Search,
-  Sun,
+  PencilRuler,
+  Quote,
+  Wrench,
 } from 'lucide-react';
-import { projects } from '@/lib/content';
-import { MaskedLines, Reveal } from '@/components/Reveal';
-import { ClosingCta } from '@/components/HomeCompo/ClosingCta';
-import solarTeamworkVideo from '@/assets/solarteamworkvideo.mp4';
-import solarVideo from '@/assets/solarvideo.mp4';
+import { Reveal } from '@/components/Reveal';
 
-const SECTORS = ['All', 'Energy & Engineering', 'Agriculture', 'Industry'] as const;
-type Sector = (typeof SECTORS)[number];
+const img = (id: string, w = 1200) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 
-const SECTOR_IMAGES: Record<string, string> = {
-  'Energy & Engineering':
-    'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=85',
-  Agriculture:
-    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=85',
-  Industry:
-    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=85',
+const HERO_IMG = img('photo-1509391366360-2e959784a276', 2000);
+const CTA_IMG = img('photo-1497440001374-f26997328c1b', 1600);
+
+type Category = 'Residential' | 'Commercial' | 'Industrial';
+const FILTERS = ['All', 'Residential', 'Commercial', 'Industrial'] as const;
+type Filter = (typeof FILTERS)[number];
+
+const FILTER_ICONS: Record<Category, typeof Home> = {
+  Residential: Home,
+  Commercial: Building2,
+  Industrial: Factory,
 };
 
-const OUTCOMES = [
+const PROJECTS: {
+  title: string;
+  category: Category;
+  location: string;
+  capacity: string;
+  image: string;
+  slug: string;
+}[] = [
   {
-    value: '23%',
-    label: 'less energy used',
-    detail: 'Textile mill retrofit',
-    image: SECTOR_IMAGES['Energy & Engineering'],
-    alt: 'Solar panels in a renewable energy installation',
+    title: 'Modern Home Solar',
+    category: 'Residential',
+    location: 'Bangalore, India',
+    capacity: '5 kW',
+    image: img('photo-1558449028-b53a39d100fc', 900),
+    slug: 'modern-home-solar',
   },
   {
-    value: '7,500+',
-    label: 'farmers supported',
-    detail: 'TRANSFORM FPO programme',
-    image: SECTOR_IMAGES.Agriculture,
-    alt: 'Agricultural fields under a broad open sky',
+    title: 'Corporate Solar Park',
+    category: 'Commercial',
+    location: 'Mumbai, India',
+    capacity: '250 kW',
+    image: img('photo-1497366216548-37526070297c', 900),
+    slug: 'corporate-solar-park',
   },
   {
-    value: '2.1×',
-    label: 'line throughput',
-    detail: 'Auto component automation',
-    image: SECTOR_IMAGES.Industry,
-    alt: 'Industrial engineering equipment on a factory floor',
+    title: 'Factory Solar Solution',
+    category: 'Industrial',
+    location: 'Pune, India',
+    capacity: '1 MW',
+    image: img('photo-1581091226825-a6a2a5aee158', 900),
+    slug: 'factory-solar-solution',
+  },
+  {
+    title: 'Shopping Mall Solar',
+    category: 'Commercial',
+    location: 'Delhi, India',
+    capacity: '750 kW',
+    image: img('photo-1486406146926-c627a92ad1ab', 900),
+    slug: 'shopping-mall-solar',
   },
 ];
+
+const FEATURED = PROJECTS[2];
 
 const PROCESS = [
+  { icon: ClipboardList, title: 'Site survey', body: 'We measure roof or land, shading and your current power use.' },
+  { icon: PencilRuler, title: 'System design', body: 'A layout and capacity sized to your load, budget and space.' },
+  { icon: Wrench, title: 'Installation', body: 'Certified crews install, test and connect the system to the grid.' },
+  { icon: Activity, title: 'Monitoring', body: 'Live performance tracking and scheduled maintenance after handover.' },
+];
+
+const STORIES = [
   {
-    step: '01',
-    title: 'Understand the real challenge',
-    body: 'We listen first, then map the technical, operational and human realities on the ground.',
-    image: SECTOR_IMAGES.Industry,
-    alt: 'Engineer working with industrial equipment',
+    quote: 'Our monthly electricity bill dropped noticeably within the first quarter, and the team handled every approval for us.',
+    who: 'Homeowner',
+    where: 'Bangalore',
   },
   {
-    step: '02',
-    title: 'Design for your context',
-    body: 'A practical, multidisciplinary plan shaped around your goals, budget and day-to-day operations.',
-    image: SECTOR_IMAGES['Energy & Engineering'],
-    alt: 'Solar panels designed for a working energy site',
+    quote: 'The installation finished on schedule and the monitoring dashboard makes it easy to show savings to our board.',
+    who: 'Facilities manager',
+    where: 'Mumbai',
   },
   {
-    step: '03',
-    title: 'Deliver with your team',
-    body: 'Clear milestones and close collaboration keep implementation grounded in the way you work.',
-    image: SECTOR_IMAGES.Agriculture,
-    alt: 'Cultivated land and farming landscape',
-  },
-  {
-    step: '04',
-    title: 'Measure what changes',
-    body: 'We track outcomes after handover so the benefits last beyond the initial project.',
-    image:
-      'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=85',
-    alt: 'Renewable energy infrastructure at dusk',
+    quote: 'We run production through the day on solar now. Maintenance visits are on time and the output matches the plan.',
+    who: 'Plant head',
+    where: 'Pune',
   },
 ];
 
-const SECTOR_DETAILS = [
-  {
-    name: 'Energy & Engineering',
-    descriptor: 'Practical energy systems, engineered to perform.',
-    image: SECTOR_IMAGES['Energy & Engineering'],
-    icon: Sun,
-    count: '01',
-  },
-  {
-    name: 'Agriculture',
-    descriptor: 'Resilient infrastructure for stronger rural economies.',
-    image: SECTOR_IMAGES.Agriculture,
-    icon: Leaf,
-    count: '02',
-  },
-  {
-    name: 'Industry',
-    descriptor: 'Smarter operations built around people and production.',
-    image: SECTOR_IMAGES.Industry,
-    icon: Factory,
-    count: '03',
-  },
+function CountUp({ value }: { value: string }) {
+  const match = value.match(/^([\d.]+)(.*)$/);
+  const target = match ? parseFloat(match[1]) : 0;
+  const rest = match ? match[2] : value;
+  const decimals = match && match[1].includes('.') ? 1 : 0;
+  const [n, setN] = useState(0);
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setN(target);
+      return;
+    }
+    let raf = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min((now - start) / 1100, 1);
+          setN(target * (1 - Math.pow(1 - t, 3)));
+          if (t < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [target]);
+
+  return (
+    <span ref={ref}>
+      {n.toFixed(decimals)}
+      {rest}
+    </span>
+  );
+}
+
+function BeforeAfter() {
+  const [pos, setPos] = useState(50);
+  return (
+    <div className="relative aspect-[16/10] select-none overflow-hidden rounded-3xl shadow-[0_24px_70px_rgba(11,59,46,0.2)]">
+      <img
+        src={img('photo-1509391366360-2e959784a276', 1400)}
+        alt="After: solar array powering the site"
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <img
+        src={img('photo-1581091226825-a6a2a5aee158', 1400)}
+        alt="Before: conventional grid and diesel powered site"
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover grayscale brightness-75"
+        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+      />
+      <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 font-body text-xs font-medium text-white backdrop-blur">
+        Before
+      </span>
+      <span className="absolute right-4 top-4 rounded-full bg-lime-400 px-3 py-1 font-body text-xs font-semibold text-[#04231c]">
+        After
+      </span>
+      <div className="pointer-events-none absolute inset-y-0 w-0.5 bg-white" style={{ left: `${pos}%` }}>
+        <span className="absolute left-1/2 top-1/2 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-[#0b3b2e] shadow-lg">
+          <ArrowRight size={14} className="rotate-180" />
+          <ArrowRight size={14} />
+        </span>
+      </div>
+      <input
+        type="range"
+        min={0}
+        max={100}
+        value={pos}
+        onChange={(e) => setPos(Number(e.target.value))}
+        aria-label="Compare before and after"
+        className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+      />
+    </div>
+  );
+}
+
+const IMPACT = [
+  { icon: Leaf, value: '500+ MW', label: 'Clean Energy' },
+  { icon: Cloud, value: '1.2M+', label: 'CO₂ Avoided' },
+  { icon: Home, value: '750K+', label: 'Homes Powered' },
+  { icon: TreePine, value: '2M+', label: 'Trees Planted' },
 ];
 
 export function ProjectsPage() {
-  const [sector, setSector] = useState<Sector>('All');
-  const [query, setQuery] = useState('');
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updatePreference = (event: MediaQueryListEvent) => setReduceMotion(event.matches);
-    setReduceMotion(preference.matches);
-    preference.addEventListener('change', updatePreference);
-    return () => preference.removeEventListener('change', updatePreference);
-  }, []);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return projects.filter((project) => {
-      const matchesSector = sector === 'All' || project.sector === sector;
-      const haystack = [
-        project.title,
-        project.client,
-        project.industry,
-        project.solutions.join(' '),
-      ]
-        .join(' ')
-        .toLowerCase();
-      return matchesSector && (q === '' || haystack.includes(q));
-    });
-  }, [sector, query]);
+  const [filter, setFilter] = useState<Filter>('All');
+  const visible = useMemo(
+    () => PROJECTS.filter((p) => filter === 'All' || p.category === filter),
+    [filter],
+  );
 
   return (
-    <main>
-      <section className="grain relative flex min-h-[68svh] items-end overflow-hidden bg-forest-900 text-ivory md:min-h-[74svh]">
-        <video
-          autoPlay={!reduceMotion}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={SECTOR_IMAGES['Energy & Engineering']}
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src={solarTeamworkVideo} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-forest-900/95 via-forest-900/65 to-forest-900/20" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-forest-900/80 to-transparent" />
+    <main className="bg-white text-[#0b3b2e]">
+      {/* ------------------------------ HERO ------------------------------ */}
+      <section className="relative isolate overflow-hidden bg-[#04231c] text-white">
+        <img
+          src={HERO_IMG}
+          alt="Solar panels across green hills at sunrise"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#04231c] via-[#04231c]/60 to-transparent" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#04231c]/60 via-transparent to-transparent" />
 
-        <div className="shell relative z-10 grid w-full gap-12 pb-14 pt-36 md:grid-cols-[1fr_auto] md:items-end md:pb-20">
-          <div className="max-w-4xl">
-            <p className="label-caps mb-6 flex items-center gap-3 text-sage-300">
-              <span className="h-px w-10 bg-sage-300" />
-              Projects &amp; case studies
+        <div className="mx-auto grid min-h-[560px] max-w-7xl items-center gap-10 px-6 pb-28 pt-36 sm:px-10 lg:grid-cols-[1.2fr_1fr] lg:px-16">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 font-body text-xs backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-lime-400" />
+              Our Projects
+            </span>
+            <h1 className="mt-6 font-heading text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+              Our Solar
+              <span className="block text-lime-400">Projects</span>
+            </h1>
+            <p className="mt-6 max-w-md font-body text-lg leading-relaxed text-white/85">
+              Real solutions. Measurable impact.
+              <br />A cleaner tomorrow.
             </p>
-            <MaskedLines
-              lines={['Real work.', 'Lasting change.']}
-              className="headline-xl"
-              startDelay={150}
-            />
-            <Reveal delay={260}>
-              <p className="mt-7 max-w-xl font-body text-base leading-relaxed text-ivory/75 md:text-lg">
-                Every engagement starts with your goals. Explore how we turn complex challenges
-                into measurable progress across energy, agriculture and industry.
-              </p>
-            </Reveal>
-            <Reveal delay={360}>
-              <div className="mt-9 flex flex-wrap items-center gap-4">
-                <a
-                  href="#projects"
-                  className="group inline-flex items-center gap-3 rounded-full bg-sage-300 px-6 py-3.5 font-heading text-sm font-semibold text-forest-900 transition-all hover:bg-ivory"
-                >
-                  Explore our work
-                  <ArrowDown size={16} className="transition-transform group-hover:translate-y-1" />
-                </a>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-ivory/45 px-6 py-3.5 font-heading text-sm font-semibold text-ivory transition-colors hover:border-ivory hover:bg-ivory/10"
-                >
-                  Start a conversation <ArrowUpRight size={16} />
-                </Link>
-              </div>
-            </Reveal>
+            <a
+              href="#portfolio"
+              className="group mt-8 inline-flex items-center gap-3 font-heading text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
+            >
+              <span className="grid h-12 w-12 place-items-center rounded-full border border-white/70 transition-colors group-hover:bg-lime-400 group-hover:text-[#04231c]">
+                <Play size={16} fill="currentColor" />
+              </span>
+              Explore Our Projects
+            </a>
           </div>
 
-          <Reveal delay={500} className="hidden md:block">
-            <p className="max-w-[150px] border-l border-sage-300/70 pl-4 font-body text-xs leading-relaxed text-ivory/60">
-              From first conversation to outcomes you can measure.
-            </p>
-          </Reveal>
+          <div className="lg:justify-self-end">
+            <div className="inline-flex items-center gap-5 rounded-xl border border-white/15 bg-[#04231c]/70 px-6 py-4 backdrop-blur-md">
+              <div>
+                <p className="font-heading text-4xl font-bold leading-none">500+ MW</p>
+                <p className="mt-1.5 font-body text-xs text-white/75">Clean Energy Generated</p>
+              </div>
+              <div className="flex h-10 items-end gap-1" aria-hidden="true">
+                {[40, 60, 50, 80, 100].map((h, i) => (
+                  <span key={i} className="w-1.5 rounded-sm bg-lime-400" style={{ height: `${h}%` }} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="absolute bottom-7 right-8 hidden items-center gap-3 font-heading text-[10px] uppercase tracking-[0.2em] text-ivory/55 lg:flex">
-          <span className="h-px w-8 bg-ivory/40" />
-          Terra in the field
-        </div>
+
+        {/* curved white edge */}
+        <svg
+          className="absolute inset-x-0 bottom-0 h-16 w-full text-white sm:h-24"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path fill="currentColor" d="M0 70C240 10 420 20 700 60s560 50 740-10v70H0z" />
+        </svg>
       </section>
 
-      <section id="projects" className="bg-[#f4f3ec] py-20 md:py-32">
-        <div className="shell">
-          <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-            <div>
-              <Reveal>
-                <p className="label-caps mb-4 flex items-center gap-3 text-forest-700">
-                  <span className="h-px w-10 bg-forest-700" />
-                  A closer look at our work
-                </p>
-                <h2 className="max-w-3xl font-display text-4xl font-medium leading-[0.98] tracking-tight text-forest-900 md:text-6xl">
-                  Designed for change.
-                  <span className="mt-1 block italic text-forest-700">Proven in the real world.</span>
-                </h2>
-              </Reveal>
-            </div>
-            <Reveal delay={120}>
-              <p className="max-w-sm border-l border-forest-800/20 pl-5 font-body text-sm leading-relaxed text-charcoal/65 md:mb-1">
-                Every project is shaped around a real challenge—and the people who need the
-                solution to work.
-              </p>
-            </Reveal>
-          </div>
+      {/* ---------------------------- PORTFOLIO ---------------------------- */}
+      <section id="portfolio" className="relative overflow-hidden bg-white py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 sm:px-10 lg:grid-cols-[0.8fr_1.6fr] lg:px-16">
+          <Reveal>
+            <p className="flex items-center gap-2 font-body text-sm font-medium text-green-700">
+              <span className="h-px w-3 bg-green-700" />
+              Our Portfolio
+            </p>
+            <h2 className="mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl">
+              Powering Progress Across Industries
+            </h2>
+            <p className="mt-5 max-w-sm font-body text-sm leading-relaxed text-slate-600">
+              From homes to industries, our solar solutions are helping communities and businesses
+              embrace clean energy.
+            </p>
+            <Link
+              to="/contact"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0b3b2e] px-6 py-3 font-heading text-sm font-semibold text-white transition-colors hover:bg-green-700"
+            >
+              View All Projects <ArrowRight size={15} />
+            </Link>
+          </Reveal>
 
-          <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-forest-900/10 bg-white/75 p-4 shadow-[0_8px_30px_rgba(27,42,32,0.04)] md:flex-row md:items-center md:justify-between md:p-5">
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Filter projects by sector">
-              {SECTORS.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  aria-pressed={sector === item}
-                  onClick={() => setSector(item)}
-                  className={`rounded-full px-4 py-2.5 font-heading text-xs font-semibold transition-colors sm:px-5 sm:text-sm ${
-                    sector === item
-                      ? 'bg-forest-900 text-ivory'
-                      : 'border border-forest-900/15 text-forest-900 hover:border-forest-900/50'
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-            <label className="relative flex items-center md:w-72">
-              <Search size={16} className="absolute left-4 text-charcoal/45" />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search projects…"
-                className="w-full rounded-full border border-forest-900/15 bg-transparent py-2.5 pl-11 pr-4 font-body text-sm text-charcoal placeholder:text-charcoal/45 focus:border-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800/10"
-                aria-label="Search projects"
-              />
-            </label>
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-forest-900/20 bg-white/50 px-6 py-16 text-center">
-              <p className="font-display text-2xl text-forest-900">No matching projects.</p>
-              <p className="mt-2 font-body text-sm text-charcoal/60">
-                Try another keyword or choose a different sector.
-              </p>
-            </div>
-          )}
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {filtered.map((project, index) => {
-              const result = project.results[0];
-              const image = SECTOR_IMAGES[project.sector];
-              const featured = index === 0 && filtered.length > 1;
-
-              return (
-                <Reveal
-                  key={project.slug}
-                  delay={(index % 2) * 100}
-                  variant={featured ? 'scale' : 'fade'}
-                  className={featured ? 'md:col-span-2' : ''}
-                >
-                  <Link
-                    to={`/projects/${project.slug}`}
-                    className={`group relative flex h-full flex-col overflow-hidden rounded-[1.5rem] shadow-[0_12px_40px_rgba(27,42,32,0.07)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(27,42,32,0.14)] ${
-                      featured
-                        ? 'bg-forest-900 text-ivory md:grid md:grid-cols-[1.08fr_0.92fr]'
-                        : 'bg-white text-forest-900'
+          <div>
+            <div className="mb-6 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+              {FILTERS.map((f) => {
+                const Icon = f === 'All' ? null : FILTER_ICONS[f];
+                const active = filter === f;
+                return (
+                  <button
+                    key={f}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setFilter(f)}
+                    className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 font-body text-sm font-medium transition-colors ${
+                      active
+                        ? 'border-[#0b3b2e] bg-[#0b3b2e] text-white'
+                        : 'border-slate-200 bg-white text-slate-700 hover:border-green-600'
                     }`}
                   >
-                    <div
-                      className={`group/image relative overflow-hidden ${
-                        featured ? 'min-h-[300px] md:min-h-[440px]' : 'min-h-[230px]'
-                      }`}
-                    >
-                      <img
-                        src={image}
-                        alt={`${project.sector} project in ${project.location}`}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div
-                        className={`absolute inset-0 ${
-                          featured
-                            ? 'bg-gradient-to-t from-forest-900/70 via-forest-900/10 to-forest-900/10 md:bg-gradient-to-r md:from-transparent md:to-forest-900/10'
-                            : 'bg-gradient-to-t from-forest-900/55 via-transparent to-forest-900/10'
-                        }`}
-                      />
-                      {featured && (
-                        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-forest-900/35 px-3.5 py-2 font-heading text-[10px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-md">
-                          <span className="h-1.5 w-1.5 rounded-full bg-sage-300" />
-                          Featured project
-                        </span>
-                      )}
-                      <span className="absolute right-5 top-5 rounded-full border border-white/35 bg-forest-900/25 px-3.5 py-2 font-heading text-[10px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-md">
-                        {project.sector}
-                      </span>
-                      <span className="absolute bottom-5 left-5 flex items-center gap-2 font-body text-xs text-white/90">
-                        <MapPin size={14} className="text-sage-300" />
-                        {project.location}
-                      </span>
-                    </div>
-
-                    <div
-                      className={`flex flex-1 flex-col justify-between p-6 sm:p-8 ${
-                        featured ? 'md:p-10' : ''
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center justify-between gap-4">
-                          <span
-                            className={`label-caps ${
-                              featured ? 'text-sage-300' : 'text-forest-700'
-                            }`}
-                          >
-                            {project.industry}
-                          </span>
-                          <span
-                            className={`font-display text-3xl ${
-                              featured ? 'text-ivory/20' : 'text-forest-900/15'
-                            }`}
-                          >
-                            {String(index + 1).padStart(2, '0')}
-                          </span>
-                        </div>
-                        <h3
-                          className={`mt-4 font-display font-medium leading-tight transition-colors ${
-                            featured
-                              ? 'text-3xl text-ivory group-hover:text-sage-300 sm:text-4xl'
-                              : 'text-2xl text-forest-900 group-hover:text-forest-700 sm:text-3xl'
-                          }`}
-                        >
-                          {project.title}
-                        </h3>
-                        <p
-                          className={`mt-4 line-clamp-3 font-body text-sm leading-relaxed ${
-                            featured ? 'text-ivory/70' : 'text-charcoal/65'
-                          }`}
-                        >
-                          {project.overview}
-                        </p>
-                        <div className="mt-5 flex flex-wrap gap-2">
-                          {project.solutions.slice(0, 2).map((solution) => (
-                            <span
-                              key={solution}
-                              className={`rounded-full border px-3 py-1.5 font-heading text-[10px] font-medium ${
-                                featured
-                                  ? 'border-ivory/15 text-ivory/70'
-                                  : 'border-forest-900/10 text-forest-800/75'
-                              }`}
-                            >
-                              {solution}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div
-                        className={`mt-7 border-t pt-5 ${
-                          featured ? 'border-ivory/15' : 'border-forest-900/10'
-                        }`}
-                      >
-                        <div className="flex items-end justify-between gap-4">
-                          <div>
-                            <p
-                              className={`font-display text-3xl font-medium ${
-                                featured ? 'text-sage-300' : 'text-forest-800'
-                              }`}
-                            >
-                              <span className="mr-2 text-xs font-semibold uppercase tracking-[0.14em] text-current/60">
-                                Result
-                              </span>
-                              {result.value}
-                            </p>
-                            <p
-                              className={`mt-1 max-w-[260px] font-body text-xs leading-relaxed ${
-                                featured ? 'text-ivory/55' : 'text-charcoal/55'
-                              }`}
-                            >
-                              {result.label}
-                            </p>
-                          </div>
-                          <span
-                            className={`grid h-12 w-12 shrink-0 place-items-center rounded-full transition-all duration-300 ${
-                              featured
-                                ? 'border border-ivory/25 text-ivory group-hover:border-sage-300 group-hover:bg-sage-300 group-hover:text-forest-900'
-                                : 'border border-forest-900/15 text-forest-900 group-hover:border-forest-900 group-hover:bg-forest-900 group-hover:text-white'
-                            }`}
-                          >
-                            <ArrowUpRight size={18} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden bg-forest-900 py-20 text-ivory md:py-28">
-        <div className="absolute inset-0 opacity-15">
-          <img
-            src={SECTOR_IMAGES['Energy & Engineering']}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-forest-900 via-forest-900/95 to-forest-900/75" />
-        <div className="shell relative z-10">
-          <div className="mb-12 grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
-            <Reveal>
-              <p className="label-caps mb-4 flex items-center gap-3 text-sage-300">
-                <span className="h-px w-10 bg-sage-300" />
-                The work, in numbers
-              </p>
-              <h2 className="font-display text-4xl font-medium md:text-5xl">
-                Progress you can <span className="italic text-sage-300">measure.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="max-w-xs font-body text-sm leading-relaxed text-ivory/60">
-                Outcomes from the case studies featured above—not promises, but results delivered.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {OUTCOMES.map((outcome, index) => (
-              <Reveal key={outcome.value} delay={index * 100} variant="scale">
-                <article className="group relative min-h-[270px] overflow-hidden rounded-2xl border border-white/10">
-                  <img
-                    src={outcome.image}
-                    alt={outcome.alt}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest-900/85 via-forest-900/15 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                    <p className="font-display text-5xl font-medium text-sage-300 sm:text-6xl">
-                      {outcome.value}
-                    </p>
-                    <p className="mt-2 font-heading text-sm font-semibold text-ivory">
-                      {outcome.label}
-                    </p>
-                    <p className="mt-1 font-body text-xs text-ivory/55">{outcome.detail}</p>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#e9ede4] py-20 md:py-28">
-        <div className="shell grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
-          <Reveal variant="left">
-            <div className="relative min-h-[360px] overflow-hidden rounded-[1.75rem] bg-forest-900 shadow-[0_24px_70px_rgba(16,37,29,0.18)] sm:min-h-[500px]">
-              <video
-                autoPlay={!reduceMotion}
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster={SECTOR_IMAGES['Energy & Engineering']}
-                aria-label="Terra team working on renewable energy"
-                className="absolute inset-0 h-full w-full object-cover"
-              >
-                <source src={solarVideo} type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-900/75 via-transparent to-forest-900/10" />
-              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4 sm:bottom-8 sm:left-8 sm:right-8">
-                <div>
-                  <p className="label-caps text-sage-300">Energy in action</p>
-                  <p className="mt-2 max-w-sm font-display text-2xl text-white sm:text-3xl">
-                    Better systems. A lighter footprint.
-                  </p>
-                </div>
-                <span className="hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-white/50 text-white sm:grid">
-                  <ArrowUpRight size={19} />
-                </span>
-              </div>
+                    {Icon && <Icon size={15} />}
+                    {f}
+                  </button>
+                );
+              })}
             </div>
-          </Reveal>
 
-          <div className="py-2">
-            <Reveal delay={100}>
-              <p className="label-caps mb-5 flex items-center gap-3 text-forest-700">
-                <span className="h-px w-10 bg-forest-700" />
-                Engineering with purpose
-              </p>
-              <h2 className="font-display text-4xl font-medium leading-tight text-forest-900 md:text-5xl">
-                Good work is felt <span className="italic text-forest-700">on the ground.</span>
-              </h2>
-              <p className="mt-6 max-w-lg font-body text-base leading-relaxed text-charcoal/70">
-                The best solutions fit the people, places and operations they serve. We work
-                alongside clients to make change practical—from cleaner energy to more resilient
-                farms and better-performing facilities.
-              </p>
-            </Reveal>
-            <div className="mt-9 space-y-4">
-              {[
-                'Designed around each client’s priorities',
-                'Delivered with clarity and close collaboration',
-                'Measured beyond the day of handover',
-              ].map((item, index) => (
-                <Reveal key={item} delay={160 + index * 80}>
-                  <div className="flex items-center gap-4 border-b border-forest-900/10 pb-4">
-                    <span className="font-display text-sm text-forest-700">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <p className="font-body text-sm text-charcoal/75">{item}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal delay={420}>
-              <Link
-                to="/contact"
-                className="mt-8 inline-flex items-center gap-2 font-heading text-sm font-semibold text-forest-800 transition-colors hover:text-forest-600"
-              >
-                Talk with our team <ArrowRight size={16} />
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#f4f3ec] py-20 md:py-28">
-        <div className="shell">
-          <div className="mb-12 grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
-            <Reveal>
-              <p className="label-caps mb-4 flex items-center gap-3 text-forest-700">
-                <span className="h-px w-10 bg-forest-700" />
-                How we work
-              </p>
-              <h2 className="max-w-2xl font-display text-4xl font-medium text-forest-900 md:text-5xl">
-                A thoughtful process. <span className="italic text-forest-700">Real momentum.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="max-w-xs font-body text-sm leading-relaxed text-charcoal/65">
-                A clear path from understanding the need to making the result last.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {PROCESS.map((item, index) => (
-              <Reveal key={item.step} delay={index * 80} variant="fade">
-                <article className="group h-full overflow-hidden rounded-2xl bg-white shadow-[0_12px_40px_rgba(27,42,32,0.06)]">
-                  <div className="relative h-48 overflow-hidden">
+            <div className="grid gap-5 sm:grid-cols-2">
+              {visible.map((p) => (
+                <Link
+                  key={p.slug}
+                  to={`/projects/${p.slug}`}
+                  className="group overflow-hidden rounded-xl bg-white shadow-[0_8px_30px_rgba(11,59,46,0.08)] ring-1 ring-slate-100 transition-shadow hover:shadow-[0_16px_40px_rgba(11,59,46,0.16)]"
+                >
+                  <div className="relative h-40 overflow-hidden sm:h-44">
                     <img
-                      src={item.image}
-                      alt={item.alt}
+                      src={p.image}
+                      alt={`${p.title} installation`}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-900/55 to-transparent" />
-                    <span className="absolute bottom-4 left-5 font-display text-4xl text-white/80">
-                      {item.step}
+                    <span className="absolute bottom-2 left-2 rounded-md bg-lime-400 px-2 py-0.5 font-body text-[11px] font-semibold text-[#04231c]">
+                      {p.category}
                     </span>
                   </div>
-                  <div className="p-5 sm:p-6">
-                    <h3 className="font-display text-xl font-medium leading-snug text-forest-900">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 font-body text-sm leading-relaxed text-charcoal/65">
-                      {item.body}
-                    </p>
+                  <div className="p-4">
+                    <h3 className="font-heading text-base font-semibold">{p.title}</h3>
+                    <p className="mt-0.5 font-body text-xs text-slate-500">{p.location}</p>
+                    <div className="mt-3 flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold">
+                        <Zap size={14} className="text-green-600" />
+                        {p.capacity}
+                      </span>
+                      <span className="grid h-7 w-7 place-items-center rounded-full border border-green-600 text-green-700 transition-colors group-hover:bg-green-600 group-hover:text-white">
+                        <ArrowRight size={13} />
+                      </span>
+                    </div>
                   </div>
-                </article>
+                </Link>
+              ))}
+            </div>
+            {visible.length === 0 && (
+              <p className="py-10 text-center font-body text-sm text-slate-500">
+                No projects in this category yet.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------- FEATURED ---------------------------- */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="grid overflow-hidden rounded-3xl bg-[#04231c] text-white shadow-[0_24px_70px_rgba(4,35,28,0.25)] lg:grid-cols-[1.1fr_1fr]">
+            <div className="relative min-h-[280px]">
+              <img
+                src={FEATURED.image}
+                alt={`${FEATURED.title} installation`}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#04231c]/70 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#04231c]/50" />
+              <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-lime-400 px-3 py-1.5 font-body text-xs font-semibold text-[#04231c]">
+                <Zap size={13} /> Featured project
+              </span>
+            </div>
+            <div className="flex flex-col justify-center p-8 sm:p-12">
+              <p className="inline-flex items-center gap-2 font-body text-sm text-lime-400">
+                <MapPin size={14} /> {FEATURED.location}
+              </p>
+              <h2 className="mt-3 font-heading text-3xl font-bold leading-tight sm:text-4xl">{FEATURED.title}</h2>
+              <p className="mt-4 max-w-md font-body text-sm leading-relaxed text-white/75">
+                A large rooftop system that supplies daytime power to a working plant, cutting grid dependence
+                without interrupting production.
+              </p>
+              <dl className="mt-7 grid grid-cols-3 gap-4 border-t border-white/15 pt-6">
+                <div>
+                  <dt className="font-body text-xs text-white/55">Capacity</dt>
+                  <dd className="mt-1 font-heading text-xl font-bold text-lime-400">{FEATURED.capacity}</dd>
+                </div>
+                <div>
+                  <dt className="font-body text-xs text-white/55">Sector</dt>
+                  <dd className="mt-1 font-heading text-xl font-bold">{FEATURED.category}</dd>
+                </div>
+                <div>
+                  <dt className="font-body text-xs text-white/55">City</dt>
+                  <dd className="mt-1 font-heading text-xl font-bold">Pune</dd>
+                </div>
+              </dl>
+              <Link
+                to={`/projects/${FEATURED.slug}`}
+                className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-lime-400 px-6 py-3 font-heading text-sm font-semibold text-[#04231c] transition-colors hover:bg-white"
+              >
+                Read the case study <ArrowRight size={15} />
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ------------------------------ IMPACT ----------------------------- */}
+      <section className="px-4 pb-6 sm:px-6">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 rounded-3xl bg-gradient-to-r from-[#04231c] via-[#0b3b2e] to-[#14532d] px-6 py-10 text-white sm:px-10 lg:grid-cols-[1fr_1.6fr]">
+          <div>
+            <p className="font-body text-sm font-medium text-lime-400">Our Project Impact</p>
+            <h2 className="mt-2 font-heading text-3xl font-bold leading-tight">
+              Together for a Greener Planet
+            </h2>
+            <p className="mt-3 max-w-xs font-body text-sm text-white/70">
+              Our projects are making a real difference in reducing carbon emissions.
+            </p>
+          </div>
+          <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {IMPACT.map(({ icon: Icon, value, label }) => (
+              <div key={label} className="flex flex-col items-center text-center">
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-green-600/40 text-lime-400 ring-1 ring-lime-400/30">
+                  <Icon size={20} />
+                </span>
+                <dd className="mt-3 font-heading text-xl font-bold"><CountUp value={value} /></dd>
+                <dt className="mt-0.5 font-body text-xs text-white/65">{label}</dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ------------------------------ PROCESS ---------------------------- */}
+      <section className="bg-[#f3f8f1] py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+          <Reveal>
+            <p className="flex items-center gap-2 font-body text-sm font-medium text-green-700">
+              <span className="h-px w-3 bg-green-700" /> How we deliver
+            </p>
+            <h2 className="mt-3 max-w-xl font-heading text-3xl font-bold md:text-4xl">
+              From first visit to lasting performance
+            </h2>
+          </Reveal>
+          <ol className="relative mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <span className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-green-600/40 to-transparent lg:block" aria-hidden="true" />
+            {PROCESS.map(({ icon: Icon, title, body }, i) => (
+              <Reveal key={title} delay={i * 90}>
+                <li className="relative">
+                  <span className="relative grid h-14 w-14 place-items-center rounded-full bg-[#0b3b2e] text-lime-400 shadow-lg ring-4 ring-[#f3f8f1]">
+                    <Icon size={22} />
+                  </span>
+                  <h3 className="mt-5 font-heading text-lg font-semibold">
+                    <span className="mr-2 text-green-600">{i + 1}.</span>
+                    {title}
+                  </h3>
+                  <p className="mt-2 font-body text-sm leading-relaxed text-slate-600">{body}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* --------------------------- BEFORE / AFTER ------------------------ */}
+      <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 sm:px-10 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-16">
+        <Reveal>
+          <p className="flex items-center gap-2 font-body text-sm font-medium text-green-700">
+            <span className="h-px w-3 bg-green-700" /> Before &amp; after
+          </p>
+          <h2 className="mt-3 font-heading text-3xl font-bold leading-tight md:text-4xl">
+            See the site change
+          </h2>
+          <p className="mt-4 max-w-sm font-body text-sm leading-relaxed text-slate-600">
+            Drag the slider to compare a conventionally powered site with the same site running on solar.
+          </p>
+          <ul className="mt-6 space-y-3 font-body text-sm text-slate-700">
+            {['Lower daytime grid demand', 'Quieter, cleaner on-site power', 'Output visible in a live dashboard'].map((t) => (
+              <li key={t} className="flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-lime-500" /> {t}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+        <Reveal delay={120}>
+          <BeforeAfter />
+        </Reveal>
+      </section>
+
+      {/* ------------------------------ STORIES ---------------------------- */}
+      <section className="bg-[#f3f8f1] py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+          <Reveal>
+            <p className="flex items-center gap-2 font-body text-sm font-medium text-green-700">
+              <span className="h-px w-3 bg-green-700" /> Customer stories
+            </p>
+            <h2 className="mt-3 font-heading text-3xl font-bold md:text-4xl">What our customers say</h2>
+          </Reveal>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {STORIES.map((s, i) => (
+              <Reveal key={s.where} delay={i * 90}>
+                <figure className="flex h-full flex-col rounded-2xl bg-white p-7 shadow-[0_10px_34px_rgba(11,59,46,0.08)] ring-1 ring-slate-100">
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-lime-400 text-[#04231c]">
+                    <Quote size={18} />
+                  </span>
+                  <blockquote className="mt-5 flex-1 font-body text-[15px] leading-relaxed text-slate-700">
+                    {s.quote}
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-slate-100 pt-4">
+                    <p className="font-heading text-sm font-semibold">{s.who}</p>
+                    <p className="font-body text-xs text-slate-500">{s.where}</p>
+                  </figcaption>
+                </figure>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#e9ede4] py-20 md:py-28">
-        <div className="shell">
-          <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <Reveal>
-              <p className="label-caps mb-4 flex items-center gap-3 text-forest-700">
-                <span className="h-px w-10 bg-forest-700" />
-                Where we work
-              </p>
-              <h2 className="font-display text-4xl font-medium text-forest-900 md:text-5xl">
-                Three sectors. <span className="italic text-forest-700">One shared future.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="max-w-sm font-body text-sm leading-relaxed text-charcoal/65">
-                Explore the work that connects resilient communities, capable industry and a
-                cleaner energy future.
-              </p>
-            </Reveal>
+      {/* ------------------------------- CTA ------------------------------- */}
+      <section className="px-4 pb-10 sm:px-6">
+        <div className="relative isolate mx-auto flex max-w-7xl flex-col items-start justify-between gap-5 overflow-hidden rounded-3xl px-6 py-9 text-white sm:flex-row sm:items-center sm:px-10">
+          <img
+            src={CTA_IMG}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="absolute inset-0 -z-20 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#04231c] via-[#04231c]/80 to-[#04231c]/30" />
+          <div>
+            <h2 className="font-heading text-2xl font-bold sm:text-3xl">
+              Let&rsquo;s Build a Cleaner Future Together
+            </h2>
+            <p className="mt-2 font-body text-sm text-white/80">
+              Partner with us for sustainable solar solutions.
+            </p>
           </div>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {SECTOR_DETAILS.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Reveal key={item.name} delay={index * 100} variant="scale">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSector(item.name as Sector);
-                      document
-                        .getElementById('projects')
-                        ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
-                    }}
-                    className="group relative flex min-h-[390px] w-full flex-col justify-between overflow-hidden rounded-2xl bg-forest-900 p-6 text-left sm:min-h-[440px] sm:p-8"
-                  >
-                    <img
-                      src={item.image}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-900 via-forest-900/35 to-forest-900/10" />
-                    <div className="relative z-10 flex items-center justify-between">
-                      <span className="grid h-11 w-11 place-items-center rounded-full border border-white/40 text-white">
-                        <Icon size={19} />
-                      </span>
-                      <span className="font-display text-4xl text-white/55">{item.count}</span>
-                    </div>
-                    <div className="relative z-10">
-                      <h3 className="font-display text-3xl font-medium text-white">{item.name}</h3>
-                      <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-white/70">
-                        {item.descriptor}
-                      </p>
-                      <span className="mt-6 inline-flex items-center gap-2 font-heading text-xs font-semibold uppercase tracking-[0.15em] text-sage-300">
-                        View projects
-                        <ArrowRight
-                          size={15}
-                          className="transition-transform group-hover:translate-x-1"
-                        />
-                      </span>
-                    </div>
-                  </button>
-                </Reveal>
-              );
-            })}
-          </div>
+          <Link
+            to="/contact"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-lime-400 px-6 py-3 font-heading text-sm font-semibold text-[#04231c] transition-colors hover:bg-white"
+          >
+            Get in Touch <ArrowRight size={15} />
+          </Link>
         </div>
       </section>
-
-      <ClosingCta
-        title={['Your next challenge', 'starts a conversation.']}
-        cta="Discuss a project"
-        description="Tell us what you want to change. We’ll work with you to find a practical way forward."
-      />
     </main>
   );
 }

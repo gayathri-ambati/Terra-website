@@ -3,13 +3,13 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { HomePage } from '@/pages/Home';
 import { AboutPage } from '@/pages/About';
-import { ImpactPage } from '@/pages/Impact';
+import ImpactPage  from '@/pages/Impact';
 import { SolutionsPage } from '@/pages/Solutions';
 import { EnergyPage } from '@/pages/EnergyEngineering';
 import { AgriculturePage } from '@/pages/Agriculture';
 import { ProjectsPage } from '@/pages/Projects';
 import { CaseStudyPage } from '@/pages/CaseStudy';
-import { InsightsPage } from '@/pages/Insights';
+import InsightsPage  from '@/pages/Insights';
 import { ContactPage } from '@/pages/Contact';
 import { usePageMeta, useScrollTopOnNav } from '@/lib/meta';
 

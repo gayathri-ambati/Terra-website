@@ -1,96 +1,138 @@
+// LatestInsights.tsx
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  CalendarDays,
+  Clock,
+  Sun,
+  Zap,
+  Leaf,
+  BarChart3,
+  Lightbulb,
+  LayoutGrid,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { ARTICLES, CATEGORIES, type Category } from "./Data";
+import { ArrowBtn, ease } from "./Common";
 
-import { ArrowUpRight } from "lucide-react";
+const ICONS: Record<Category, LucideIcon> = {
+  "All Articles": LayoutGrid,
+  "Solar Technology": Sun,
+  "Energy Savings": Zap,
+  Sustainability: Leaf,
+  "Industry Insights": BarChart3,
+  "Tips & Guides": Lightbulb,
+};
 
-const articles = [
-  {
-    category: "Clean Energy",
-    title: "Why energy efficiency is the next big business advantage",
-    description:
-      "Explore how smarter energy management can reduce operational costs and support sustainable business growth.",
-    image:
-      "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    category: "Technology",
-    title: "The role of automation in sustainable industries",
-    description:
-      "Discover how modern automation technologies are helping industries improve productivity and resource efficiency.",
-    image:
-      "https://i.pinimg.com/736x/05/10/e6/0510e6c6e28e12f480007d2be21a544c.jpg",
-  },
-  {
-    category: "Sustainability",
-    title: "Creating a greener future through responsible innovation",
-    description:
-      "A closer look at how sustainable thinking and innovation can create long-term environmental value.",
-    image:
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+export default function LatestInsights() {
+  const [active, setActive] = useState<Category>("All Articles");
+  const list =
+    active === "All Articles"
+      ? ARTICLES
+      : ARTICLES.filter((a) => a.category === active);
 
-export function LatestInsights() {
   return (
-    <section
-      id="latest-insights"
-      className="bg-white py-20 md:py-28"
-    >
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
-        <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
-              Explore & Learn
-            </p>
-
-            <h2 className="text-4xl font-semibold text-[#173b2b] md:text-6xl">
-              Latest insights
-            </h2>
-          </div>
-
-          <p className="max-w-md leading-7 text-gray-500">
-            Ideas, knowledge and perspectives that inspire
-            smarter and more sustainable decisions.
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article, index) => (
-            <article
-              key={article.title}
-              className="group"
+    <section id="latest" className="mx-auto max-w-7xl px-4 py-14 md:px-6">
+      {/* Category pills */}
+      <div className="flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center">
+        {CATEGORIES.map((c) => {
+          const Icon = ICONS[c];
+          const on = active === c;
+          return (
+            <button
+              key={c}
+              onClick={() => setActive(c)}
+              className={`relative flex shrink-0 items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-md shadow-slate-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-green-700 ${
+                on
+                  ? "text-white"
+                  : "bg-white text-[#0b2e24] hover:bg-green-50"
+              }`}
             >
-              <div className="overflow-hidden rounded-2xl">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="h-[280px] w-full object-cover transition duration-700 group-hover:scale-105"
+              {on && (
+                <motion.span
+                  layoutId="pill"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  className="absolute inset-0 rounded-full bg-[#0b3b2e]"
                 />
-              </div>
-
-              <div className="mt-6">
-                <p className="text-sm font-medium text-green-700">
-                  {article.category}
-                </p>
-
-                <h3 className="mt-4 text-2xl font-semibold leading-snug text-[#173b2b]">
-                  {article.title}
-                </h3>
-
-                <p className="mt-4 leading-7 text-gray-500">
-                  {article.description}
-                </p>
-
-                <a
-                  href="/contact"
-                  className="mt-6 inline-flex items-center gap-2 font-medium text-[#173b2b] transition group-hover:text-green-700"
-                >
-                  Read more
-                  <ArrowUpRight size={20} />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+              )}
+              <span className="relative flex items-center gap-2">
+                {c !== "All Articles" && (
+                  <Icon
+                    size={16}
+                    className={on ? "text-[#b8f35a]" : "text-green-700"}
+                  />
+                )}
+                {c}
+              </span>
+            </button>
+          );
+        })}
       </div>
+
+      {/* Cards */}
+      <motion.div
+        layout
+        className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <AnimatePresence mode="popLayout">
+          {list.map((a, i) => (
+            <motion.a
+              layout
+              key={a.id}
+              href={a.href}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: (i % 3) * 0.12, ease }}
+              whileHover={{ y: -8 }}
+              className="group overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_-15px_rgba(6,40,31,0.25)] transition-shadow hover:shadow-[0_25px_50px_-15px_rgba(6,40,31,0.35)]"
+            >
+              <div className="relative h-52 overflow-hidden bg-green-100">
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
+                />
+                <span className="absolute bottom-6 left-4 rounded-full bg-[#b8f35a] px-3.5 py-1 text-xs font-bold text-[#0b2e24]">
+                  {a.category}
+                </span>
+                <svg
+                  className="absolute -bottom-px left-0 w-full text-white"
+                  viewBox="0 0 400 30"
+                  preserveAspectRatio="none"
+                  height="26"
+                >
+                  <path
+                    d="M0 30V12C80 0 150 6 220 14s120 6 180-4v20z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+              <div className="px-6 pb-6 pt-3">
+                <h3 className="min-h-[3.5rem] text-lg font-bold leading-snug text-[#0b2e24]">
+                  {a.title}
+                </h3>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3 text-xs text-slate-500">
+                    <span className="flex items-center gap-1.5">
+                      <CalendarDays size={14} className="text-green-700" />
+                      {a.date}
+                    </span>
+                    <span className="h-3 w-px bg-slate-300" />
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={14} className="text-green-700" />
+                      {a.read}
+                    </span>
+                  </div>
+                  <ArrowBtn />
+                </div>
+              </div>
+            </motion.a>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }
