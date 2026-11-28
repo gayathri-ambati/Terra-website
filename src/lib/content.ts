@@ -336,3 +336,20 @@ export const enquiryTypes = [
   'Careers',
   'Other',
 ];
+
+
+// lib/content.ts
+export const SLUG_TO_CODE: Record<string, string> = {
+  'energy-efficiency': 'EE',
+  'clean-energy': 'CE',
+  'ibms': 'IB',
+  'digital': 'DS',
+  'industrial-automation': 'IA',
+  'prefab': 'PS',
+  'press-components': 'PC',
+  'sustainable-management': 'SM',
+};
+
+export const CODE_TO_INDEX: Record<string, number> = Object.fromEntries(
+  solutions.map((s, i) => [s.code, i])
+);
