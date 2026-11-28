@@ -34,9 +34,7 @@ export default function SolutionsShowcase() {
       <div className="mx-auto max-w-7xl px-5 md:px-10">
         <div className="mb-14 grid gap-6 md:grid-cols-2 md:items-end">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-green-700">
-              What We Do
-            </p>
+          
             <h2 className="max-w-xl text-4xl font-semibold leading-tight text-[#173b2b] md:text-6xl">
               Solutions for a greener tomorrow.
             </h2>

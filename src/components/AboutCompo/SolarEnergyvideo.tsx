@@ -57,7 +57,7 @@ export default function SolarEnergyVideo() {
 
             {/* Description */}
             <p className="mt-6 text-base leading-8 text-slate-700 md:text-lg">
-              At <span className="font-semibold text-[#14532d]">iiiQbets</span>,
+              At <span className="font-semibold text-[#14532d]">Terra</span>,
               we help businesses embrace clean and renewable energy through
               intelligent solar solutions. From solar infrastructure to
               energy optimization, we enable organizations to reduce

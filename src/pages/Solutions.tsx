@@ -87,11 +87,11 @@ export function SolutionsPage() {
   return (
     <main>
       <SolutionsHero />
+      <SolutionsList />
       <SolarEnergySection />
       <HolidayInfographic />
       <SolutionsSection />
       <SolutionsShowcase />
-      <SolutionsList />
       <PartnersSection />
       {/* <ClosingCta title={['Not sure where', 'to begin?']} cta="Request an energy audit" /> */}
     </main>

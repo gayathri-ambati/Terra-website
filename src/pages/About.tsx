@@ -121,14 +121,15 @@ export function AboutPage() {
   return (
     <main>
       <AboutHero />
-      <IdentitySection />
       <Visionmission />
+      <IdentitySection />
+      
       <JourneySection />
       <SolarEnergyVideo />
       <AboutValues />
-      <AboutProcessSection />
+      {/* <AboutProcessSection /> */}
       <AboutPurpose />
-      <ApproachSection />
+      {/* <ApproachSection /> */}
       <TeamSection />
       <ClosingCta
         title={['Partner with us,', 'shape the decade ahead.']}
