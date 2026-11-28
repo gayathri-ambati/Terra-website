@@ -341,6 +341,11 @@ const IMG = {
   ev: evImg,
 };
 
+
+// Add this right below your existing IMG object:
+// Add this right below your existing IMG object:
+const IMPACT_BANNER_IMG  = "/images/impact-sunrise-village.png";
+
 const TOPICS = [
   { id: 'environment', label: 'Environment', icon: Leaf },
   { id: 'farms', label: 'Farms', icon: Sprout },
@@ -442,60 +447,110 @@ function Split({ id, label, title, intro, media, flip, bg, dark, children }: {
 }
 
 /* ---------- hero (split, so no image is stretched full-screen) ---------- */
+/* ---------- hero (sharp native-resolution right-anchored banner) ---------- */
 function Hero() {
   return (
-    <section className="relative isolate overflow-hidden text-white" style={{ background: DEEP }}>
-      <div aria-hidden className="absolute -right-40 top-10 -z-10 h-[620px] w-[620px] rounded-full opacity-60 blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(167,227,176,.45), transparent 65%)' }} />
-      <div className="mx-auto grid min-h-[92svh] max-w-6xl items-center gap-12 px-5 pb-28 pt-36 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-8">
-        <div>
-          <p className="text-sm font-semibold" style={{ color: MINT }}>Our impact</p>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }}
-            className="fd mt-3 text-[clamp(2.4rem,5.2vw,4.4rem)] font-semibold leading-[1.05]">
+    <section
+      className="relative isolate overflow-hidden text-white"
+      style={{ background: DEEP }}
+    >
+      {/* Right-anchored banner: capped width keeps native pixel density sharp */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 -z-20 w-full lg:w-[68%]">
+        <img
+          src={IMPACT_BANNER_IMG}
+          alt="Golden morning sun rays illuminating a lush green valley village, farms, and clean water at dawn"
+          fetchPriority="high"
+          className="h-full w-full object-cover object-right"
+        />
+        {/* Seamless blend into the deep forest left side */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, #0F3D2A 0%, rgba(15,61,42,0.75) 28%, rgba(15,61,42,0.12) 65%, rgba(15,61,42,0.2) 100%)",
+          }}
+        />
+      </div>
+
+      {/* Bottom fade into the topic bar */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-36"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(15,61,42,0.95), transparent)",
+        }}
+      />
+
+      <div className="mx-auto flex min-h-[92svh] max-w-6xl items-center px-5 pb-28 pt-36 md:px-8">
+        <div className="max-w-xl">
+          <p className="text-sm font-semibold" style={{ color: MINT }}>
+            Our impact
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className="fd mt-3 text-[clamp(2.4rem,5.2vw,4.4rem)] font-semibold leading-[1.05]"
+          >
             The same sun shines on every village.
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.5 }}
-            className="mt-5 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-            See how sunlight becomes power for homes, farms and vehicles, and what that changes for the people who use it.
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.5 }}
+            className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg"
+          >
+            See how sunlight becomes power for homes, farms and vehicles, and
+            what that changes for the people who use it.
           </motion.p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#video" className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold" style={{ background: MINT, color: DEEP }}>
+            <a
+              href="#video"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition hover:brightness-105"
+              style={{ background: MINT, color: DEEP }}
+            >
               <Play size={15} fill="currentColor" /> Watch how it works
             </a>
-            <a href="#environment" className="inline-flex items-center gap-2 rounded-full border border-white/35 px-6 py-3.5 text-sm font-semibold hover:bg-white hover:text-[#0F3D2A]">
+            <a
+              href="#environment"
+              className="inline-flex items-center gap-2 rounded-full border border-white/35 px-6 py-3.5 text-sm font-semibold transition hover:bg-white hover:text-[#0F3D2A]"
+            >
               See the impact <ArrowDown size={15} />
             </a>
           </div>
           <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4">
-            {[['5–6 hrs', 'strong sun every day'], ['Up to 80%', 'lower bills'], ['25 years', 'panel warranty']].map(([n, l]) => (
+            {[
+              ["5–6 hrs", "strong sun every day"],
+              ["Up to 80%", "lower bills"],
+              ["25 years", "panel warranty"],
+            ].map(([n, l]) => (
               <div key={n}>
-                <dt className="fd text-2xl font-semibold" style={{ color: MINT }}>{n}</dt>
-                <dd className="mt-0.5 text-sm text-white/70">{l}</dd>
+                <dt
+                  className="fd text-2xl font-semibold"
+                  style={{ color: MINT }}
+                >
+                  {n}
+                </dt>
+                <dd className="mt-0.5 text-sm text-white/75">{l}</dd>
               </div>
             ))}
           </dl>
         </div>
-
-        {/* Round image with slowly turning sun ring */}
-        <div className="relative mx-auto w-full max-w-[440px]">
-          <motion.div aria-hidden animate={{ rotate: 360 }} transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-            className="absolute -inset-7 rounded-full border-2 border-dashed" style={{ borderColor: 'rgba(167,227,176,.45)' }} />
-          <div aria-hidden className="absolute -inset-3 rounded-full" style={{ background: 'rgba(167,227,176,.12)' }} />
-          <motion.img src={IMG.hero} alt="Sun, Earth and solar panels" fetchPriority="high"
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}
-            className="relative aspect-square w-full rounded-full object-cover ring-4 ring-white/70" />
-          <div className="absolute -left-2 bottom-8 rounded-2xl bg-white px-4 py-2.5 text-[#10261B] shadow-xl md:-left-8">
-            <p className="fd text-lg font-semibold leading-none" style={{ color: LEAF }}>Free</p>
-            <p className="mt-1 text-xs text-[#10261B]/70">energy from the sun</p>
-          </div>
-        </div>
       </div>
 
-      <nav aria-label="Topics" className="absolute inset-x-0 bottom-0 border-t border-white/15 bg-[#0F3D2A]/70 backdrop-blur">
+      <nav
+        aria-label="Topics"
+        className="absolute inset-x-0 bottom-0 border-t border-white/15 bg-[#0F3D2A]/75 backdrop-blur"
+      >
         <ul className="mx-auto flex max-w-6xl justify-between gap-6 overflow-x-auto px-5 py-4 text-sm font-medium md:px-8">
           {TOPICS.map(({ id, label, icon: Icon }) => (
             <li key={id}>
-              <a href={`#${id}`} className="flex items-center gap-2 whitespace-nowrap text-white/80 hover:text-white">
+              <a
+                href={`#${id}`}
+                className="flex items-center gap-2 whitespace-nowrap text-white/80 transition hover:text-white"
+              >
                 <Icon size={16} style={{ color: MINT }} /> {label}
               </a>
             </li>

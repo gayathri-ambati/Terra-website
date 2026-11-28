@@ -1,30 +1,31 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ChevronDown, Droplets, IndianRupee, Leaf, Play, Quote, Sprout, Sun, Zap } from 'lucide-react';
+import { ArrowRight, Check, ChevronDown, Droplets, IndianRupee, Leaf, Quote, Sprout, Sun, Zap } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
 
 const img = (id: string, w = 1400) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 
-const HERO_IMG = img('photo-1500382017468-9049fed747ef', 2000);
-const TRACTOR_IMG = img('photo-1530836369250-ef72a3f5cda8', 1200);
-const IRRIGATION_IMG = img('photo-1625246333195-78d9c38ad449', 1400);
-const DRONE_IMG = img('photo-1473341304170-971dccb5ac1e', 1600);
+const HERO_IMG = '/images/solar-agriculture-banner.png';
+const FALLBACK_HERO_IMG = img('photo-1509391366360-2e959784a276', 2000);
+const TRACTOR_IMG = '/images/village-solar.png';
+const IRRIGATION_IMG = '/images/solar-pump.png';
+const DRONE_IMG = '/images/impact-sunrise-village.png';
 
 const COMMITMENTS = ['Reduce Electricity Bills', 'Power Irrigation Systems', 'Support Sustainable Farming'];
 
 const BENEFITS = [
-  { icon: Sprout, label: 'Efficient Irrigation' },
-  { icon: Sun, label: 'Reliable Power Supply' },
-  { icon: IndianRupee, label: 'Lower Operational Cost' },
-  { icon: Leaf, label: 'Eco-Friendly Farming' },
+  { icon: Sprout, label: 'Efficient Irrigation', sub: 'Consistent water flow during peak daylight hours' },
+  { icon: Sun, label: 'Reliable Power Supply', sub: 'Independent of rural grid cuts and voltage drops' },
+  { icon: IndianRupee, label: 'Lower Operational Cost', sub: 'Eliminate recurring diesel and monthly power bills' },
+  { icon: Leaf, label: 'Eco-Friendly Farming', sub: 'Zero-emission energy built for long-term soil health' },
 ];
 
 const SOLUTIONS = [
-  { title: 'Solar water pumps', body: 'Daylight-powered pumps for borewells and open wells, with no diesel and no meter.', image: img('photo-1625246333195-78d9c38ad449', 900) },
-  { title: 'Smart irrigation power', body: 'Drip and sprinkler systems run from solar with timers and moisture-based control.', image: img('photo-1416879595882-3373a0480b5b', 900) },
-  { title: 'Drying and cold storage', body: 'Solar dryers and cooled storage that cut post-harvest losses.', image: img('photo-1464226184884-fa280b87c399', 900) },
-  { title: 'Farm rooftop systems', body: 'Sheds, pump houses and farm buildings generating power for daily use.', image: img('photo-1574943320219-553eb213f72d', 900) },
+  { title: 'Solar water pumps', body: 'Daylight-powered pumps for borewells and open wells, with no diesel and no meter.', image: '/images/solar-pump.png' },
+  { title: 'Smart irrigation power', body: 'Drip and sprinkler systems run from solar with timers and moisture-based control.', image: '/images/village-solar.png' },
+  { title: 'Drying and cold storage', body: 'Solar dryers and cooled storage that cut post-harvest losses.', image: '/images/projects-banner.png' },
+  { title: 'Farm rooftop systems', body: 'Sheds, pump houses and farm buildings generating power for daily use.', image: '/images/solar-bom.png' },
 ];
 
 const STEPS = [
@@ -99,30 +100,17 @@ export function AgriculturePage() {
       <section className="relative isolate overflow-hidden bg-[#04231c] text-white">
         <img
           src={HERO_IMG}
-          alt="Farmer checking crops on a tablet in a green field at sunrise"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-right"
+          alt="Solar power for agriculture banner with solar panels, irrigation sprinklers, and green crops"
+          onError={(e) => {
+            if (e.currentTarget.src !== FALLBACK_HERO_IMG) {
+              e.currentTarget.src = FALLBACK_HERO_IMG;
+            }
+          }}
+          className="pointer-events-none block h-[420px] w-full object-cover object-center sm:h-[520px] lg:h-[620px]"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#04231c] via-[#04231c]/65 to-transparent" />
-
-        <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:px-10 lg:px-16">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 font-body text-xs backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-lime-400" />
-            Agriculture Solutions
-          </span>
-          <h1 className="mt-6 max-w-2xl font-heading text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            Solar Power
-            <span className="block">
-              for <span className="text-lime-400">Agriculture</span>
-            </span>
-          </h1>
-          <p className="mt-6 max-w-md font-body text-lg leading-relaxed text-white/85">
-            Empowering farmers with clean energy for a brighter and more productive future.
-          </p>
-        
-        </div>
 
         <svg
-          className="absolute inset-x-0 bottom-0 h-16 w-full text-white sm:h-24"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-16 w-full text-white sm:h-24"
           viewBox="0 0 1440 120"
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -137,7 +125,7 @@ export function AgriculturePage() {
           <div className="relative h-72 overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(11,59,46,0.18)] sm:h-96">
             <img
               src={TRACTOR_IMG}
-              alt="Tractor working a field beside solar panels"
+              alt="Solar panels powering rural farm land"
               loading="lazy"
               className="h-full w-full object-cover"
             />
@@ -186,31 +174,59 @@ export function AgriculturePage() {
       </section>
 
       {/* ----------------------------- BENEFITS ---------------------------- */}
-      <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 pb-14 sm:px-10 lg:grid-cols-[1fr_1fr] lg:px-16">
+      <section className="relative overflow-hidden py-8 md:py-14">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 pb-10 sm:px-10 lg:grid-cols-[1.15fr_0.85fr] lg:px-16">
           <div>
-            <p className="font-body text-sm font-medium text-green-700">Benefits for Agriculture</p>
-            <h2 className="mt-2 font-heading text-3xl font-bold md:text-4xl">Grow More with Solar</h2>
-            <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {BENEFITS.map(({ icon: Icon, label }, i) => (
+            <Reveal>
+              <p className="font-body text-sm font-medium text-green-700">Benefits for Agriculture</p>
+              <h2 className="mt-2 font-heading text-3xl font-bold md:text-4xl">Grow More with Solar</h2>
+              <p className="mt-3 max-w-lg font-body text-sm leading-relaxed text-slate-600">
+                Reliable daytime power built for Indian farms—cutting fuel dependence while keeping irrigation on schedule.
+              </p>
+            </Reveal>
+
+            <div className="mt-7 grid gap-4 sm:grid-cols-2">
+              {BENEFITS.map(({ icon: Icon, label, sub }, i) => (
                 <Reveal key={label} delay={i * 70}>
-                  <div className="flex h-full flex-col items-center rounded-xl bg-white p-4 text-center shadow-[0_8px_26px_rgba(11,59,46,0.08)] ring-1 ring-slate-100">
-                    <Icon size={26} className="text-green-600" strokeWidth={1.5} />
-                    <p className="mt-3 font-body text-xs font-medium leading-snug text-slate-700">{label}</p>
+                  <div className="group flex h-full items-start gap-4 rounded-2xl bg-white p-5 shadow-[0_8px_30px_rgba(11,59,46,0.07)] ring-1 ring-slate-200/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(11,59,46,0.12)] hover:ring-green-600/30">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-green-50 text-green-700 transition-colors group-hover:bg-[#0b3b2e] group-hover:text-lime-400">
+                      <Icon size={22} strokeWidth={1.75} />
+                    </span>
+                    <div>
+                      <h3 className="font-heading text-sm font-semibold text-[#0b3b2e]">{label}</h3>
+                      <p className="mt-1 font-body text-xs leading-relaxed text-slate-500">{sub}</p>
+                    </div>
                   </div>
                 </Reveal>
               ))}
             </div>
           </div>
-          <div className="relative hidden h-64 overflow-hidden rounded-3xl lg:block">
-            <img
-              src={IRRIGATION_IMG}
-              alt="Sprinklers watering green crop rows"
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 to-transparent" />
-          </div>
+
+          <Reveal variant="right" delay={120}>
+            <div className="group relative h-72 overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(11,59,46,0.18)] sm:h-80 lg:h-[360px]">
+              <img
+                src={IRRIGATION_IMG}
+                alt="Solar water pump system for farm irrigation"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#04231c]/80 via-[#04231c]/15 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#04231c]/80 px-4 py-3 text-white backdrop-blur-md">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-lime-400 text-[#04231c]">
+                    <Droplets size={18} />
+                  </span>
+                  <div>
+                    <p className="font-heading text-xs font-semibold sm:text-sm">Daylight Irrigation</p>
+                    <p className="font-body text-[11px] text-white/75">Zero diesel · 100% clean solar power</p>
+                  </div>
+                </div>
+                <span className="rounded-full bg-lime-400/20 px-2.5 py-1 font-heading text-xs font-semibold text-lime-300">
+                  25 Yr Life
+                </span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -274,7 +290,7 @@ export function AgriculturePage() {
       </section>
 
       {/* ----------------------------- ESTIMATOR --------------------------- */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 md:pb-24 lg:px-8">
+      <section id="estimator" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 md:pb-24 lg:px-8">
         <Reveal>
           <div className="mb-8 px-2">
             <p className="font-body text-sm font-medium text-green-700">Estimate your pump cost</p>

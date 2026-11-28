@@ -263,21 +263,22 @@
 
 
 // HeroSection.tsx
+// HeroSection.tsx
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Play, X } from "lucide-react";
 import { ease } from "./Common";
 
 /* ------------------------------------------------------------------ */
-/* Local video from assets, poster served from /public                */
+/* Local video from assets, poster & banner served from /public       */
 /* ------------------------------------------------------------------ */
 import heroVideo from "../../assets/inshightsvideo.mp4";
 
 /* ------------------------------------------------------------------ */
 /* Config                                                              */
 /* ------------------------------------------------------------------ */
-const HERO_BG =
-  "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=2400&q=80";
+// Save Option 2 to: public/images/insights-option-2.jpg
+const HERO_BG = "/images/insights-option-2.jpeg";
 
 const HERO_VIDEO = {
   src: heroVideo,
@@ -309,43 +310,45 @@ const Word = ({ children, i, accent }: WordProps) => (
   </span>
 );
 
-/* Video card shown on the right side of the hero */
+/* Video card placed cleanly below the side image focal area */
 function VideoCard({ onPlay }: { onPlay: () => void }) {
   return (
     <motion.button
       type="button"
       onClick={onPlay}
       aria-label={`Play video: ${HERO_VIDEO.title}`}
-      initial={{ opacity: 0, y: 30, scale: 0.96 }}
+      initial={{ opacity: 0, y: 24, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.9, ease }}
-      whileHover={{ y: -4 }}
-      className="group relative block w-full overflow-hidden rounded-3xl border border-white/20 bg-black/30 p-2 text-left shadow-2xl shadow-black/40 backdrop-blur-md focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b8f35a]/70"
+      whileHover={{ y: -3 }}
+      className="group relative flex w-full max-w-md items-center gap-4 overflow-hidden rounded-2xl border border-white/25 bg-[#06281f]/85 p-3 text-left shadow-2xl shadow-black/50 backdrop-blur-md focus:outline-none focus-visible:ring-4 focus-visible:ring-[#b8f35a]/70"
     >
-      <div className="relative aspect-video overflow-hidden rounded-2xl">
+      <div className="relative h-24 w-36 shrink-0 overflow-hidden rounded-xl">
         {/* ✅ Thumbnail: poster image */}
         <img
           src={HERO_VIDEO.poster}
           alt=""
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <div className="absolute inset-0 bg-black/25" />
 
-        {/* Play button with pulse ring */}
-        <span className="absolute left-1/2 top-1/2 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center">
-          <span className="absolute inset-0 animate-ping rounded-full bg-[#b8f35a]/40" />
-          <span className="relative grid h-20 w-20 place-items-center rounded-full bg-[#b8f35a] text-[#06281f] shadow-lg transition group-hover:scale-110">
-            <Play size={28} fill="currentColor" className="ml-1" />
-          </span>
+        {/* Play badge */}
+        <span className="absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[#b8f35a] text-[#06281f] shadow-md transition group-hover:scale-110">
+          <Play size={18} fill="currentColor" className="ml-0.5" />
         </span>
 
-        <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium">
+        <span className="absolute bottom-1.5 right-1.5 rounded bg-black/75 px-1.5 py-0.5 text-[10px] font-medium">
           {HERO_VIDEO.duration}
         </span>
       </div>
-      <div className="px-3 pb-2 pt-4">
-        <p className="text-sm text-white/70">Watch</p>
-        <p className="text-lg font-semibold leading-snug">{HERO_VIDEO.title}</p>
+
+      <div className="min-w-0 pr-2">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#b8f35a]">
+          Watch Video
+        </p>
+        <p className="mt-1 line-clamp-2 text-base font-semibold leading-snug text-white">
+          {HERO_VIDEO.title}
+        </p>
       </div>
     </motion.button>
   );
@@ -420,25 +423,24 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[680px] overflow-hidden bg-[#06281f] pb-28 pt-36 text-white md:min-h-[800px]"
+      className="relative min-h-[720px] overflow-hidden bg-[#06281f] pb-16 pt-32 text-white md:min-h-[840px]"
     >
-      {/* Background: slow zoom + parallax */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0">
+      {/* Background: shifted upward (object-[75%_10%]) so the sunbeams & cabin sit higher */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 -top-12">
         <motion.img
           src={HERO_BG}
-          alt=""
-          className="h-full w-full object-cover object-center"
-          initial={{ scale: 1.2 }}
-          animate={{ scale: 1.02 }}
+          alt="Warm golden sunlight streaming through trees and sustainable architecture at dusk"
+          className="h-full w-full object-cover object-[75%_10%] brightness-110 contrast-105"
+          initial={{ scale: 1.04 }}
+          animate={{ scale: 1 }}
           transition={{ duration: 14, ease: "easeOut" }}
         />
       </motion.div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-[#06281f]/40 mix-blend-multiply" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#06281f] via-[#06281f]/75 to-[#06281f]/20" />
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#06281f] to-transparent" />
-      <div className="absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-[#b8f35a]/20 blur-[120px]" />
+      {/* Light scrim: readable left text while preserving golden glow */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#06281f]/85 via-[#06281f]/35 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#06281f]/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#06281f] via-[#06281f]/70 to-transparent" />
 
       {/* Floating light particles */}
       {Array.from({ length: 10 }).map((_, i) => (
@@ -458,15 +460,15 @@ export default function HeroSection() {
 
       <motion.div
         style={{ y: textY, opacity: fade }}
-        className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]"
+        className="relative mx-auto grid max-w-7xl items-end gap-10 px-6 lg:grid-cols-[1.1fr_0.9fr]"
       >
-        {/* Left: text */}
-        <div>
+        {/* Left: clean editorial text block */}
+        <div className="max-w-xl rounded-3xl bg-[#06281f]/45 p-6 backdrop-blur-[2px] sm:p-8">
           <motion.span
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
-            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
@@ -475,7 +477,7 @@ export default function HeroSection() {
             Our Insights
           </motion.span>
 
-          <h1 className="mt-6 text-5xl font-extrabold leading-[1.05] tracking-tight md:text-7xl">
+          <h1 className="mt-5 text-5xl font-extrabold leading-[1.05] tracking-tight md:text-7xl">
             <span className="block">
               {line1.map((w, i) => (
                 <Word key={w} i={i}>
@@ -496,7 +498,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1, ease }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-white/90 md:text-xl"
+            className="mt-5 max-w-lg text-base leading-relaxed text-white/90 md:text-lg"
           >
             Explore the latest trends, expert insights and practical tips on
             solar energy, renewable solutions and clean technology.
@@ -507,7 +509,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
-            className="group mt-10 inline-flex items-center gap-3 text-sm"
+            className="group mt-8 inline-flex items-center gap-3 text-sm font-medium"
           >
             <span className="grid h-11 w-11 place-items-center rounded-full border border-white/50 transition group-hover:bg-white group-hover:text-[#06281f]">
               <motion.span
@@ -521,8 +523,8 @@ export default function HeroSection() {
           </motion.a>
         </div>
 
-        {/* Right: video */}
-        <div className="w-full max-w-xl justify-self-center lg:justify-self-end">
+        {/* Right bottom: video positioned below the upper side image focal area */}
+        <div className="flex flex-col justify-end lg:min-h-[540px] lg:items-end">
           <VideoCard onPlay={() => setOpen(true)} />
         </div>
       </motion.div>
