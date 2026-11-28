@@ -5748,7 +5748,7 @@ const SLIDES: Slide[] = [
     headline: ["Buildings That", "Think Smarter."],
     description:
       "Unify and automate your facility's core operations for smarter, safer and highly efficient building management through integrated intelligent systems.",
-    video: "https://www.pexels.com/download/video/8566709/",
+    video: "https://www.pexels.com/download/video/6903977/",
     image:
       "https://static.wixstatic.com/media/3bf735_40bed995103643eea3cb38325b444283~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Digital%20energy%20monitoring%20display.png",
     link: "/solutions/ibms",
