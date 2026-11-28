@@ -1643,7 +1643,7 @@ export function BrandIntro() {
           poster={images.aerial}
           aria-label="Solar energy supporting a more sustainable future"
         >
-          <source src={growthVideo} type="video/mp4" />
+          <source src="https://www.pexels.com/download/video/28443568/" type="video/mp4" />
         </video>
         <div
           aria-hidden="true"
