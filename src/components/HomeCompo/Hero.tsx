@@ -5731,7 +5731,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/28652435/",
     image:
       "https://static.wixstatic.com/media/3bf735_eb19d0863fd8473dbf26a9df4a0496d3~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Energy%20efficiency%20dashboard%20display.png",
-    link: "/solutions/energy-efficiency",
+    link: "/solutions",
   },
   {
     title: "Clean Energy",
@@ -5741,7 +5741,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/10312637/",
     image:
       "https://static.wixstatic.com/media/3bf735_51e5ed1de97a47e88ae82e06098e96a3~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Abstract%20Geometric%20Sculpture.png",
-    link: "/solutions/clean-energy",
+    link: "/solutions",
   },
   {
     title: "IBMS",
@@ -5751,7 +5751,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/6903977/",
     image:
       "https://static.wixstatic.com/media/3bf735_40bed995103643eea3cb38325b444283~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Digital%20energy%20monitoring%20display.png",
-    link: "/solutions/ibms",
+    link: "/solutions",
   },
   {
     title: "Digital Solutions",
@@ -5761,7 +5761,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/35977437/",
     image:
       "https://static.wixstatic.com/media/3bf735_51e5ed1de97a47e88ae82e06098e96a3~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Abstract%20Geometric%20Sculpture.png",
-    link: "/solutions/digital",
+    link: "/solutions",
   },
   {
     title: "Industrial Automation",
@@ -5771,7 +5771,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/32386532/",
     image:
       "https://static.wixstatic.com/media/3bf735_d04cfe8d7c504e5da2ba5a8ef2058fbb~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Gradient%20Bar%20Graph.png",
-    link: "/solutions/industrial-automation",
+    link: "/solutions",
   },
   {
     title: "Pre-fab Structures",
@@ -5781,7 +5781,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/29923183/",
     image:
       "https://static.wixstatic.com/media/3bf735_fe73ada7ef754d74b53daccaffb49d9e~mv2.png/v1/fill/w_362,h_362,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Abstract%20Geometric%20Display.png",
-    link: "/solutions/prefab",
+    link: "/solutions",
   },
   {
     title: "Press Components",
@@ -5791,7 +5791,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/31802320/",
     image:
       "https://i.pinimg.com/1200x/79/8f/a5/798fa5a60e05706361958a7d97adc4e8.jpg",
-    link: "/solutions/press-components",
+    link: "/solutions",
   },
   {
     title: "Sustainable Management",
@@ -5801,7 +5801,7 @@ const SLIDES: Slide[] = [
     video: "https://www.pexels.com/download/video/4380227/",
     image:
       "https://static.wixstatic.com/media/3bf735_9c1af6eed6b04b9f9740e69eb72e530b~mv2.png/v1/fill/w_362,h_364,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Gradient%20Bar%20Graph.png",
-    link: "/solutions/sustainable-management",
+    link: "/solutions",
   },
 ];
 
