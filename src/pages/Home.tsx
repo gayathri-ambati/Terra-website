@@ -388,6 +388,9 @@ import { SolutionIndex } from "@/components/HomeCompo/SolutionIndex";
 import { Story } from "@/components/HomeCompo/Story";
 import SuccessStories from "@/components/HomeCompo/SuccessStories";
 import TerraCinematicHero from "@/components/HomeCompo/TerraCinematicHero";
+import TerraOrbitalHero from "@/components/HomeCompo/TerraOrbitalHero";
+import { TerraOrbitalSolutionsHero } from "@/components/HomeCompo/TerraOrbitalSolutionsHero";
+
 import { Testimonials } from "@/components/HomeCompo/Testimonials";
 
 export function HomePage() {
@@ -395,6 +398,8 @@ export function HomePage() {
     <main>
       {/* <TerraCinematicHero /> */}
       <Hero />
+      {/* <TerraOrbitalHero /> */}
+      {/* <TerraOrbitalSolutionsHero /> */}
       <BrandIntro />
       {/* <TerraCinematicHero /> */}
       <ImpactStats />
