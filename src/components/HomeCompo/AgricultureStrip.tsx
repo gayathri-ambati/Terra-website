@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
@@ -10,11 +9,13 @@ import {
   Play,
   Sprout,
   TrendingUp,
+  X,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Reveal } from '@/components/Reveal';
 
 const ACTIVE_COLOR = '#0B6038';
+const VIDEO_SRC =
+  'https://videos.pexels.com/video-files/10101924/10101924-hd_1920_1080_25fps.mp4';
 
 const steps = [
   {
@@ -79,8 +80,11 @@ const steps = [
 
 export function AgricultureStrip() {
   const [activeStep, setActiveStep] = useState(0);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const imageRefs = useRef<Array<HTMLImageElement | null>>([]);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const currentStep = steps[activeStep];
 
@@ -129,6 +133,39 @@ export function AgricultureStrip() {
       window.removeEventListener('resize', updateParallax);
     };
   }, []);
+
+  // Close video modal on Escape + lock body scroll
+  useEffect(() => {
+    if (!isVideoOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsVideoOpen(false);
+    };
+
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isVideoOpen]);
+
+  // Ensure video plays when modal opens (some browsers block autoplay)
+  useEffect(() => {
+    if (isVideoOpen && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay was blocked — user can press play manually via controls
+        });
+      }
+    }
+  }, [isVideoOpen]);
 
   const showPrevious = () => {
     setActiveStep((current) => (current - 1 + steps.length) % steps.length);
@@ -301,31 +338,33 @@ export function AgricultureStrip() {
               <div className="absolute inset-0 bg-gradient-to-r from-[#071812]/15 to-transparent" />
 
               <div className="absolute left-5 top-5 z-10 flex items-center gap-2.5 rounded-full border border-white/25 bg-[#174B6D]/85 px-3.5 py-2 text-white shadow-sm backdrop-blur-sm sm:left-6 sm:top-6">
-                <span
-                  className="h-2 w-2 rounded-full bg-lime-400 shadow-[0_0_10px_rgba(132,226,79,0.8)]"
-                />
+                <span className="h-2 w-2 rounded-full bg-lime-400 shadow-[0_0_10px_rgba(132,226,79,0.8)]" />
                 <span className="text-[9px] font-semibold uppercase tracking-[0.14em] sm:text-[10px] sm:tracking-[0.18em]">
                   Karnataka · TRANSFORM
                 </span>
               </div>
 
-              <Link
-                to="/agriculture"
-                aria-label="Watch our impact"
+              {/* Center play button — opens video modal */}
+              <button
+                type="button"
+                onClick={() => setIsVideoOpen(true)}
+                aria-label={`Play video: ${currentStep.title}`}
                 className="absolute left-1/2 top-1/2 z-10 grid h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/55 bg-[#153E2E]/40 text-white shadow-[0_8px_28px_rgba(0,0,0,0.2)] backdrop-blur-sm transition duration-300 hover:scale-110 hover:bg-[#153E2E]/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300 sm:h-[78px] sm:w-[78px]"
               >
                 <Play size={29} fill="currentColor" strokeWidth={1.5} />
-              </Link>
+              </button>
 
-              <Link
-                to="/agriculture"
+              {/* Bottom "Watch Our Impact" pill — opens video modal */}
+              <button
+                type="button"
+                onClick={() => setIsVideoOpen(true)}
                 className="absolute bottom-5 left-5 z-10 inline-flex items-center gap-2 rounded-full border border-white/30 bg-[#10281D]/65 px-3.5 py-2 text-[11px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-[#10281D]/85 sm:bottom-6 sm:left-6"
               >
                 <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-forest-900">
                   <Play size={10} fill="currentColor" />
                 </span>
                 Watch Our Impact
-              </Link>
+              </button>
 
               <div className="absolute bottom-6 right-6 z-10 flex items-end gap-1.5 font-mono text-xs tracking-[0.18em] text-white/85 sm:bottom-9 sm:right-9">
                 <span className="text-3xl leading-none text-white">
@@ -339,17 +378,13 @@ export function AgricultureStrip() {
           <div className="flex flex-col justify-center lg:col-span-5 lg:pl-1">
             <Reveal key={currentStep.number} delay={100}>
               <div className="inline-flex items-center gap-2.5 rounded-full bg-[#E8EFD8] py-1 pl-1 pr-4">
-                <span
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest-700 text-white shadow-sm"
-                >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest-700 text-white shadow-sm">
                   {(() => {
                     const Icon = currentStep.icon;
                     return <Icon size={18} strokeWidth={1.8} />;
                   })()}
                 </span>
-                <p
-                  className="font-mono text-[10px] font-semibold tracking-[0.16em] text-forest-700 sm:text-xs"
-                >
+                <p className="font-mono text-[10px] font-semibold tracking-[0.16em] text-forest-700 sm:text-xs">
                   FIELD JOURNEY / {currentStep.number}
                 </p>
               </div>
@@ -423,6 +458,44 @@ export function AgricultureStrip() {
           </div>
         </div>
       </div>
+
+      {/* Video modal */}
+      {isVideoOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${currentStep.title} video`}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={() => setIsVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={() => setIsVideoOpen(false)}
+              aria-label="Close video"
+              className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-forest-900 transition hover:bg-white"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="aspect-video w-full">
+              <video
+                ref={videoRef}
+                src="https://www.pexels.com/download/video/4917407/"
+                className="h-full w-full"
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
