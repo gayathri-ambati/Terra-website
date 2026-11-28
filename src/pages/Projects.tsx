@@ -970,12 +970,12 @@ export function ProjectsPage() {
                   <dd className="mt-1 font-heading text-xl font-bold">Pune</dd>
                 </div>
               </dl>
-              <Link
+              {/* <Link
                 to={`/projects/${FEATURED.slug}`}
                 className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-lime-400 px-6 py-3 font-heading text-sm font-semibold text-[#04231c] transition-colors hover:bg-white"
               >
                 Read the case study <ArrowRight size={15} />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </Reveal>

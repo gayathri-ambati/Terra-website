@@ -75,9 +75,7 @@ export default function SolutionsShowcase() {
                     {item.description}
                   </p>
 
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/50 text-white transition-all duration-300 group-hover:bg-white group-hover:text-black">
-                    <ArrowUpRight size={22} />
-                  </div>
+                  
                 </div>
               </div>
             </div>

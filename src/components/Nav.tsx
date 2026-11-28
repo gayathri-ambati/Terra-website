@@ -144,10 +144,12 @@ const NAV = [
   { to: "/impact", label: "Impact", icon: BarChart3 },
   { to: "/projects", label: "Projects", icon: FolderKanban },
   { to: "/agriculture", label: "Transform", icon: Sprout },
-  
 ];
 
 const GREEN_GRADIENT = "linear-gradient(135deg, #7ED957 0%, #B5F27E 100%)";
+
+// "Let's Talk" goes straight to the enquiry form on the contact page
+const CONTACT_FORM_LINK = "/contact#enquiry";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -257,7 +259,7 @@ export function Nav() {
 
             {/* CTA */}
             <Link
-              to="/contact"
+              to={CONTACT_FORM_LINK}
               className="group hidden items-center gap-3 rounded-full bg-[#06151F] py-2 pl-6 pr-2 font-heading text-[15px] font-semibold text-white transition-colors duration-300 hover:bg-[#0B2A3A] lg:inline-flex"
             >
               Let&apos;s Talk
@@ -321,7 +323,7 @@ export function Nav() {
           ))}
 
           <Link
-            to="/contact"
+            to={CONTACT_FORM_LINK}
             style={{ transitionDelay: open ? "480ms" : "0ms" }}
             className={`mt-5 flex items-center justify-between rounded-full bg-[#06151F] py-2 pl-6 pr-2 text-white transition-all duration-500 ${
               open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"

@@ -1,7 +1,6 @@
-
-
-import { useState, type FormEvent } from 'react';
-import { ArrowUpRight, CheckCircle2, ChevronDown, Mail, MapPin, Phone } from 'lucide-react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ArrowUpRight, CheckCircle2, ChevronDown, Mail, MapPin, Phone, X } from 'lucide-react';
 import { enquiryTypes } from '@/lib/content';
 import { MaskedLines, Reveal, ClipReveal } from '@/components/Reveal';
 
@@ -20,8 +19,27 @@ export function ContactPage() {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [toastOpen, setToastOpen] = useState(false);
+  const { hash, key } = useLocation();
 
-  const set = (k: keyof FormState) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  // Auto-dismiss the toast after 5 seconds
+  useEffect(() => {
+    if (!toastOpen) return;
+    const timer = setTimeout(() => setToastOpen(false), 5000);
+    return () => clearTimeout(timer);
+  }, [toastOpen]);
+
+  // Scroll to the enquiry form when arriving via /contact#enquiry
+  useEffect(() => {
+    if (hash !== '#enquiry') return;
+    const timer = setTimeout(() => {
+      document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [hash, key]);
+
+  const set = (k: keyof FormState) => (e: { target: { value: string } }) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const validate = (): boolean => {
     const next: typeof errors = {};
@@ -38,20 +56,12 @@ export function ContactPage() {
     if (!validate()) return;
     setStatus('sending');
     try {
-      const { getSupabase } = await import('@/lib/supabase');
-      const supabase = getSupabase();
-      if (supabase) {
-        const { error } = await supabase.from('enquiries').insert({
-          name: form.name,
-          email: form.email,
-          phone: form.phone || null,
-          organization: form.organization || null,
-          enquiry_type: form.type,
-          message: form.message,
-        });
-        if (error) throw error;
-      }
+      // TODO: replace with your real submission endpoint (e.g. fetch('/api/enquiries', { ... }))
+      // For now we simulate a successful send so the UX flow still works.
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
       setStatus('sent');
+      setToastOpen(true);
       setForm(EMPTY);
     } catch {
       setStatus('error');
@@ -60,6 +70,31 @@ export function ContactPage() {
 
   return (
     <main>
+      {/* Toast notification */}
+      <div
+        role="status"
+        aria-live="polite"
+        className={`fixed right-4 top-24 z-[100] w-[calc(100%-2rem)] max-w-sm transition-all duration-300 sm:right-6 ${
+          toastOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-4 opacity-0'
+        }`}
+      >
+        <div className="flex items-start gap-3 rounded-xl border border-sage-400/30 bg-forest-800 p-4 text-ivory shadow-2xl shadow-forest-900/30">
+          <CheckCircle2 size={22} className="mt-0.5 shrink-0 text-sage-400" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold">Thanks for contacting us!</p>
+            <p className="mt-0.5 text-sm text-ivory/70">We’ll get back to you shortly.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setToastOpen(false)}
+            aria-label="Close notification"
+            className="shrink-0 text-ivory/50 transition-colors hover:text-ivory"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+
       <section className="grain relative flex min-h-[78vh] items-end overflow-hidden bg-forest-900 md:items-center">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"

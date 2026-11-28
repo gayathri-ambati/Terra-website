@@ -123,7 +123,6 @@ export function AboutPage() {
       <AboutHero />
       <Visionmission />
       <IdentitySection />
-      
       <JourneySection />
       <SolarEnergyVideo />
       <AboutValues />

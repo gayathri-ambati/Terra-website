@@ -232,10 +232,10 @@ export function IdentitySection() {
 
           <Reveal delay={200}>
             <a
-              href="#approach"
+              href="/solutions"
               className="mt-8 inline-flex items-center gap-3 rounded-full bg-forest-800 px-7 py-3.5 font-body text-sm font-medium text-white transition hover:bg-forest-700"
             >
-              Our Approach
+              EXPLORE OUR CAPABILITIES
               <svg viewBox="0 0 24 8" className="h-2 w-6" {...stroke} stroke="#fff">
                 <path d="M0 4h22M18 1l4 3-4 3" />
               </svg>

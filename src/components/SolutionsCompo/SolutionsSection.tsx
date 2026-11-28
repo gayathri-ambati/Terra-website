@@ -451,7 +451,7 @@ export default function SolutionsSection() {
                 </a>
 
                 <a
-                  href="#contact"
+                  href="/contact"
                   className="px-2 py-3 font-medium text-white underline underline-offset-4 transition-colors hover:text-[#E3A92B]"
                 >
                   Talk to our team
